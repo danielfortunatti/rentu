@@ -1,0 +1,81 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" fill="none">
+  <!-- Background - verde teal suave que combina con la marca -->
+  <rect width="500" height="500" rx="90" fill="url(#bg2)"/>
+
+  <!-- Subtle clouds -->
+  <ellipse cx="120" cy="75" rx="45" ry="18" fill="white" fill-opacity="0.35"/>
+  <ellipse cx="145" cy="67" rx="30" ry="14" fill="white" fill-opacity="0.25"/>
+  <ellipse cx="370" cy="50" rx="35" ry="13" fill="white" fill-opacity="0.25"/>
+
+  <!-- Ground -->
+  <ellipse cx="250" cy="410" rx="220" ry="25" fill="#4DAA75" fill-opacity="0.15"/>
+
+  <!-- House shadow -->
+  <path d="M115 388 L385 388 L395 400 L105 400 Z" fill="#1A3A35" fill-opacity="0.06"/>
+
+  <!-- House body -->
+  <rect x="115" y="215" width="270" height="173" rx="6" fill="white" fill-opacity="0.95"/>
+  <rect x="115" y="215" width="270" height="173" rx="6" stroke="white" stroke-width="1" stroke-opacity="0.3"/>
+
+  <!-- Roof -->
+  <path d="M250 82 L415 215 L85 215 Z" fill="white"/>
+  <path d="M250 82 L415 215 L250 180 Z" fill="#E0F2F0" fill-opacity="0.5"/>
+  <path d="M80 215 L250 78 L420 215" stroke="white" stroke-width="3" fill="none" stroke-linejoin="round" stroke-opacity="0.8"/>
+  <rect x="80" y="212" width="340" height="8" rx="2" fill="white" fill-opacity="0.1"/>
+
+  <!-- Chimney -->
+  <rect x="330" y="115" width="30" height="60" rx="4" fill="#E8E0D8"/>
+  <rect x="330" y="115" width="30" height="60" rx="4" stroke="#D0C8C0" stroke-width="1.5"/>
+  <rect x="326" y="110" width="38" height="10" rx="3" fill="#D8D0C8"/>
+  <line x1="330" y1="135" x2="360" y2="135" stroke="#D0C8C0" stroke-width="1"/>
+  <line x1="330" y1="155" x2="360" y2="155" stroke="#D0C8C0" stroke-width="1"/>
+  <line x1="345" y1="115" x2="345" y2="135" stroke="#D0C8C0" stroke-width="1"/>
+  <line x1="345" y1="155" x2="345" y2="175" stroke="#D0C8C0" stroke-width="1"/>
+
+  <!-- Window left -->
+  <rect x="145" y="245" width="65" height="55" rx="6" fill="#C5E6F0"/>
+  <rect x="145" y="245" width="65" height="55" rx="6" stroke="#A8D4E2" stroke-width="2"/>
+  <line x1="177.5" y1="245" x2="177.5" y2="300" stroke="white" stroke-width="3"/>
+  <line x1="145" y1="272.5" x2="210" y2="272.5" stroke="white" stroke-width="3"/>
+  <rect x="140" y="298" width="75" height="6" rx="2" fill="#A8D4E2" fill-opacity="0.4"/>
+
+  <!-- Window right -->
+  <rect x="290" y="245" width="65" height="55" rx="6" fill="#C5E6F0"/>
+  <rect x="290" y="245" width="65" height="55" rx="6" stroke="#A8D4E2" stroke-width="2"/>
+  <line x1="322.5" y1="245" x2="322.5" y2="300" stroke="white" stroke-width="3"/>
+  <line x1="290" y1="272.5" x2="355" y2="272.5" stroke="white" stroke-width="3"/>
+  <rect x="285" y="298" width="75" height="6" rx="2" fill="#A8D4E2" fill-opacity="0.4"/>
+
+  <!-- Door -->
+  <rect x="212" y="298" width="76" height="90" rx="8" fill="#049E8D"/>
+  <rect x="220" y="308" width="60" height="34" rx="4" fill="#06B8A0" fill-opacity="0.35"/>
+  <rect x="220" y="350" width="60" height="30" rx="4" fill="#06B8A0" fill-opacity="0.35"/>
+  <circle cx="270" cy="348" r="5" fill="#FFD700"/>
+  <circle cx="270" cy="348" r="3" fill="#FFDF40"/>
+  <rect x="205" y="386" width="90" height="8" rx="3" fill="#D8D0C8"/>
+
+  <!-- Bush left -->
+  <circle cx="100" cy="385" r="18" fill="white" fill-opacity="0.2"/>
+  <circle cx="88" cy="378" r="14" fill="white" fill-opacity="0.18"/>
+  <circle cx="112" cy="376" r="12" fill="white" fill-opacity="0.15"/>
+
+  <!-- Bush right -->
+  <circle cx="400" cy="385" r="16" fill="white" fill-opacity="0.2"/>
+  <circle cx="390" cy="378" r="13" fill="white" fill-opacity="0.18"/>
+  <circle cx="410" cy="378" r="11" fill="white" fill-opacity="0.15"/>
+
+  <!-- Path to door -->
+  <path d="M235 394 L215 430 L285 430 L265 394" fill="white" fill-opacity="0.08"/>
+
+  <!-- Sun -->
+  <circle cx="420" cy="60" r="28" fill="#FFE44D" fill-opacity="0.15"/>
+  <circle cx="420" cy="60" r="18" fill="#FFE44D" fill-opacity="0.25"/>
+
+  <defs>
+    <linearGradient id="bg2" x1="0" y1="0" x2="500" y2="500" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#08B89A"/>
+      <stop offset="50%" stop-color="#049E8D"/>
+      <stop offset="100%" stop-color="#037A6C"/>
+    </linearGradient>
+  </defs>
+</svg>

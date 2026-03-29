@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/mascot-icon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- SEO -->
+    <title>Rentu - Arriendos en Chile | Departamentos y Casas en Arriendo</title>
+    <meta name="keywords" content="arriendos chile, departamentos arriendo santiago, casas arriendo, arriendo providencia, arriendo las condes, arriendo ñuñoa, arriendos baratos santiago" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://rentu-cl.vercel.app" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Rentu - Arriendos en Chile" />
+    <meta property="og:description" content="Encuentra y publica arriendos en Chile. Departamentos y casas sin intermediarios." />
+    <meta property="og:url" content="https://rentu-cl.vercel.app" />
+    <meta property="og:site_name" content="Rentu" />
+    <meta property="og:locale" content="es_CL" />
+    <meta property="og:image" content="https://rentu-cl.vercel.app/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:type" content="image/png" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Rentu - Arriendos en Chile" />
+    <meta name="twitter:description" content="Encuentra y publica arriendos en Chile. Sin intermediarios." />
+    <meta name="twitter:image" content="https://rentu-cl.vercel.app/og-image.png" />
+
+    <!-- Theme -->
+    <meta name="theme-color" content="#049e8d" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Rentu",
+      "url": "https://rentu-cl.vercel.app",
+      "description": "Encuentra y publica arriendos en Chile. Sin intermediarios, sin comisiones.",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://rentu-cl.vercel.app/buscar?comuna={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "Rentu",
+      "url": "https://rentu-cl.vercel.app",
+      "logo": "https://rentu-cl.vercel.app/mascot-icon.svg",
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "email": "contacto@rentu.cl",
+        "contactType": "customer service",
+        "availableLanguage": "Spanish"
+      },
+      "sameAs": ["https://www.instagram.com/rentu_cl/", "https://www.tiktok.com/@rentu_cl", "https://www.facebook.com/profile.php?id=61576469498498"]
+    }
+    </script>
+  </head>
+  <body>
+    <noscript>
+      <div style="padding:2rem;text-align:center;font-family:sans-serif">
+        <h1>Rentu</h1>
+        <p>Para usar Rentu necesitas tener JavaScript habilitado en tu navegador.</p>
+      </div>
+    </noscript>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>

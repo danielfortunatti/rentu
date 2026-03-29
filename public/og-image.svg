@@ -1,0 +1,49 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#030712"/>
+      <stop offset="100%" style="stop-color:#0a0f1a"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#049e8d"/>
+      <stop offset="100%" style="stop-color:#06c4b0"/>
+    </linearGradient>
+    <linearGradient id="glow" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#049e8d;stop-opacity:0.15"/>
+      <stop offset="100%" style="stop-color:#049e8d;stop-opacity:0"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#bg)"/>
+
+  <!-- Subtle glow -->
+  <ellipse cx="600" cy="280" rx="500" ry="250" fill="url(#glow)"/>
+
+  <!-- Accent line -->
+  <rect x="100" y="380" width="80" height="4" rx="2" fill="url(#accent)"/>
+
+  <!-- Brand name -->
+  <text x="100" y="300" font-family="system-ui, -apple-system, sans-serif" font-weight="800" font-size="72" fill="#ffffff">
+    Rent<tspan fill="#049e8d">u</tspan>
+  </text>
+
+  <!-- Subtitle -->
+  <text x="100" y="430" font-family="system-ui, -apple-system, sans-serif" font-weight="400" font-size="32" fill="#9ca3af">
+    Arriendos en Chile sin comisiones
+  </text>
+
+  <!-- Tagline -->
+  <text x="100" y="480" font-family="system-ui, -apple-system, sans-serif" font-weight="400" font-size="22" fill="#6b7280">
+    Departamentos y casas en arriendo, sin intermediarios
+  </text>
+
+  <!-- URL -->
+  <text x="100" y="560" font-family="system-ui, -apple-system, sans-serif" font-weight="500" font-size="18" fill="#049e8d">
+    arriendaya.vercel.app
+  </text>
+
+  <!-- Decorative border -->
+  <rect x="0" y="0" width="1200" height="4" fill="url(#accent)"/>
+  <rect x="0" y="626" width="1200" height="4" fill="url(#accent)"/>
+</svg>
