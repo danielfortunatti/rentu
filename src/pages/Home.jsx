@@ -221,6 +221,19 @@ export default function Home({ user }) {
 
       {/* ══════════ HERO — DARK IMMERSIVE ══════════ */}
       <section ref={heroRef} className="relative min-h-[85vh] flex items-center overflow-hidden bg-gray-950">
+        {/* Background mascot video */}
+        <div className="absolute right-0 top-0 w-1/2 h-full overflow-hidden pointer-events-none hidden lg:block">
+          <video
+            src="/mascot-hero.mp4"
+            autoPlay
+            loop
+            muted
+            playsInline
+            className="absolute right-0 top-1/2 -translate-y-1/2 w-[600px] h-auto object-contain opacity-[0.12]"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-gray-950 via-gray-950/80 to-transparent" />
+        </div>
+
         {/* Interactive grid that follows mouse */}
         <InteractiveGrid mousePos={heroMouse} />
 
@@ -328,26 +341,8 @@ export default function Home({ user }) {
             </div>
           </div>
 
-          {/* Mascot video — desktop only */}
-          <div className="hidden lg:block relative flex-shrink-0 hero-text-reveal" style={{ animationDelay: '0.6s' }}>
-            <div className="relative w-[380px] h-[380px]">
-              {/* Glow behind video */}
-              <div className="absolute inset-0 rounded-[2rem] bg-brand-500/10 blur-3xl scale-90" />
-              {/* Rotating ring */}
-              <div className="absolute inset-[-8px] rounded-[2.5rem] border border-white/[0.06] animate-spin" style={{ animationDuration: '30s' }} />
-              <div className="absolute inset-[-16px] rounded-[3rem] border border-white/[0.03] animate-spin" style={{ animationDuration: '45s', animationDirection: 'reverse' }} />
-              {/* Video */}
-              <video
-                src="/mascot-hero.mp4"
-                autoPlay
-                loop
-                muted
-                playsInline
-                className="relative z-10 w-full h-full object-contain drop-shadow-2xl"
-                aria-label="Mascota Rentu entrando a su nuevo hogar"
-              />
-            </div>
-          </div>
+          {/* Interactive mascot — desktop only */}
+          <Mascot mousePos={heroMouse} />
         </div>
 
         {/* Bottom gradient fade */}
