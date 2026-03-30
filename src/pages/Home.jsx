@@ -577,9 +577,9 @@ export default function Home({ user }) {
               <ScrollReveal key={t.tipo} delay={i * 70} direction="scale">
                 <Link
                   to={`/buscar?tipo=${encodeURIComponent(t.tipo)}`}
-                  className="bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-2xl p-6 text-center card-lift glow-border group"
+                  className="block bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-2xl p-6 text-center overflow-hidden hover:border-brand-200 dark:hover:border-brand-700 hover:-translate-y-1 transition-all duration-300 group"
                 >
-                  <div className="w-14 h-14 mx-auto mb-3 rounded-2xl bg-gray-50 border border-gray-100 flex items-center justify-center text-gray-400 group-hover:text-brand-600 group-hover:bg-brand-50 group-hover:border-brand-100 group-hover:scale-110 transition-all duration-300">
+                  <div className="w-14 h-14 mx-auto mb-3 rounded-2xl bg-gray-50 dark:bg-gray-700 border border-gray-100 dark:border-gray-600 flex items-center justify-center text-gray-400 group-hover:text-brand-600 group-hover:bg-brand-50 dark:group-hover:bg-brand-900/30 group-hover:border-brand-100 dark:group-hover:border-brand-800 group-hover:scale-110 transition-all duration-300">
                     {t.icon}
                   </div>
                   <span className="font-display font-semibold text-sm text-gray-700 dark:text-gray-200 group-hover:text-brand-700 dark:group-hover:text-brand-400 transition-colors">{t.tipo}</span>
