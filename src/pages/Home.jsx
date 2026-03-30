@@ -221,19 +221,6 @@ export default function Home({ user }) {
 
       {/* ══════════ HERO — DARK IMMERSIVE ══════════ */}
       <section ref={heroRef} className="relative min-h-[85vh] flex items-center overflow-hidden bg-gray-950">
-        {/* Background mascot video */}
-        <div className="absolute right-0 top-0 w-1/2 h-full overflow-hidden pointer-events-none hidden lg:block">
-          <video
-            src="/mascot-hero.mp4"
-            autoPlay
-            loop
-            muted
-            playsInline
-            className="absolute right-0 top-1/2 -translate-y-1/2 w-[600px] h-auto object-contain opacity-[0.12]"
-          />
-          <div className="absolute inset-0 bg-gradient-to-r from-gray-950 via-gray-950/80 to-transparent" />
-        </div>
-
         {/* Interactive grid that follows mouse */}
         <InteractiveGrid mousePos={heroMouse} />
 
@@ -632,6 +619,48 @@ export default function Home({ user }) {
 
       {/* ══════════ RECOMMENDATIONS ══════════ */}
       <Recommendations user={user} />
+
+      {/* ══════════ MASCOT VIDEO CTA ══════════ */}
+      <section className="py-16 sm:py-20 bg-warm-50 dark:bg-gray-900 overflow-hidden">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6">
+          <ScrollReveal direction="up">
+            <div className="relative bg-gray-950 rounded-3xl overflow-hidden border border-gray-800/50">
+              <div className="absolute inset-0 mesh-gradient opacity-30" />
+              <div className="relative flex flex-col md:flex-row items-center gap-6 p-8 sm:p-10">
+                {/* Video */}
+                <div className="w-48 h-48 sm:w-56 sm:h-56 flex-shrink-0 rounded-2xl overflow-hidden">
+                  <video
+                    src="/mascot-hero.mp4"
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    className="w-full h-full object-cover"
+                    aria-label="Mascota Rentu entrando a su nuevo hogar"
+                  />
+                </div>
+                {/* Text */}
+                <div className="text-center md:text-left">
+                  <h2 className="font-display font-bold text-2xl sm:text-3xl text-white mb-3">
+                    Tu próximo hogar te espera
+                  </h2>
+                  <p className="text-gray-400 text-sm mb-6 max-w-md">
+                    Miles de propiedades publicadas por sus dueños. Sin intermediarios, sin comisiones. Encuentra tu lugar ideal hoy.
+                  </p>
+                  <div className="flex flex-wrap gap-3 justify-center md:justify-start">
+                    <button onClick={() => navigate('/buscar')} className="px-6 py-3 bg-brand-600 hover:bg-brand-500 text-white font-semibold rounded-xl text-sm transition-all btn-glow">
+                      Buscar arriendo
+                    </button>
+                    <button onClick={() => navigate('/publicar')} className="px-6 py-3 bg-white/10 hover:bg-white/20 text-white font-semibold rounded-xl text-sm transition-all border border-white/10">
+                      Publicar gratis
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </ScrollReveal>
+        </div>
+      </section>
 
       {/* ══════════ NEWSLETTER ══════════ */}
       <NewsletterSignup />
