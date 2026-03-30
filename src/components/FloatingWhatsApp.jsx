@@ -13,7 +13,7 @@ export default function FloatingWhatsApp() {
         </div>
       )}
       <a
-        href="mailto:contacto@rentu.cl"
+        href="mailto:rentu.contacto@gmail.com"
         className="group flex items-center justify-center w-14 h-14 bg-brand-600 hover:bg-brand-500 rounded-full shadow-lg shadow-brand-500/30 hover:shadow-brand-500/50 transition-all hover:scale-110 active:scale-95"
         aria-label="Contactar por email"
         onMouseEnter={() => setShowTooltip(true)}

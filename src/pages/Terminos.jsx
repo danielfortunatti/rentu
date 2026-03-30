@@ -20,7 +20,7 @@ export default function Terminos() {
               <li><strong>Razón social:</strong> Rentu SpA</li>
 
               <li><strong>Domicilio:</strong> Santiago, Región Metropolitana, Chile</li>
-              <li><strong>Correo electrónico:</strong> contacto@rentu.cl</li>
+              <li><strong>Correo electrónico:</strong> rentu.contacto@gmail.com</li>
             </ul>
           </section>
 
@@ -68,7 +68,7 @@ export default function Terminos() {
             <h2 className="font-display font-semibold text-lg text-gray-800 mb-2">6. Servicios de pago</h2>
             <p>Rentu ofrece servicios opcionales de pago, como "Destacar propiedad". Los pagos se procesan a través de Flow.cl, un procesador de pagos autorizado en Chile. Los precios se muestran en pesos chilenos (CLP) e incluyen IVA cuando corresponda.</p>
             <p>Las políticas de reembolso se rigen por la Ley N° 19.496 sobre Protección de los Derechos de los Consumidores.</p>
-            <p>El usuario tiene derecho a retractarse de la contratación del servicio "Destacar propiedad" dentro de los 10 días siguientes a la contratación, conforme al artículo 3 bis de la Ley N° 19.496. Para ejercer este derecho, envíe un correo a contacto@rentu.cl indicando su solicitud de retracto. El reembolso se realizará dentro de 15 días hábiles.</p>
+            <p>El usuario tiene derecho a retractarse de la contratación del servicio "Destacar propiedad" dentro de los 10 días siguientes a la contratación, conforme al artículo 3 bis de la Ley N° 19.496. Para ejercer este derecho, envíe un correo a rentu.contacto@gmail.com indicando su solicitud de retracto. El reembolso se realizará dentro de 15 días hábiles.</p>
           </section>
 
           <section>
@@ -114,12 +114,12 @@ export default function Terminos() {
           <section>
             <h2 className="font-display font-semibold text-lg text-gray-800 mb-2">12. Resolución de disputas</h2>
             <p>Rentu no media ni arbitra en disputas entre usuarios. En caso de conflicto entre arrendador y arrendatario, las partes deberán resolverlo directamente o recurrir a los mecanismos legales disponibles, incluyendo SERNAC, mediación o los tribunales competentes de Santiago de Chile.</p>
-            <p>Para reportar publicaciones fraudulentas o conductas indebidas en la plataforma, envíe un correo a contacto@rentu.cl con el asunto "Reporte".</p>
+            <p>Para reportar publicaciones fraudulentas o conductas indebidas en la plataforma, envíe un correo a rentu.contacto@gmail.com con el asunto "Reporte".</p>
           </section>
 
           <section>
             <h2 className="font-display font-semibold text-lg text-gray-800 mb-2">13. Contacto</h2>
-            <p>Para consultas sobre estos Términos, contacte a: <strong>contacto@rentu.cl</strong></p>
+            <p>Para consultas sobre estos Términos, contacte a: <strong>rentu.contacto@gmail.com</strong></p>
           </section>
         </div>
       </div>

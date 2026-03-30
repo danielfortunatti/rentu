@@ -20,13 +20,13 @@ export default function Privacidad() {
               <li><strong>Razón social:</strong> Rentu SpA</li>
 
               <li><strong>Domicilio:</strong> Santiago, Región Metropolitana, Chile</li>
-              <li><strong>Correo electrónico:</strong> contacto@rentu.cl</li>
+              <li><strong>Correo electrónico:</strong> rentu.contacto@gmail.com</li>
             </ul>
           </section>
 
           <section>
             <h2 className="font-display font-semibold text-lg text-gray-800 mb-2">1. Responsable del tratamiento</h2>
-            <p>El responsable del tratamiento de sus datos personales es Rentu, con domicilio en Santiago de Chile. Correo de contacto: <strong>contacto@rentu.cl</strong></p>
+            <p>El responsable del tratamiento de sus datos personales es Rentu, con domicilio en Santiago de Chile. Correo de contacto: <strong>rentu.contacto@gmail.com</strong></p>
           </section>
 
           <section>
@@ -95,7 +95,7 @@ export default function Privacidad() {
               <li><strong>Portabilidad:</strong> solicitar una copia de sus datos en formato estructurado y de uso común.</li>
               <li><strong>Oposición a decisiones automatizadas:</strong> no ser objeto de decisiones basadas únicamente en el tratamiento automatizado de sus datos que produzcan efectos jurídicos o le afecten significativamente.</li>
             </ul>
-            <p>Para ejercer estos derechos, envíe un correo a <strong>contacto@rentu.cl</strong> con el asunto "Derechos de datos personales" indicando su solicitud y adjuntando una copia de su documento de identidad.</p>
+            <p>Para ejercer estos derechos, envíe un correo a <strong>rentu.contacto@gmail.com</strong> con el asunto "Derechos de datos personales" indicando su solicitud y adjuntando una copia de su documento de identidad.</p>
             <p>Responderemos en un plazo máximo de 15 días hábiles.</p>
           </section>
 
@@ -137,7 +137,7 @@ export default function Privacidad() {
 
           <section>
             <h2 className="font-display font-semibold text-lg text-gray-800 mb-2">14. Contacto</h2>
-            <p>Para consultas sobre esta Política de Privacidad o sobre el tratamiento de sus datos personales: <strong>contacto@rentu.cl</strong></p>
+            <p>Para consultas sobre esta Política de Privacidad o sobre el tratamiento de sus datos personales: <strong>rentu.contacto@gmail.com</strong></p>
           </section>
         </div>
       </div>

@@ -467,11 +467,39 @@ export default function Search({ user }) {
                   </div>
                 </div>
               ) : properties.length === 0 ? (
-                <div className="text-center py-20 bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700">
-                  <svg className="w-16 h-16 text-gray-300 mx-auto mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1}><path strokeLinecap="round" strokeLinejoin="round" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" /></svg>
-                  <h3 className="font-display font-semibold text-lg text-gray-600 dark:text-gray-300 mb-2">Sin resultados</h3>
-                  <p className="text-sm text-gray-400 mb-4">Intenta ajustar los filtros para ver propiedades en el mapa.</p>
-                  <button onClick={clearFilters} className="px-4 py-2 bg-brand-600 hover:bg-brand-700 text-white text-sm font-medium rounded-xl shadow-sm">Limpiar filtros</button>
+                <div className="text-center py-16 px-6 bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700">
+                  {/* House + magnifying glass illustration */}
+                  <svg className="w-28 h-28 mx-auto mb-6 text-gray-300 dark:text-gray-600" fill="none" viewBox="0 0 120 120" stroke="currentColor" strokeWidth={1.5}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M20 65l30-25 30 25" />
+                    <rect x="30" y="65" width="40" height="30" rx="2" strokeLinecap="round" strokeLinejoin="round" />
+                    <rect x="44" y="78" width="12" height="17" rx="1" strokeLinecap="round" strokeLinejoin="round" />
+                    <rect x="35" y="72" width="8" height="8" rx="1" strokeLinecap="round" strokeLinejoin="round" />
+                    <rect x="57" y="72" width="8" height="8" rx="1" strokeLinecap="round" strokeLinejoin="round" />
+                    <circle cx="85" cy="50" r="16" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M96 61l10 10" />
+                  </svg>
+                  <h3 className="font-display font-semibold text-xl text-gray-700 dark:text-gray-200 mb-2">No encontramos propiedades con estos filtros</h3>
+                  <p className="text-sm text-gray-400 dark:text-gray-500 mb-6 max-w-sm mx-auto">Prueba con otros criterios para ver resultados en el mapa.</p>
+                  <div className="flex flex-wrap justify-center gap-2 mb-6">
+                    {filters.precioMax && (
+                      <button onClick={() => { const updated = { ...filters, precioMax: '' }; setFilters(updated); setPage(1); fetchProperties(1, updated, sortBy, search) }} className="px-3 py-1.5 bg-brand-50 dark:bg-brand-900/20 text-brand-700 dark:text-brand-400 border border-brand-200 dark:border-brand-800 text-xs font-medium rounded-lg hover:bg-brand-100 dark:hover:bg-brand-900/40 transition-colors">Ampliar rango de precio</button>
+                    )}
+                    {filters.comuna && (
+                      <button onClick={() => { const updated = { ...filters, comuna: '' }; setFilters(updated); setPage(1); fetchProperties(1, updated, sortBy, search) }} className="px-3 py-1.5 bg-brand-50 dark:bg-brand-900/20 text-brand-700 dark:text-brand-400 border border-brand-200 dark:border-brand-800 text-xs font-medium rounded-lg hover:bg-brand-100 dark:hover:bg-brand-900/40 transition-colors">Probar otra comuna</button>
+                    )}
+                    {(filters.habitaciones || filters.banos || filters.estacionamiento || filters.bodega || filters.mascotas) && (
+                      <button onClick={() => { const updated = { ...filters, habitaciones: '', banos: '', estacionamiento: false, bodega: false, mascotas: false }; setFilters(updated); setPage(1); fetchProperties(1, updated, sortBy, search) }} className="px-3 py-1.5 bg-brand-50 dark:bg-brand-900/20 text-brand-700 dark:text-brand-400 border border-brand-200 dark:border-brand-800 text-xs font-medium rounded-lg hover:bg-brand-100 dark:hover:bg-brand-900/40 transition-colors">Quitar algunos filtros</button>
+                    )}
+                  </div>
+                  <button onClick={clearFilters} className="px-5 py-2.5 bg-brand-600 hover:bg-brand-700 text-white text-sm font-medium rounded-xl shadow-sm transition-colors">Limpiar todos los filtros</button>
+                  {filters.comuna && (
+                    <div className="mt-8 pt-6 border-t border-gray-100 dark:border-gray-700">
+                      <p className="text-xs text-gray-400 dark:text-gray-500 mb-2">¿Eres propietario?</p>
+                      <Link to="/publicar" className="text-sm text-brand-600 dark:text-brand-400 hover:text-brand-700 dark:hover:text-brand-300 font-medium hover:underline">
+                        Sé el primero en publicar en {filters.comuna}
+                      </Link>
+                    </div>
+                  )}
                 </div>
               ) : (
                 <Suspense fallback={
@@ -490,11 +518,44 @@ export default function Search({ user }) {
                 {[1,2,3,4,5,6].map(i => <SkeletonCard key={i} />)}
               </div>
             ) : properties.length === 0 ? (
-              <div className="text-center py-20 bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700">
-                <svg className="w-16 h-16 text-gray-300 mx-auto mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1}><path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
-                <h3 className="font-display font-semibold text-lg text-gray-600 dark:text-gray-300 mb-2">Sin resultados</h3>
-                <p className="text-sm text-gray-400 mb-4">Intenta ajustar los filtros o sé el primero en publicar una propiedad.</p>
-                <button onClick={clearFilters} className="px-4 py-2 bg-brand-600 hover:bg-brand-700 text-white text-sm font-medium rounded-xl shadow-sm">Limpiar filtros</button>
+              <div className="text-center py-16 px-6 bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700">
+                {/* House + magnifying glass illustration */}
+                <svg className="w-28 h-28 mx-auto mb-6 text-gray-300 dark:text-gray-600" fill="none" viewBox="0 0 120 120" stroke="currentColor" strokeWidth={1.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M20 65l30-25 30 25" />
+                  <rect x="30" y="65" width="40" height="30" rx="2" strokeLinecap="round" strokeLinejoin="round" />
+                  <rect x="44" y="78" width="12" height="17" rx="1" strokeLinecap="round" strokeLinejoin="round" />
+                  <rect x="35" y="72" width="8" height="8" rx="1" strokeLinecap="round" strokeLinejoin="round" />
+                  <rect x="57" y="72" width="8" height="8" rx="1" strokeLinecap="round" strokeLinejoin="round" />
+                  <circle cx="85" cy="50" r="16" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M96 61l10 10" />
+                </svg>
+                <h3 className="font-display font-semibold text-xl text-gray-700 dark:text-gray-200 mb-2">No encontramos propiedades con estos filtros</h3>
+                <p className="text-sm text-gray-400 dark:text-gray-500 mb-6 max-w-sm mx-auto">Intenta ajustar tus criterios de búsqueda para encontrar más opciones.</p>
+
+                {/* Suggestion chips */}
+                <div className="flex flex-wrap justify-center gap-2 mb-6">
+                  {filters.precioMax && (
+                    <button onClick={() => { const updated = { ...filters, precioMax: '' }; setFilters(updated); setPage(1); fetchProperties(1, updated, sortBy, search) }} className="px-3 py-1.5 bg-brand-50 dark:bg-brand-900/20 text-brand-700 dark:text-brand-400 border border-brand-200 dark:border-brand-800 text-xs font-medium rounded-lg hover:bg-brand-100 dark:hover:bg-brand-900/40 transition-colors">Ampliar rango de precio</button>
+                  )}
+                  {filters.comuna && (
+                    <button onClick={() => { const updated = { ...filters, comuna: '' }; setFilters(updated); setPage(1); fetchProperties(1, updated, sortBy, search) }} className="px-3 py-1.5 bg-brand-50 dark:bg-brand-900/20 text-brand-700 dark:text-brand-400 border border-brand-200 dark:border-brand-800 text-xs font-medium rounded-lg hover:bg-brand-100 dark:hover:bg-brand-900/40 transition-colors">Probar otra comuna</button>
+                  )}
+                  {(filters.habitaciones || filters.banos || filters.estacionamiento || filters.bodega || filters.mascotas) && (
+                    <button onClick={() => { const updated = { ...filters, habitaciones: '', banos: '', estacionamiento: false, bodega: false, mascotas: false }; setFilters(updated); setPage(1); fetchProperties(1, updated, sortBy, search) }} className="px-3 py-1.5 bg-brand-50 dark:bg-brand-900/20 text-brand-700 dark:text-brand-400 border border-brand-200 dark:border-brand-800 text-xs font-medium rounded-lg hover:bg-brand-100 dark:hover:bg-brand-900/40 transition-colors">Quitar algunos filtros</button>
+                  )}
+                </div>
+
+                <button onClick={clearFilters} className="px-5 py-2.5 bg-brand-600 hover:bg-brand-700 text-white text-sm font-medium rounded-xl shadow-sm transition-colors">Limpiar todos los filtros</button>
+
+                {/* Owner CTA */}
+                {filters.comuna && (
+                  <div className="mt-8 pt-6 border-t border-gray-100 dark:border-gray-700">
+                    <p className="text-xs text-gray-400 dark:text-gray-500 mb-2">¿Eres propietario?</p>
+                    <Link to="/publicar" className="text-sm text-brand-600 dark:text-brand-400 hover:text-brand-700 dark:hover:text-brand-300 font-medium hover:underline">
+                      Sé el primero en publicar en {filters.comuna}
+                    </Link>
+                  </div>
+                )}
               </div>
             ) : (
               <>
