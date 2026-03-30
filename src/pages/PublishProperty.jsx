@@ -3,7 +3,6 @@ import { Helmet } from 'react-helmet-async'
 import { MapContainer, TileLayer, Marker, useMap, useMapEvents } from 'react-leaflet'
 import L from 'leaflet'
 import { comunas, tiposPropiedad, amenitiesEdificio, cercaniasOptions, estadoPropiedad, amobladoOptions } from '../data/comunas'
-import AIDescriptionGenerator from '../components/AIDescriptionGenerator'
 import { createProperty, uploadPhoto } from '../lib/supabase'
 import { compressImage } from '../utils/imageCompressor'
 import { getRecaptchaToken, verifyRecaptcha } from '../utils/recaptcha'
@@ -340,7 +339,6 @@ export default function PublishProperty({ user }) {
               <div>
                 <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Descripcion</label>
                 <textarea rows={4} value={form.descripcion} onChange={e => update('descripcion', e.target.value)} placeholder="Describe tu propiedad..." className={`${inputClass} resize-none`} />
-                <AIDescriptionGenerator form={form} onUseDescription={(text) => update('descripcion', text)} />
               </div>
               <div><label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">WhatsApp *</label><input type="tel" required value={form.telefono} onChange={e => update('telefono', e.target.value)} placeholder="+56912345678" className={inputClass} /></div>
               <div className="flex justify-between">
