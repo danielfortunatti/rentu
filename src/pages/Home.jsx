@@ -328,8 +328,26 @@ export default function Home({ user }) {
             </div>
           </div>
 
-          {/* Interactive mascot — desktop only */}
-          <Mascot mousePos={heroMouse} />
+          {/* Mascot video — desktop only */}
+          <div className="hidden lg:block relative flex-shrink-0 hero-text-reveal" style={{ animationDelay: '0.6s' }}>
+            <div className="relative w-[380px] h-[380px]">
+              {/* Glow behind video */}
+              <div className="absolute inset-0 rounded-[2rem] bg-brand-500/10 blur-3xl scale-90" />
+              {/* Rotating ring */}
+              <div className="absolute inset-[-8px] rounded-[2.5rem] border border-white/[0.06] animate-spin" style={{ animationDuration: '30s' }} />
+              <div className="absolute inset-[-16px] rounded-[3rem] border border-white/[0.03] animate-spin" style={{ animationDuration: '45s', animationDirection: 'reverse' }} />
+              {/* Video */}
+              <video
+                src="/mascot-hero.mp4"
+                autoPlay
+                loop
+                muted
+                playsInline
+                className="relative z-10 w-full h-full object-contain drop-shadow-2xl"
+                aria-label="Mascota Rentu entrando a su nuevo hogar"
+              />
+            </div>
+          </div>
         </div>
 
         {/* Bottom gradient fade */}
