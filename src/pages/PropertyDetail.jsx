@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Helmet } from 'react-helmet-async'
 import { useParams, Link, useNavigate } from 'react-router-dom'
-import { getProperty, deleteProperty, addFavorite, removeFavorite, isFavorite, getTenantProfile, getVerification } from '../lib/supabase'
+import { supabase, getProperty, deleteProperty, addFavorite, removeFavorite, isFavorite, getTenantProfile, getVerification } from '../lib/supabase'
 import VerificationBadge from '../components/VerificationBadge'
 import ReviewSection from '../components/ReviewSection'
 import PropertyMap from '../components/PropertyMap'
@@ -10,6 +10,7 @@ import Lightbox from '../components/Lightbox'
 import ChatWidget from '../components/ChatWidget'
 import { SkeletonPropertyDetail } from '../components/SkeletonLoader'
 import useToast from '../hooks/useToast'
+import useRecentlyViewed from '../hooks/useRecentlyViewed'
 import { formatPrice } from '../data/properties'
 import { amenitiesEdificio, cercaniasOptions } from '../data/comunas'
 
@@ -26,7 +27,11 @@ export default function PropertyDetail({ user, onContractClick }) {
   const [profileCopied, setProfileCopied] = useState(false)
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
   const [ownerVerification, setOwnerVerification] = useState(null)
+  const [showReportMenu, setShowReportMenu] = useState(false)
+  const [reportSubmitting, setReportSubmitting] = useState(false)
+  const [ownerLastActive, setOwnerLastActive] = useState(null)
   const { toast, showToast } = useToast()
+  const { addToRecentlyViewed } = useRecentlyViewed()
 
   const isOwner = user && property && user.id === property.user_id
 
@@ -54,6 +59,138 @@ export default function PropertyDetail({ user, onContractClick }) {
     }
   }, [property])
 
+  useEffect(() => {
+    if (property && property.user_id) {
+      supabase
+        .from('properties')
+        .select('updated_at')
+        .eq('user_id', property.user_id)
+        .order('updated_at', { ascending: false })
+        .limit(1)
+        .single()
+        .then(({ data }) => {
+          if (data?.updated_at) setOwnerLastActive(data.updated_at)
+        })
+    }
+  }, [property])
+
+  const formatRelativeTime = (dateStr) => {
+    const now = new Date()
+    const date = new Date(dateStr)
+    const diffMs = now - date
+    const diffMin = Math.floor(diffMs / 60000)
+    const diffHrs = Math.floor(diffMs / 3600000)
+    const diffDays = Math.floor(diffMs / 86400000)
+    const diffWeeks = Math.floor(diffDays / 7)
+    const diffMonths = Math.floor(diffDays / 30)
+    if (diffMin < 1) return 'hace un momento'
+    if (diffMin < 60) return `hace ${diffMin} minuto${diffMin !== 1 ? 's' : ''}`
+    if (diffHrs < 24) return `hace ${diffHrs} hora${diffHrs !== 1 ? 's' : ''}`
+    if (diffDays < 7) return `hace ${diffDays} dia${diffDays !== 1 ? 's' : ''}`
+    if (diffWeeks < 5) return `hace ${diffWeeks} semana${diffWeeks !== 1 ? 's' : ''}`
+    return `hace ${diffMonths} mes${diffMonths !== 1 ? 'es' : ''}`
+  }
+
+  const handleReport = async (reason) => {
+    setReportSubmitting(true)
+    const { error } = await supabase.from('reports').insert({
+      property_id: property.id,
+      reporter_id: user?.id || null,
+      reason,
+      created_at: new Date().toISOString()
+    })
+    setReportSubmitting(false)
+    setShowReportMenu(false)
+    if (error) {
+      showToast('Error al enviar el reporte. Intenta de nuevo.', 'error')
+    } else {
+      showToast('Reporte enviado correctamente. Gracias por ayudarnos.', 'success')
+    }
+  }
+
+  const handleDownloadPdf = async () => {
+    const { default: jsPDF } = await import('jspdf')
+    const doc = new jsPDF()
+    const pageWidth = doc.internal.pageSize.getWidth()
+    const margin = 20
+    const maxWidth = pageWidth - margin * 2
+    let y = 20
+
+    doc.setFont('helvetica', 'bold')
+    doc.setFontSize(18)
+    const titleLines = doc.splitTextToSize(property.titulo || 'Propiedad', maxWidth)
+    doc.text(titleLines, margin, y)
+    y += titleLines.length * 8 + 4
+
+    doc.setFont('helvetica', 'normal')
+    doc.setFontSize(11)
+    doc.setTextColor(100)
+    doc.text(`${property.direccion || ''}, ${property.comuna || ''}`, margin, y)
+    y += 12
+
+    doc.setDrawColor(4, 158, 141)
+    doc.setLineWidth(0.5)
+    doc.line(margin, y, pageWidth - margin, y)
+    y += 10
+
+    doc.setTextColor(0)
+    doc.setFont('helvetica', 'bold')
+    doc.setFontSize(14)
+    doc.text(`Precio: ${formatPrice(property.precio)}/mes`, margin, y)
+    y += 8
+    if (property.gastoComun > 0) {
+      doc.setFont('helvetica', 'normal')
+      doc.setFontSize(11)
+      doc.text(`Gasto comun: ${formatPrice(property.gastoComun)}`, margin, y)
+      y += 8
+    }
+    y += 6
+
+    doc.setFont('helvetica', 'bold')
+    doc.setFontSize(12)
+    doc.text('Caracteristicas', margin, y)
+    y += 8
+
+    doc.setFont('helvetica', 'normal')
+    doc.setFontSize(11)
+    const stats = [
+      `Tipo: ${property.tipo || '-'}`,
+      `Superficie: ${property.m2 || '-'} m2`,
+      `Dormitorios: ${property.habitaciones || '-'}`,
+      `Banos: ${property.banos || '-'}`,
+    ]
+    stats.forEach(line => {
+      doc.text(line, margin, y)
+      y += 7
+    })
+    y += 6
+
+    if (property.descripcion) {
+      doc.setFont('helvetica', 'bold')
+      doc.setFontSize(12)
+      doc.text('Descripcion', margin, y)
+      y += 8
+      doc.setFont('helvetica', 'normal')
+      doc.setFontSize(10)
+      const descLines = doc.splitTextToSize(property.descripcion, maxWidth)
+      descLines.forEach(line => {
+        if (y > 270) { doc.addPage(); y = 20 }
+        doc.text(line, margin, y)
+        y += 6
+      })
+    }
+
+    y += 14
+    doc.setDrawColor(4, 158, 141)
+    doc.line(margin, y, pageWidth - margin, y)
+    y += 8
+    doc.setFontSize(9)
+    doc.setTextColor(4, 158, 141)
+    doc.text('Publicado en Rentu - rentu-cl.vercel.app', margin, y)
+
+    doc.save(`${(property.titulo || 'propiedad').replace(/\s+/g, '_')}.pdf`)
+  }
+
   const toggleFav = async () => {
     if (!user) return
     if (fav) {
@@ -76,7 +213,10 @@ export default function PropertyDetail({ user, onContractClick }) {
     async function load() {
       const { data } = await getProperty(isNaN(Number(id)) ? id : Number(id))
       if (data) {
-        setProperty({ ...data, fotos: data.property_photos?.sort((a, b) => a.position - b.position).map(ph => ph.url) || [], gastoComun: data.gasto_comun, fechaPublicacion: data.created_at, amenities: data.amenities || [], cercanias: data.cercanias || [] })
+        const fotos = data.property_photos?.sort((a, b) => a.position - b.position).map(ph => ph.url) || []
+        const mapped = { ...data, fotos, gastoComun: data.gasto_comun, fechaPublicacion: data.created_at, amenities: data.amenities || [], cercanias: data.cercanias || [] }
+        setProperty(mapped)
+        addToRecentlyViewed({ id: mapped.id, titulo: mapped.titulo, comuna: mapped.comuna, precio: mapped.precio, foto: fotos[0], tipo: mapped.tipo })
       } else {
         setProperty(null)
       }
@@ -113,6 +253,10 @@ export default function PropertyDetail({ user, onContractClick }) {
       <Helmet>
         <title>{`${property.titulo} en ${property.comuna} | Rentu`}</title>
         <meta name="description" content={`${property.tipo} en ${property.comuna}, ${property.habitaciones} dormitorios, $${property.precio?.toLocaleString('es-CL')}/mes`} />
+        <meta property="og:title" content={`${property.titulo} en ${property.comuna} | Rentu`} />
+        <meta property="og:description" content={`${property.tipo} en ${property.comuna}, ${property.habitaciones} dorm, $${property.precio?.toLocaleString('es-CL')}/mes`} />
+        <meta property="og:image" content={property.fotos?.[0] || 'https://rentu-cl.vercel.app/og-image.png'} />
+        <meta property="og:url" content={`https://rentu-cl.vercel.app/propiedad/${property.id}`} />
         <script type="application/ld+json">{JSON.stringify({
           "@context": "https://schema.org",
           "@type": "RealEstateListing",
@@ -430,8 +574,11 @@ export default function PropertyDetail({ user, onContractClick }) {
                 </div>
               </div>
 
-              <div className="bg-white border border-gray-100 rounded-xl p-4 text-center shadow-sm">
-                <p className="text-xs text-gray-400">Publicado el {new Date(property.fechaPublicacion).toLocaleDateString('es-CL', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
+              <div className="bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-xl p-4 text-center shadow-sm space-y-1">
+                <p className="text-xs text-gray-400 dark:text-gray-500">Publicado el {new Date(property.fechaPublicacion).toLocaleDateString('es-CL', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
+                {ownerLastActive && (
+                  <p className="text-xs text-brand-600 dark:text-brand-400 font-medium">Propietario activo {formatRelativeTime(ownerLastActive)}</p>
+                )}
               </div>
 
               {isOwner && (
@@ -456,11 +603,58 @@ export default function PropertyDetail({ user, onContractClick }) {
                 ownerId={property.user_id}
               />
 
+              {/* Descargar PDF */}
+              <button
+                onClick={handleDownloadPdf}
+                className="w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-xl text-sm font-medium transition-colors shadow-sm"
+              >
+                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+                Descargar ficha PDF
+              </button>
+
               {/* Disclaimer */}
-              <div className="bg-amber-50 border border-amber-200 rounded-xl p-4">
-                <p className="text-[10px] text-amber-700/70 leading-relaxed">
+              <div className="bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-xl p-4">
+                <p className="text-[10px] text-amber-700/70 dark:text-amber-400/70 leading-relaxed">
                   Rentu es una plataforma de publicación de arriendos. No somos parte del contrato ni verificamos la identidad de los usuarios. Los contratos generados son plantillas referenciales basadas en la Ley N° 18.101. Recomendamos consultar con un abogado antes de firmar. Rentu no se responsabiliza por las transacciones entre las partes.
                 </p>
+              </div>
+
+              {/* Reportar publicacion */}
+              <div className="relative">
+                <button
+                  onClick={() => setShowReportMenu(!showReportMenu)}
+                  className="w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 text-gray-500 dark:text-gray-400 hover:text-red-600 dark:hover:text-red-400 hover:border-red-200 dark:hover:border-red-800 rounded-xl text-xs font-medium transition-colors"
+                >
+                  <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M3 21v-4m0 0V5a2 2 0 012-2h6.5l1 1H21l-3 6 3 6h-8.5l-1-1H5a2 2 0 00-2 2zm9-13.5V9" /></svg>
+                  Reportar publicacion
+                </button>
+                {showReportMenu && (
+                  <div className="absolute bottom-full left-0 right-0 mb-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl shadow-lg overflow-hidden z-50">
+                    <p className="px-4 pt-3 pb-2 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Motivo del reporte</p>
+                    {[
+                      'Informacion falsa o enganosa',
+                      'Fotos no corresponden',
+                      'Precio sospechoso',
+                      'Posible estafa',
+                      'Otro'
+                    ].map(reason => (
+                      <button
+                        key={reason}
+                        onClick={() => handleReport(reason)}
+                        disabled={reportSubmitting}
+                        className="w-full text-left px-4 py-2.5 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors disabled:opacity-50"
+                      >
+                        {reason}
+                      </button>
+                    ))}
+                    <button
+                      onClick={() => setShowReportMenu(false)}
+                      className="w-full text-center px-4 py-2 text-xs text-gray-400 dark:text-gray-500 hover:bg-gray-50 dark:hover:bg-gray-700 border-t border-gray-100 dark:border-gray-700 transition-colors"
+                    >
+                      Cancelar
+                    </button>
+                  </div>
+                )}
               </div>
             </div>
           </div>

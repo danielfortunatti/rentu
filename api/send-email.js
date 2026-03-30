@@ -98,6 +98,29 @@ export default async function handler(req, res) {
         }
         break
 
+      case 'saved-search-alert':
+        emailConfig = {
+          from: 'Rentu <noreply@rentu.cl>',
+          to: data.email,
+          subject: `Nueva propiedad que coincide con tu búsqueda: ${esc(data.propertyTitle)}`,
+          html: `
+            <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
+              <div style="background: linear-gradient(135deg, #0d9478, #14b894); padding: 20px; border-radius: 16px; text-align: center; margin-bottom: 20px;">
+                <h1 style="color: white; margin: 0; font-size: 24px;">Nueva propiedad para ti</h1>
+              </div>
+              <p style="color: #555;">Se publicó una propiedad que coincide con tu búsqueda <strong>"${esc(data.searchName)}"</strong>:</p>
+              <div style="background: #f5f5f5; padding: 16px; border-radius: 8px; margin: 16px 0;">
+                <p style="margin: 4px 0;"><strong>${esc(data.propertyTitle)}</strong></p>
+                <p style="margin: 4px 0;">${esc(data.comuna)} — $${Number(data.precio).toLocaleString('es-CL')}/mes</p>
+                <p style="margin: 4px 0;">${esc(data.tipo)} · ${data.habitaciones || '—'} dorm · ${data.m2 || '—'} m²</p>
+              </div>
+              <a href="https://rentu-cl.vercel.app/propiedad/${esc(data.propertyId)}" style="display: inline-block; background: #14b894; color: white; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: bold; margin-top: 8px;">Ver propiedad</a>
+              <p style="color: #999; font-size: 12px; margin-top: 30px;">Recibes este email porque tienes alertas activas en Rentu. Las alertas están incluidas en tu plan destacado.</p>
+            </div>
+          `,
+        }
+        break
+
       case 'property-published':
         emailConfig = {
           from: 'Rentu <noreply@rentu.cl>',

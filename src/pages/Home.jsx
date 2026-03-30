@@ -9,8 +9,9 @@ import RentCalculator from '../components/RentCalculator'
 import NewsletterSignup from '../components/NewsletterSignup'
 import PriceEstimator from '../components/PriceEstimator'
 import Recommendations from '../components/Recommendations'
-import { getFeaturedProperties } from '../lib/supabase'
+import { getFeaturedProperties, supabase } from '../lib/supabase'
 import { comunas, tiposPropiedad } from '../data/comunas'
+import RecentlyViewed from '../components/RecentlyViewed'
 
 /* ─── DATA ─── */
 const comunasDestacadas = [
@@ -182,6 +183,7 @@ export default function Home({ user }) {
   const [destacadas, setDestacadas] = useState([])
   const [showEstimator, setShowEstimator] = useState(false)
   const [loading, setLoading] = useState(true)
+  const [activeCount, setActiveCount] = useState(null)
   const [heroRef, heroMouse] = useMouseParallax()
 
   useEffect(() => {
@@ -197,6 +199,14 @@ export default function Home({ user }) {
       setLoading(false)
     }
     load()
+
+    supabase
+      .from('properties')
+      .select('*', { count: 'exact', head: true })
+      .eq('activa', true)
+      .then(({ count }) => {
+        if (typeof count === 'number') setActiveCount(count)
+      })
   }, [])
 
   const handleSearch = (e) => {
@@ -342,7 +352,7 @@ export default function Home({ user }) {
         <div className="relative max-w-6xl mx-auto px-4 sm:px-6 py-10">
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-6">
             {[
-              { value: '$0', label: 'Costo por publicar' },
+              { value: activeCount !== null ? `${activeCount}+` : '$0', label: activeCount !== null ? 'Propiedades activas' : 'Costo por publicar' },
               { value: '0%', label: 'Comisión' },
               { value: 'Directo', label: 'Contacto por WhatsApp' },
               { value: 'PDF', label: 'Modelo de contrato gratis' },
@@ -359,6 +369,9 @@ export default function Home({ user }) {
           </div>
         </div>
       </section>
+
+      {/* ══════════ RECENTLY VIEWED ══════════ */}
+      <RecentlyViewed />
 
       {/* ══════════ COMUNAS — ABSTRACT GEOMETRIC ══════════ */}
       <section className="py-20 sm:py-24 dark:bg-gray-900">

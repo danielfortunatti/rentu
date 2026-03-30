@@ -6,6 +6,7 @@ import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 import AuthModal from './components/AuthModal'
 import CookieBanner from './components/CookieBanner'
+import Onboarding from './components/Onboarding'
 import FloatingWhatsApp from './components/FloatingWhatsApp'
 import Home from './pages/Home'
 import Favorites from './pages/Favorites'
@@ -121,6 +122,7 @@ export default function App() {
           {contractOpen && <ContractGenerator isOpen={contractOpen} onClose={() => { setContractOpen(false); setContractProperty(null) }} property={contractProperty} />}
         </Suspense>
         <CookieBanner />
+        <Onboarding />
         <FloatingWhatsApp />
       </div>
     </BrowserRouter>

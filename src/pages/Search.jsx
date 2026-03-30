@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useCallback, lazy, Suspense } from 'react'
 import { Helmet } from 'react-helmet-async'
-import { useSearchParams } from 'react-router-dom'
+import { useSearchParams, Link } from 'react-router-dom'
 import PropertyCard from '../components/PropertyCard'
 import CompareDrawer from '../components/CompareDrawer'
 import { SkeletonCard } from '../components/SkeletonLoader'
