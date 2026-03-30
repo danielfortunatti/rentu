@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useCallback } from 'react'
+import { useState, useEffect, useRef, useCallback, lazy, Suspense } from 'react'
 import { Helmet } from 'react-helmet-async'
 import { useSearchParams } from 'react-router-dom'
 import PropertyCard from '../components/PropertyCard'
@@ -6,6 +6,8 @@ import CompareDrawer from '../components/CompareDrawer'
 import { SkeletonCard } from '../components/SkeletonLoader'
 import { getProperties, saveSearch, getSavedSearches, deleteSavedSearch } from '../lib/supabase'
 import { comunas, tiposPropiedad, amenitiesEdificio, cercaniasOptions, amobladoOptions, estadoPropiedad } from '../data/comunas'
+
+const SearchMap = lazy(() => import('../components/SearchMap'))
 
 const PAGE_SIZE = 12
 
@@ -26,6 +28,7 @@ export default function Search({ user }) {
     amenities: [], cercanias: [],
   })
   const [sortBy, setSortBy] = useState(searchParams.get('sort') || 'destacados')
+  const [viewMode, setViewMode] = useState('list') // 'list' or 'map'
   const [showFilters, setShowFilters] = useState(false)
   const [showMoreAmenities, setShowMoreAmenities] = useState(false)
   const [showMoreCercanias, setShowMoreCercanias] = useState(false)
@@ -221,13 +224,33 @@ export default function Search({ user }) {
               Filtros
               {activeFilterCount > 0 && <span className="w-5 h-5 bg-brand-600 rounded-full text-xs flex items-center justify-center text-white font-bold">{activeFilterCount}</span>}
             </button>
-            <select value={sortBy} onChange={e => handleSortChange(e.target.value)} aria-label="Ordenar resultados" className="bg-white border border-gray-200 rounded-xl px-4 py-2 text-sm text-gray-700 focus:outline-none appearance-none cursor-pointer shadow-sm">
+            <select value={sortBy} onChange={e => handleSortChange(e.target.value)} aria-label="Ordenar resultados" className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl px-4 py-2 text-sm text-gray-700 dark:text-gray-200 focus:outline-none appearance-none cursor-pointer shadow-sm">
               <option value="destacados">Destacados primero</option>
               <option value="precio-asc">Precio: menor a mayor</option>
               <option value="precio-desc">Precio: mayor a menor</option>
               <option value="recientes">Más recientes</option>
               <option value="m2-desc">Mayor superficie</option>
             </select>
+            <div className="flex bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl shadow-sm overflow-hidden" role="group" aria-label="Vista de resultados">
+              <button
+                onClick={() => setViewMode('list')}
+                className={`flex items-center gap-1.5 px-3 py-2 text-sm font-medium transition-all ${viewMode === 'list' ? 'bg-brand-600 text-white' : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700'}`}
+                aria-label="Vista de lista"
+                aria-pressed={viewMode === 'list'}
+              >
+                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" /></svg>
+                <span className="hidden sm:inline">Lista</span>
+              </button>
+              <button
+                onClick={() => setViewMode('map')}
+                className={`flex items-center gap-1.5 px-3 py-2 text-sm font-medium transition-all ${viewMode === 'map' ? 'bg-brand-600 text-white' : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700'}`}
+                aria-label="Vista de mapa"
+                aria-pressed={viewMode === 'map'}
+              >
+                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" /></svg>
+                <span className="hidden sm:inline">Mapa</span>
+              </button>
+            </div>
           </div>
         </div>
 
@@ -435,14 +458,41 @@ export default function Search({ user }) {
               </div>
             )}
 
-            {loading ? (
+            {viewMode === 'map' ? (
+              loading ? (
+                <div className="rounded-2xl border border-gray-200 dark:border-gray-700 bg-gray-100 dark:bg-gray-800 flex items-center justify-center" style={{ height: 'calc(100vh - 200px)', minHeight: '400px' }}>
+                  <div className="flex items-center gap-3 text-gray-400 dark:text-gray-500">
+                    <div className="w-5 h-5 border-2 border-brand-500 border-t-transparent rounded-full animate-spin" />
+                    <span className="text-sm">Cargando mapa...</span>
+                  </div>
+                </div>
+              ) : properties.length === 0 ? (
+                <div className="text-center py-20 bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700">
+                  <svg className="w-16 h-16 text-gray-300 mx-auto mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1}><path strokeLinecap="round" strokeLinejoin="round" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" /></svg>
+                  <h3 className="font-display font-semibold text-lg text-gray-600 dark:text-gray-300 mb-2">Sin resultados</h3>
+                  <p className="text-sm text-gray-400 mb-4">Intenta ajustar los filtros para ver propiedades en el mapa.</p>
+                  <button onClick={clearFilters} className="px-4 py-2 bg-brand-600 hover:bg-brand-700 text-white text-sm font-medium rounded-xl shadow-sm">Limpiar filtros</button>
+                </div>
+              ) : (
+                <Suspense fallback={
+                  <div className="rounded-2xl border border-gray-200 dark:border-gray-700 bg-gray-100 dark:bg-gray-800 flex items-center justify-center" style={{ height: 'calc(100vh - 200px)', minHeight: '400px' }}>
+                    <div className="flex items-center gap-3 text-gray-400 dark:text-gray-500">
+                      <div className="w-5 h-5 border-2 border-brand-500 border-t-transparent rounded-full animate-spin" />
+                      <span className="text-sm">Cargando mapa...</span>
+                    </div>
+                  </div>
+                }>
+                  <SearchMap properties={properties} />
+                </Suspense>
+              )
+            ) : loading ? (
               <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
                 {[1,2,3,4,5,6].map(i => <SkeletonCard key={i} />)}
               </div>
             ) : properties.length === 0 ? (
               <div className="text-center py-20 bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700">
                 <svg className="w-16 h-16 text-gray-300 mx-auto mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1}><path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
-                <h3 className="font-display font-semibold text-lg text-gray-600 mb-2">Sin resultados</h3>
+                <h3 className="font-display font-semibold text-lg text-gray-600 dark:text-gray-300 mb-2">Sin resultados</h3>
                 <p className="text-sm text-gray-400 mb-4">Intenta ajustar los filtros o sé el primero en publicar una propiedad.</p>
                 <button onClick={clearFilters} className="px-4 py-2 bg-brand-600 hover:bg-brand-700 text-white text-sm font-medium rounded-xl shadow-sm">Limpiar filtros</button>
               </div>
@@ -470,17 +520,17 @@ export default function Search({ user }) {
                     <button
                       onClick={() => handlePageChange(page - 1)}
                       disabled={page <= 1}
-                      className="px-4 py-2 bg-white border border-gray-200 rounded-xl text-sm text-gray-700 hover:bg-gray-50 shadow-sm disabled:opacity-40 disabled:cursor-not-allowed transition-all"
+                      className="px-4 py-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 shadow-sm disabled:opacity-40 disabled:cursor-not-allowed transition-all"
                     >
                       Anterior
                     </button>
-                    <span className="text-sm text-gray-500">
-                      Página <span className="font-semibold text-gray-700">{page}</span> de <span className="font-semibold text-gray-700">{totalPages}</span>
+                    <span className="text-sm text-gray-500 dark:text-gray-400">
+                      Página <span className="font-semibold text-gray-700 dark:text-gray-200">{page}</span> de <span className="font-semibold text-gray-700 dark:text-gray-200">{totalPages}</span>
                     </span>
                     <button
                       onClick={() => handlePageChange(page + 1)}
                       disabled={page >= totalPages}
-                      className="px-4 py-2 bg-white border border-gray-200 rounded-xl text-sm text-gray-700 hover:bg-gray-50 shadow-sm disabled:opacity-40 disabled:cursor-not-allowed transition-all"
+                      className="px-4 py-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 shadow-sm disabled:opacity-40 disabled:cursor-not-allowed transition-all"
                     >
                       Siguiente
                     </button>

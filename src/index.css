@@ -886,3 +886,53 @@
 .grecaptcha-badge {
   visibility: hidden !important;
 }
+
+/* ─── Rent Calculator Slider ─── */
+.rent-calc-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  outline: none;
+  border-radius: 9999px;
+}
+
+.rent-calc-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #049e8d;
+  border: 3px solid #fff;
+  box-shadow: 0 2px 8px rgba(4, 158, 141, 0.35);
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.rent-calc-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.15);
+  box-shadow: 0 2px 12px rgba(4, 158, 141, 0.5);
+}
+
+.rent-calc-slider::-moz-range-thumb {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #049e8d;
+  border: 3px solid #fff;
+  box-shadow: 0 2px 8px rgba(4, 158, 141, 0.35);
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.rent-calc-slider::-moz-range-thumb:hover {
+  transform: scale(1.15);
+  box-shadow: 0 2px 12px rgba(4, 158, 141, 0.5);
+}
+
+.dark .rent-calc-slider::-webkit-slider-thumb {
+  border-color: #1f2937;
+}
+
+.dark .rent-calc-slider::-moz-range-thumb {
+  border-color: #1f2937;
+}

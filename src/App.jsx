@@ -6,6 +6,7 @@ import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 import AuthModal from './components/AuthModal'
 import CookieBanner from './components/CookieBanner'
+import FloatingWhatsApp from './components/FloatingWhatsApp'
 import Home from './pages/Home'
 import Favorites from './pages/Favorites'
 import TenantProfile from './pages/TenantProfile'
@@ -71,12 +72,12 @@ export default function App() {
 
   return (
     <BrowserRouter>
-      <div className="min-h-screen bg-warm-50 dark:bg-gray-900 text-gray-800 dark:text-gray-100 font-body">
+      <div className="min-h-screen bg-warm-50 dark:bg-gray-900 text-gray-800 dark:text-gray-100 font-body page-enter">
         <Navbar user={user} onAuthClick={() => setAuthOpen(true)} onSignOut={() => supabase.auth.signOut()} isDark={isDark} toggleDark={toggleDark} />
         <ErrorBoundary>
         <Suspense fallback={<LoadingSpinner />}>
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<Home user={user} />} />
           <Route path="/buscar" element={<Search user={user} />} />
           <Route path="/propiedad/:id" element={<PropertyDetail user={user} onContractClick={handleContractClick} />} />
           <Route path="/publicar" element={
@@ -120,6 +121,7 @@ export default function App() {
           {contractOpen && <ContractGenerator isOpen={contractOpen} onClose={() => { setContractOpen(false); setContractProperty(null) }} property={contractProperty} />}
         </Suspense>
         <CookieBanner />
+        <FloatingWhatsApp />
       </div>
     </BrowserRouter>
   )

@@ -5,6 +5,10 @@ import PropertyCard from '../components/PropertyCard'
 import { ScrollReveal, useCountUp } from '../hooks/useScrollReveal'
 import { useMouseParallax, FloatingOrbs, InteractiveGrid } from '../hooks/useInteractive'
 import Mascot from '../components/Mascot'
+import RentCalculator from '../components/RentCalculator'
+import NewsletterSignup from '../components/NewsletterSignup'
+import PriceEstimator from '../components/PriceEstimator'
+import Recommendations from '../components/Recommendations'
 import { getFeaturedProperties } from '../lib/supabase'
 import { comunas, tiposPropiedad } from '../data/comunas'
 
@@ -170,12 +174,13 @@ function AnimatedCounter({ end, suffix = '', prefix = '' }) {
 }
 
 /* ─── HOME PAGE ─── */
-export default function Home() {
+export default function Home({ user }) {
   const navigate = useNavigate()
   const [comuna, setComuna] = useState('')
   const [tipo, setTipo] = useState('')
   const [precioMax, setPrecioMax] = useState('')
   const [destacadas, setDestacadas] = useState([])
+  const [showEstimator, setShowEstimator] = useState(false)
   const [loading, setLoading] = useState(true)
   const [heroRef, heroMouse] = useMouseParallax()
 
@@ -432,6 +437,26 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ══════════ CALCULADORA DE ARRIENDO ══════════ */}
+      <section className="py-20 sm:py-24 bg-white dark:bg-gray-800/50 relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-96 h-96 bg-brand-100/20 dark:bg-brand-900/10 rounded-full blur-[120px] translate-x-1/3 -translate-y-1/3" />
+        <div className="absolute bottom-0 left-0 w-72 h-72 bg-brand-100/15 dark:bg-brand-900/8 rounded-full blur-[100px] -translate-x-1/3 translate-y-1/3" />
+
+        <div className="relative max-w-6xl mx-auto px-4 sm:px-6">
+          <ScrollReveal>
+            <div className="text-center mb-12">
+              <p className="text-brand-600 text-xs font-semibold tracking-widest uppercase mb-2">Herramienta</p>
+              <h2 className="font-display font-bold text-2xl sm:text-3xl text-gray-900 dark:text-gray-100">¿Cuánto puedes pagar de arriendo?</h2>
+              <p className="text-gray-400 text-sm mt-2 max-w-md mx-auto">Calcula el rango de arriendo ideal según tu ingreso mensual</p>
+            </div>
+          </ScrollReveal>
+
+          <ScrollReveal direction="up" delay={100}>
+            <RentCalculator />
+          </ScrollReveal>
+        </div>
+      </section>
+
       {/* ══════════ POR QUE ARRIENDAYA — SPOTLIGHT ══════════ */}
       <section className="py-20 sm:py-24 bg-white dark:bg-gray-800/50 relative overflow-hidden">
         <div className="absolute top-1/2 right-0 w-[500px] h-[500px] bg-brand-100/20 dark:bg-brand-900/10 rounded-full blur-[100px] translate-x-1/2 -translate-y-1/2" />
@@ -570,18 +595,36 @@ export default function Home() {
                     Sin costo, sin comisiones. Los interesados te contactan directo por WhatsApp. Tú decides a quién arrendar.
                   </p>
                 </div>
-                <button
-                  onClick={() => navigate('/publicar')}
-                  className="flex-shrink-0 inline-flex items-center gap-2.5 px-8 py-4 bg-white hover:bg-gray-50 text-gray-900 font-bold rounded-xl text-sm sm:text-base transition-all btn-shine group shadow-2xl shadow-black/20"
-                >
-                  Publicar gratis
-                  <svg className="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
-                </button>
+                <div className="flex flex-wrap gap-3 mt-6">
+                  <button
+                    onClick={() => navigate('/publicar')}
+                    className="inline-flex items-center gap-2.5 px-8 py-4 bg-white hover:bg-gray-50 text-gray-900 font-bold rounded-xl text-sm sm:text-base transition-all btn-shine group shadow-2xl shadow-black/20"
+                  >
+                    Publicar gratis
+                    <svg className="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
+                  </button>
+                  <button
+                    onClick={() => setShowEstimator(true)}
+                    className="inline-flex items-center gap-2.5 px-6 py-4 bg-white/10 hover:bg-white/20 text-white font-semibold rounded-xl text-sm transition-all border border-white/10"
+                  >
+                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                    Estimar precio de arriendo
+                  </button>
+                </div>
               </div>
             </div>
           </ScrollReveal>
         </div>
       </section>
+
+      {/* ══════════ RECOMMENDATIONS ══════════ */}
+      <Recommendations user={user} />
+
+      {/* ══════════ NEWSLETTER ══════════ */}
+      <NewsletterSignup />
+
+      {/* ══════════ PRICE ESTIMATOR MODAL ══════════ */}
+      {showEstimator && <PriceEstimator onClose={() => setShowEstimator(false)} />}
     </div>
   )
 }
