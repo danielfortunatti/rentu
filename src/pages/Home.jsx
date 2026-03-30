@@ -270,7 +270,7 @@ export default function Home() {
             {/* Heading */}
             <h1 className="font-display font-extrabold text-4xl sm:text-5xl lg:text-[3.5rem] text-white leading-[1.06] mb-6 hero-text-reveal" style={{ animationDelay: '0.25s' }}>
               Encuentra tu arriendo ideal,{' '}
-              <span className="text-gradient">sin pagar comisiones</span>
+              <span className="text-gradient-animated">sin pagar comisiones</span>
             </h1>
 
             {/* Sub */}
@@ -304,7 +304,7 @@ export default function Home() {
                     <option value="1000000">$1.000.000</option>
                     <option value="1500000">$1.500.000</option>
                   </select>
-                  <button type="submit" className="bg-brand-600 hover:bg-brand-500 active:bg-brand-700 text-white font-semibold rounded-xl px-6 py-3.5 text-sm transition-all btn-magnetic flex items-center justify-center gap-2 shadow-lg shadow-brand-600/30">
+                  <button type="submit" className="bg-brand-600 hover:bg-brand-500 active:bg-brand-700 text-white font-semibold rounded-xl px-6 py-3.5 text-sm transition-all btn-glow flex items-center justify-center gap-2">
                     <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
                     Buscar
                   </button>

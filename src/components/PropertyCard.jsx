@@ -50,8 +50,10 @@ export default function PropertyCard({ property }) {
       ref={cardRef}
       to={`/propiedad/${id}`}
       aria-label={`Ver propiedad: ${titulo} en ${comuna}`}
-      className="group block bg-white dark:bg-gray-800 rounded-2xl overflow-hidden border border-gray-100 dark:border-gray-700 hover:border-brand-200/50 dark:hover:border-brand-700/50 card-3d-interactive glow-border"
+      className="group block bg-white dark:bg-gray-800 rounded-2xl overflow-hidden border border-gray-100 dark:border-gray-700 hover:border-brand-200/50 dark:hover:border-brand-700/50 card-3d-interactive spotlight-card gradient-border"
       style={{
+        '--mouse-x': `${mousePos.x}%`,
+        '--mouse-y': `${mousePos.y}%`,
         transform: `perspective(800px) rotateX(${tilt.y}deg) rotateY(${tilt.x}deg)`,
         transition: hovered ? 'transform 0.1s ease-out' : 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
       }}
@@ -73,7 +75,7 @@ export default function PropertyCard({ property }) {
       <div className="relative overflow-hidden aspect-[4/3]">
         {fotos && fotos.length > 0 ? (
           <>
-            <div className={`absolute inset-0 bg-gray-100 ${imgLoaded ? 'opacity-0' : 'opacity-100'} transition-opacity duration-300`}>
+            <div className={`absolute inset-0 bg-gray-100 dark:bg-gray-700 ${imgLoaded ? 'opacity-0' : 'opacity-100'} transition-opacity duration-300`}>
               <div className="w-full h-full animate-shimmer" />
             </div>
             <img
@@ -85,7 +87,7 @@ export default function PropertyCard({ property }) {
             />
           </>
         ) : (
-          <div className="w-full h-full bg-gray-100 flex items-center justify-center text-gray-300">
+          <div className="w-full h-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center text-gray-300">
             <svg className="w-12 h-12" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1}><path strokeLinecap="round" strokeLinejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
           </div>
         )}
@@ -95,7 +97,7 @@ export default function PropertyCard({ property }) {
 
         {/* Badges */}
         {destacada && (
-          <div className="absolute top-3 left-3 px-2.5 py-1 bg-gradient-to-r from-amber-500 to-orange-500 text-white text-[10px] font-bold uppercase tracking-wider rounded-lg shadow-lg shadow-amber-500/30">
+          <div className="absolute top-3 left-3 px-2.5 py-1 bg-gradient-to-r from-amber-500 to-orange-500 text-white text-[10px] font-bold uppercase tracking-wider rounded-lg shadow-lg shadow-amber-500/30 badge-glow">
             Destacada
           </div>
         )}
@@ -151,16 +153,16 @@ export default function PropertyCard({ property }) {
             <svg className="w-3.5 h-3.5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" /></svg>
             {m2 || '--'} m2
           </span>
-          <span className="text-gray-200">|</span>
+          <span className="text-gray-200 dark:text-gray-600">|</span>
           <span>{habitaciones} dorm</span>
-          <span className="text-gray-200">|</span>
+          <span className="text-gray-200 dark:text-gray-600">|</span>
           <span>{banos} baño{banos > 1 ? 's' : ''}</span>
         </div>
 
         <div className="flex flex-wrap gap-1.5">
-          {estacionamiento && <span className="px-2 py-0.5 bg-brand-50 text-brand-700 text-[10px] font-medium rounded-md border border-brand-100">Est.</span>}
-          {mascotas && <span className="px-2 py-0.5 bg-green-50 text-green-700 text-[10px] font-medium rounded-md border border-green-100">Mascotas</span>}
-          {amoblado && amoblado !== 'sin' && <span className="px-2 py-0.5 bg-warm-100 text-warm-700 text-[10px] font-medium rounded-md border border-warm-200">{amoblado === 'amoblado' ? 'Amoblado' : 'Semi'}</span>}
+          {estacionamiento && <span className="px-2 py-0.5 bg-brand-50 dark:bg-brand-900/30 text-brand-700 dark:text-brand-400 text-[10px] font-medium rounded-md border border-brand-100 dark:border-brand-800">Est.</span>}
+          {mascotas && <span className="px-2 py-0.5 bg-green-50 dark:bg-green-900/30 text-green-700 dark:text-green-400 text-[10px] font-medium rounded-md border border-green-100 dark:border-green-800">Mascotas</span>}
+          {amoblado && amoblado !== 'sin' && <span className="px-2 py-0.5 bg-warm-100 dark:bg-warm-900/30 text-warm-700 dark:text-warm-400 text-[10px] font-medium rounded-md border border-warm-200 dark:border-warm-800">{amoblado === 'amoblado' ? 'Amoblado' : 'Semi'}</span>}
         </div>
       </div>
     </Link>
