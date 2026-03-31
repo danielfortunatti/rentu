@@ -364,6 +364,39 @@ export default function PropertyDetail({ user, onContractClick }) {
                 </div>
               )}
 
+              {/* Score de conectividad */}
+              {property.cercanias && property.cercanias.length > 0 && (() => {
+                const transportKeys = ['metro', 'paradero']
+                const serviceKeys = ['supermercado', 'farmacia', 'hospital']
+                const lifeKeys = ['parque', 'restaurantes', 'mall', 'colegio']
+                let score = 0
+                property.cercanias.forEach(c => {
+                  if (transportKeys.includes(c)) score += 2
+                  else if (serviceKeys.includes(c)) score += 1.5
+                  else if (lifeKeys.includes(c)) score += 1
+                  else score += 0.5
+                })
+                score = Math.min(5, Math.round(score * 10) / 10)
+                const pct = (score / 5) * 100
+                const color = score >= 4 ? 'bg-green-500' : score >= 2.5 ? 'bg-yellow-500' : 'bg-red-500'
+                const label = score >= 4 ? 'Excelente' : score >= 3 ? 'Buena' : score >= 2 ? 'Regular' : 'Baja'
+                return (
+                  <div className="mb-6">
+                    <h3 className="font-display font-semibold text-gray-800 dark:text-gray-100 text-lg mb-3">Conectividad</h3>
+                    <div className="bg-gray-50 dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-xl p-4">
+                      <div className="flex items-center justify-between mb-2">
+                        <span className="text-sm font-medium text-gray-700 dark:text-gray-200">{label}</span>
+                        <span className="text-sm font-bold text-gray-800 dark:text-gray-100">{score}/5</span>
+                      </div>
+                      <div className="w-full h-2.5 bg-gray-200 dark:bg-gray-600 rounded-full overflow-hidden">
+                        <div className={`h-full rounded-full transition-all ${color}`} style={{ width: `${pct}%` }} />
+                      </div>
+                      <p className="text-xs text-gray-400 mt-2">Basado en cercanía a transporte, servicios y entretención</p>
+                    </div>
+                  </div>
+                )
+              })()}
+
               {/* Mapa de ubicación */}
               {(property.lat && property.lng) ? (
                 <PropertyMap

@@ -247,6 +247,14 @@ export default function Search({ user }) {
 
   const totalPages = Math.ceil(totalCount / PAGE_SIZE)
 
+  // Client-side filter for disponible_desde (may not exist in DB)
+  const filteredProperties = filters.disponibleDesde
+    ? properties.filter(p => {
+        if (!p.disponible_desde) return true
+        return p.disponible_desde.slice(0, 7) <= filters.disponibleDesde
+      })
+    : properties
+
   const selectClass = "w-full bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl px-4 py-2.5 text-sm text-gray-700 dark:text-gray-200 focus:outline-none focus:border-brand-500 focus:ring-2 focus:ring-brand-500/10 appearance-none cursor-pointer"
   const chipClass = (active) => `px-3 py-1.5 rounded-lg text-xs font-medium border transition-all cursor-pointer ${active ? 'bg-brand-50 dark:bg-brand-900/30 border-brand-200 dark:border-brand-700 text-brand-700 dark:text-brand-400' : 'bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-gray-500 dark:text-gray-400 hover:border-gray-300 dark:hover:border-gray-600 hover:text-gray-700 dark:hover:text-gray-200'}`
 
@@ -410,6 +418,7 @@ export default function Search({ user }) {
               <div className="space-y-4">
                 <h4 className="text-xs font-bold text-gray-400 uppercase tracking-widest">Publicación</h4>
                 <div><label className="block text-xs text-gray-500 mb-1.5">Publicado en</label><select value={filters.publicadoEn} onChange={e => updateFilter('publicadoEn', e.target.value)} aria-label="Fecha de publicación" className={selectClass}><option value="">Cualquier fecha</option><option value="1">Últimas 24 horas</option><option value="7">Última semana</option><option value="30">Último mes</option></select></div>
+                <div><label className="block text-xs text-gray-500 mb-1.5">Disponible desde</label><input type="month" value={filters.disponibleDesde} onChange={e => updateFilter('disponibleDesde', e.target.value)} aria-label="Disponible desde" className={selectClass} /></div>
               </div>
 
               <div className="h-px bg-gray-100" />
@@ -548,6 +557,7 @@ export default function Search({ user }) {
                 {filters.estado && <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-brand-50 border border-brand-200 rounded-lg text-xs text-brand-700 font-medium">{filters.estado}<button onClick={() => updateFilter('estado', '')} className="hover:text-brand-900">×</button></span>}
                 {filters.pisoMin && <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-brand-50 border border-brand-200 rounded-lg text-xs text-brand-700 font-medium">Piso {filters.pisoMin}+<button onClick={() => updateFilter('pisoMin', '')} className="hover:text-brand-900">×</button></span>}
                 {filters.publicadoEn && <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-brand-50 border border-brand-200 rounded-lg text-xs text-brand-700 font-medium">{filters.publicadoEn === '1' ? 'Últimas 24h' : filters.publicadoEn === '7' ? 'Última semana' : 'Último mes'}<button onClick={() => updateFilter('publicadoEn', '')} className="hover:text-brand-900">×</button></span>}
+                {filters.disponibleDesde && <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-brand-50 border border-brand-200 rounded-lg text-xs text-brand-700 font-medium">Disponible desde {filters.disponibleDesde}<button onClick={() => updateFilter('disponibleDesde', '')} className="hover:text-brand-900">×</button></span>}
               </div>
             )}
 
@@ -565,7 +575,7 @@ export default function Search({ user }) {
                     <span className="text-sm">Cargando mapa...</span>
                   </div>
                 </div>
-              ) : properties.length === 0 ? (
+              ) : filteredProperties.length === 0 ? (
                 <div className="text-center py-16 px-6 bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700">
                   {/* House + magnifying glass illustration */}
                   <svg className="w-28 h-28 mx-auto mb-6 text-gray-300 dark:text-gray-600" fill="none" viewBox="0 0 120 120" stroke="currentColor" strokeWidth={1.5}>
@@ -609,14 +619,14 @@ export default function Search({ user }) {
                     </div>
                   </div>
                 }>
-                  <SearchMap properties={properties} />
+                  <SearchMap properties={filteredProperties} />
                 </Suspense>
               )
             ) : loading ? (
               <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
                 {[1,2,3,4,5,6].map(i => <SkeletonCard key={i} />)}
               </div>
-            ) : properties.length === 0 ? (
+            ) : filteredProperties.length === 0 ? (
               <div className="text-center py-16 px-6 bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700">
                 {/* House + magnifying glass illustration */}
                 <svg className="w-28 h-28 mx-auto mb-6 text-gray-300 dark:text-gray-600" fill="none" viewBox="0 0 120 120" stroke="currentColor" strokeWidth={1.5}>
@@ -660,13 +670,13 @@ export default function Search({ user }) {
               <>
                 {viewMode === 'gallery' ? (
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                    {properties.map(property => (
+                    {filteredProperties.map(property => (
                       <GalleryCard key={property.id} property={property} />
                     ))}
                   </div>
                 ) : (
                   <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
-                    {properties.map(property => (
+                    {filteredProperties.map(property => (
                       <div key={property.id} className="relative">
                         <PropertyCard property={property} />
                         <button

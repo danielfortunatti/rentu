@@ -30,6 +30,7 @@ export default function EditProperty({ user }) {
         descripcion: data.descripcion || '', telefono: data.telefono || '',
         lat: data.lat || '', lng: data.lng || '',
         email: data.email || '',
+        disponibleDesde: data.disponible_desde || '',
       })
       setLoading(false)
     }
@@ -59,6 +60,7 @@ export default function EditProperty({ user }) {
       amenities: form.amenities, cercanias: form.cercanias,
       descripcion: form.descripcion, telefono: form.telefono,
       email: form.email || null,
+      disponible_desde: form.disponibleDesde || null,
       lat: Number(form.lat) || null, lng: Number(form.lng) || null,
     }
     const { error: err } = await updateProperty(Number(id), updates)
@@ -109,6 +111,7 @@ export default function EditProperty({ user }) {
           <div><label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Descripción</label><textarea rows={4} value={form.descripcion} onChange={e => update('descripcion', e.target.value)} className={`${inputClass} resize-none`} /></div>
           <div><label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">WhatsApp</label><input type="tel" required value={form.telefono} onChange={e => update('telefono', e.target.value)} className={inputClass} /></div>
           <div><label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Email de contacto (opcional)</label><input type="email" value={form.email} onChange={e => update('email', e.target.value)} placeholder="correo@ejemplo.cl" className={inputClass} /></div>
+          <div><label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Disponible desde (opcional)</label><input type="date" value={form.disponibleDesde} onChange={e => update('disponibleDesde', e.target.value)} className={inputClass} /></div>
 
           <div className="bg-gray-50 border border-gray-100 rounded-xl p-4">
             <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">Ubicación en mapa (opcional)</h3>

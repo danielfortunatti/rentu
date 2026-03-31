@@ -94,6 +94,7 @@ export default function PublishProperty({ user }) {
     m2: '', habitaciones: '1', banos: '1', piso: '', estacionamiento: false,
     bodega: false, mascotas: false, amoblado: 'sin', estado: 'Buen estado',
     amenities: [], cercanias: [], descripcion: '', telefono: '', email: '', googleMapsLink: '',
+    disponibleDesde: '',
   })
   const [photoFiles, setPhotoFiles] = useState([])
   const [photoPreviews, setPhotoPreviews] = useState([])
@@ -198,6 +199,7 @@ export default function PublishProperty({ user }) {
       amenities: form.amenities, cercanias: form.cercanias,
       descripcion: form.descripcion, telefono: form.telefono,
       email: form.email || null,
+      disponible_desde: form.disponibleDesde || null,
       google_maps_link: form.googleMapsLink || null,
       ...(coords ? { lat: coords.lat, lng: coords.lng } : {}),
     }
@@ -239,7 +241,7 @@ export default function PublishProperty({ user }) {
           </div>
           <h2 className="font-display font-bold text-2xl text-gray-900 mb-3">Propiedad publicada!</h2>
           <p className="text-gray-500 text-sm mb-6">Tu propiedad ya está visible para miles de personas buscando arriendo en {form.comuna}.</p>
-          <button onClick={() => { setSubmitted(false); setStep(1); setForm({ titulo: '', tipo: '', comuna: '', direccion: '', precio: '', gastoComun: '', m2: '', habitaciones: '1', banos: '1', piso: '', estacionamiento: false, bodega: false, mascotas: false, amoblado: 'sin', estado: 'Buen estado', amenities: [], cercanias: [], descripcion: '', telefono: '', email: '', googleMapsLink: '' }); setPhotoFiles([]); setPhotoPreviews([]); setCoords(null) }} className="px-6 py-3 bg-brand-600 hover:bg-brand-700 text-white font-semibold rounded-xl">Publicar otra</button>
+          <button onClick={() => { setSubmitted(false); setStep(1); setForm({ titulo: '', tipo: '', comuna: '', direccion: '', precio: '', gastoComun: '', m2: '', habitaciones: '1', banos: '1', piso: '', estacionamiento: false, bodega: false, mascotas: false, amoblado: 'sin', estado: 'Buen estado', amenities: [], cercanias: [], descripcion: '', telefono: '', email: '', googleMapsLink: '', disponibleDesde: '' }); setPhotoFiles([]); setPhotoPreviews([]); setCoords(null) }} className="px-6 py-3 bg-brand-600 hover:bg-brand-700 text-white font-semibold rounded-xl">Publicar otra</button>
         </div>
       </div>
     )
@@ -325,6 +327,7 @@ export default function PublishProperty({ user }) {
                 <div><label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Arriendo mensual (CLP) *</label><input type="number" required value={form.precio} onChange={e => update('precio', e.target.value)} placeholder="650000" className={inputClass} /></div>
                 <div><label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Gasto común (CLP)</label><input type="number" value={form.gastoComun} onChange={e => update('gastoComun', e.target.value)} placeholder="85000" className={inputClass} /></div>
               </div>
+              <div><label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Disponible desde (opcional)</label><input type="date" value={form.disponibleDesde} onChange={e => update('disponibleDesde', e.target.value)} className={inputClass} /></div>
               <div className="flex justify-end"><button type="button" onClick={() => nextStep(1)} className="px-6 py-3 bg-brand-600 hover:bg-brand-700 text-white font-semibold rounded-xl">Siguiente</button></div>
             </div>
           )}
