@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Helmet } from 'react-helmet-async'
 import { useNavigate } from 'react-router-dom'
 import { supabase } from '../lib/supabase'
 
@@ -57,6 +58,9 @@ export default function DeleteAccount({ user }) {
 
   return (
     <div className="min-h-screen bg-warm-50 pt-20">
+      <Helmet>
+        <title>Eliminar cuenta | Rentu</title>
+      </Helmet>
       <div className="max-w-lg mx-auto px-4 sm:px-6 py-8">
         <h1 className="font-display font-bold text-2xl sm:text-3xl text-gray-900 mb-2">Eliminar cuenta</h1>
         <p className="text-gray-500 text-sm mb-8">Esta acción es permanente y no se puede deshacer.</p>

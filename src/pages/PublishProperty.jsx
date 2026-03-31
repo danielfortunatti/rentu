@@ -93,7 +93,7 @@ export default function PublishProperty({ user }) {
     titulo: '', tipo: '', comuna: '', direccion: '', precio: '', gastoComun: '',
     m2: '', habitaciones: '1', banos: '1', piso: '', estacionamiento: false,
     bodega: false, mascotas: false, amoblado: 'sin', estado: 'Buen estado',
-    amenities: [], cercanias: [], descripcion: '', telefono: '', googleMapsLink: '',
+    amenities: [], cercanias: [], descripcion: '', telefono: '', email: '', googleMapsLink: '',
   })
   const [photoFiles, setPhotoFiles] = useState([])
   const [photoPreviews, setPhotoPreviews] = useState([])
@@ -197,6 +197,7 @@ export default function PublishProperty({ user }) {
       mascotas: form.mascotas, amoblado: form.amoblado, estado: form.estado,
       amenities: form.amenities, cercanias: form.cercanias,
       descripcion: form.descripcion, telefono: form.telefono,
+      email: form.email || null,
       google_maps_link: form.googleMapsLink || null,
       ...(coords ? { lat: coords.lat, lng: coords.lng } : {}),
     }
@@ -238,7 +239,7 @@ export default function PublishProperty({ user }) {
           </div>
           <h2 className="font-display font-bold text-2xl text-gray-900 mb-3">Propiedad publicada!</h2>
           <p className="text-gray-500 text-sm mb-6">Tu propiedad ya está visible para miles de personas buscando arriendo en {form.comuna}.</p>
-          <button onClick={() => { setSubmitted(false); setStep(1); setForm({ titulo: '', tipo: '', comuna: '', direccion: '', precio: '', gastoComun: '', m2: '', habitaciones: '1', banos: '1', piso: '', estacionamiento: false, bodega: false, mascotas: false, amoblado: 'sin', estado: 'Buen estado', amenities: [], cercanias: [], descripcion: '', telefono: '' }); setPhotoFiles([]); setPhotoPreviews([]); setCoords(null) }} className="px-6 py-3 bg-brand-600 hover:bg-brand-700 text-white font-semibold rounded-xl">Publicar otra</button>
+          <button onClick={() => { setSubmitted(false); setStep(1); setForm({ titulo: '', tipo: '', comuna: '', direccion: '', precio: '', gastoComun: '', m2: '', habitaciones: '1', banos: '1', piso: '', estacionamiento: false, bodega: false, mascotas: false, amoblado: 'sin', estado: 'Buen estado', amenities: [], cercanias: [], descripcion: '', telefono: '', email: '' }); setPhotoFiles([]); setPhotoPreviews([]); setCoords(null) }} className="px-6 py-3 bg-brand-600 hover:bg-brand-700 text-white font-semibold rounded-xl">Publicar otra</button>
         </div>
       </div>
     )
@@ -351,6 +352,7 @@ export default function PublishProperty({ user }) {
                 <textarea rows={4} value={form.descripcion} onChange={e => update('descripcion', e.target.value)} placeholder="Describe tu propiedad..." className={`${inputClass} resize-none`} />
               </div>
               <div><label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">WhatsApp *</label><input type="tel" required value={form.telefono} onChange={e => update('telefono', e.target.value)} placeholder="+56912345678" className={inputClass} /></div>
+              <div><label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Email de contacto (opcional)</label><input type="email" value={form.email} onChange={e => update('email', e.target.value)} placeholder="correo@ejemplo.cl" className={inputClass} /></div>
               <div className="flex justify-between">
                 <button type="button" onClick={() => setStep(1)} className="px-6 py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold rounded-xl">Anterior</button>
                 <button type="button" onClick={() => nextStep(2)} className="px-6 py-3 bg-brand-600 hover:bg-brand-700 text-white font-semibold rounded-xl">Siguiente</button>

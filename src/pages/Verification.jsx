@@ -184,7 +184,9 @@ export default function Verification({ user }) {
 
       const score = calculateScore(verificationData)
       verificationData.score = score
-      verificationData.estado = score >= 50 ? 'verificado_basico' : 'pendiente'
+      // Auto-verify when all required docs are present (RUT + carnet front + carnet back)
+      const hasAllRequired = verificationData.rut && validarRut(verificationData.rut) && verificationData.cedula_frente_url && verificationData.cedula_dorso_url
+      verificationData.estado = hasAllRequired ? 'verificado_basico' : 'pendiente'
 
       const { data, error: saveError } = await createVerification(user.id, verificationData)
       if (saveError) {
@@ -518,17 +520,17 @@ export default function Verification({ user }) {
               </div>
 
               {/* Badge */}
-              {existingScore >= 50 ? (
+              {existingEstado === 'verificado_basico' || existingEstado === 'verificado_completo' ? (
                 <div className="inline-flex items-center gap-2 px-4 py-2 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-xl">
                   <ShieldIcon className="w-5 h-5 text-green-600 dark:text-green-400" />
-                  <span className="text-sm font-semibold text-green-700 dark:text-green-400">Verificado Básico</span>
+                  <span className="text-sm font-semibold text-green-700 dark:text-green-400">Verificacion completada</span>
                 </div>
               ) : (
                 <div className="inline-flex items-center gap-2 px-4 py-2 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-xl">
                   <svg className="w-5 h-5 text-amber-600 dark:text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
                   </svg>
-                  <span className="text-sm font-semibold text-amber-700 dark:text-amber-400">En proceso</span>
+                  <span className="text-sm font-semibold text-amber-700 dark:text-amber-400">Completa los campos obligatorios (RUT + carnet) para verificarte</span>
                 </div>
               )}
 

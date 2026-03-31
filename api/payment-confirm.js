@@ -41,7 +41,7 @@ export default async function handler(req, res) {
       // Actualizar pago buscando por commerce_order (no por flow_token)
       await supabase
         .from('payments')
-        .update({ estado: 'pagado', flow_token: token })
+        .update({ estado: 'completado', flow_token: token })
         .eq('commerce_order', data.commerceOrder)
 
       // Si es pago de destacar, activar destacada

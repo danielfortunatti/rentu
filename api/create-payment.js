@@ -13,7 +13,12 @@ const supabase = createClient(
 // Precios fijos — no se aceptan desde el cliente
 const PRICES = {
   destacar: 2990,
-  contrato: 4990,
+  corredor: 5990,
+}
+
+const SUBJECTS = {
+  destacar: 'Destacar propiedad en Rentu',
+  corredor: 'Publicación de corredor en Rentu',
 }
 
 function signParams(params) {
@@ -40,7 +45,7 @@ export default async function handler(req, res) {
     const params = {
       apiKey: FLOW_API_KEY,
       commerceOrder,
-      subject: type === 'destacar' ? 'Destacar propiedad en Rentu' : 'Contrato de arriendo Rentu',
+      subject: SUBJECTS[type] || 'Pago en Rentu',
       currency: 'CLP',
       amount,
       email,

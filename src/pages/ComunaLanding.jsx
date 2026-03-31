@@ -25,8 +25,10 @@ const comunaData = {
 }
 
 function slugToComuna(slug) {
-  const lower = slug.toLowerCase().replace(/-/g, ' ')
-  return comunas.find(c => c.toLowerCase() === lower) || null
+  const normalizedSlug = slug.toLowerCase().replace(/-/g, ' ')
+  return comunas.find(c =>
+    c.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/\s+/g, ' ') === normalizedSlug
+  ) || null
 }
 
 export default function ComunaLanding() {

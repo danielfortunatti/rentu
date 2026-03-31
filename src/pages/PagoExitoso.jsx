@@ -1,8 +1,12 @@
+import { Helmet } from 'react-helmet-async'
 import { Link } from 'react-router-dom'
 
 export default function PagoExitoso() {
   return (
     <div className="min-h-screen bg-warm-50 pt-20 flex items-center justify-center">
+      <Helmet>
+        <title>Pago exitoso | Rentu</title>
+      </Helmet>
       <div className="text-center max-w-md mx-auto px-4">
         <div className="w-20 h-20 bg-green-50 border border-green-200 rounded-full flex items-center justify-center mx-auto mb-6">
           <svg className="w-10 h-10 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>

@@ -40,7 +40,7 @@ export default function Compare() {
   const rows = [
     { label: 'Precio', render: (p) => <span className="font-display font-bold text-lg text-brand-700 dark:text-brand-400">{formatPrice(p.precio)}/mes</span> },
     { label: 'Gasto común', render: (p) => p.gastoComun > 0 ? formatPrice(p.gastoComun) : 'No tiene' },
-    { label: 'Costo total est.', render: (p) => <span className="font-semibold">{formatPrice(p.precio + (p.gastoComun || 0) + 45000)}</span> },
+    { label: 'Costo total est.', render: (p) => <span className="font-semibold">{formatPrice(p.precio + (p.gastoComun || 0))}</span> },
     { label: 'Tipo', render: (p) => p.tipo },
     { label: 'Comuna', render: (p) => p.comuna },
     { label: 'Superficie', render: (p) => p.m2 ? `${p.m2} m²` : '—' },

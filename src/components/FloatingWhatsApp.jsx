@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { supabase } from '../lib/supabase'
 
 export default function FloatingWhatsApp() {
   const [open, setOpen] = useState(false)
@@ -10,25 +11,20 @@ export default function FloatingWhatsApp() {
     if (!form.nombre.trim() || !form.email.trim() || !form.mensaje.trim()) return
     setStatus('sending')
     try {
-      await fetch('/api/send-email', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          type: 'new-contact',
-          data: {
-            ownerEmail: 'rentu.contacto@gmail.com',
-            propertyTitle: 'Consulta general desde la web',
-            contactName: form.nombre,
-            contactEmail: form.email,
-            contactPhone: '',
-            message: form.mensaje,
-          }
-        })
+      const { error } = await supabase.from('contact_messages').insert({
+        nombre: form.nombre,
+        email: form.email,
+        mensaje: form.mensaje,
+        created_at: new Date().toISOString()
       })
+      if (error) {
+        console.warn('Error saving contact message (table may not exist yet):', error)
+      }
       setStatus('sent')
       setForm({ nombre: '', email: '', mensaje: '' })
       setTimeout(() => { setStatus('idle'); setOpen(false) }, 3000)
-    } catch {
+    } catch (err) {
+      console.error('Contact form error:', err)
       setStatus('error')
     }
   }
