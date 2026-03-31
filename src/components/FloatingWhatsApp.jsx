@@ -2,6 +2,7 @@ import { useState } from 'react'
 
 export default function FloatingWhatsApp() {
   const [showTooltip, setShowTooltip] = useState(false)
+  const gmailUrl = 'https://mail.google.com/mail/?view=cm&to=rentu.contacto@gmail.com&su=Consulta%20desde%20Rentu'
 
   return (
     <div className="fixed bottom-6 right-6 z-[60]">
@@ -13,10 +14,9 @@ export default function FloatingWhatsApp() {
         </div>
       )}
       <a
-        href="mailto:rentu.contacto@gmail.com"
+        href={gmailUrl}
         target="_blank"
         rel="noopener noreferrer"
-        onClick={(e) => { e.stopPropagation(); window.location.href = 'mailto:rentu.contacto@gmail.com' }}
         className="group relative flex items-center justify-center w-14 h-14 bg-brand-600 hover:bg-brand-500 rounded-full shadow-lg shadow-brand-500/30 hover:shadow-brand-500/50 transition-all hover:scale-110 active:scale-95 cursor-pointer"
         aria-label="Contactar por email"
         onMouseEnter={() => setShowTooltip(true)}
