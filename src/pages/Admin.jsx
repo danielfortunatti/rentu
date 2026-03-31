@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, Fragment } from 'react'
 import { Helmet } from 'react-helmet-async'
 import { useNavigate } from 'react-router-dom'
 import ConfirmModal from '../components/ConfirmModal'
@@ -285,27 +285,20 @@ function UsersTab() {
       setLoading(true)
       const { data } = await supabase
         .from('properties')
-        .select('user_id, user_email, created_at')
-        .order('created_at', { ascending: false })
+        .select('user_id, created_at')
 
       if (data) {
-        const map = new Map()
+        const userMap = {}
         data.forEach(p => {
-          if (!map.has(p.user_id)) {
-            map.set(p.user_id, {
-              user_id: p.user_id,
-              email: p.user_email || p.user_id?.slice(0, 8) + '...',
-              count: 0,
-              firstSeen: p.created_at
-            })
+          if (!userMap[p.user_id]) {
+            userMap[p.user_id] = { user_id: p.user_id, count: 0, latest: p.created_at }
           }
-          const u = map.get(p.user_id)
-          u.count++
-          if (new Date(p.created_at) < new Date(u.firstSeen)) {
-            u.firstSeen = p.created_at
+          userMap[p.user_id].count++
+          if (p.created_at > userMap[p.user_id].latest) {
+            userMap[p.user_id].latest = p.created_at
           }
         })
-        setUsers(Array.from(map.values()).sort((a, b) => b.count - a.count))
+        setUsers(Object.values(userMap).sort((a, b) => b.count - a.count))
       }
       setLoading(false)
     }
@@ -340,21 +333,21 @@ function UsersTab() {
         <table className="w-full text-sm">
           <thead>
             <tr className="bg-gray-50 text-left text-gray-500 font-medium">
-              <th className="px-4 py-3">Email / ID</th>
+              <th className="px-4 py-3">ID Usuario</th>
               <th className="px-4 py-3 text-center">Propiedades</th>
-              <th className="px-4 py-3">Primera publicación</th>
+              <th className="px-4 py-3">Última actividad</th>
               <th className="px-4 py-3 text-right">Acciones</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-100">
             {users.map((u, i) => (
-              <>
-                <tr key={u.user_id} className={`${i % 2 === 0 ? 'bg-white' : 'bg-gray-50/50'} hover:bg-brand-50/30 transition-colors`}>
-                  <td className="px-4 py-3 text-gray-700">{u.email}</td>
+              <Fragment key={u.user_id}>
+                <tr className={`${i % 2 === 0 ? 'bg-white' : 'bg-gray-50/50'} hover:bg-brand-50/30 transition-colors`}>
+                  <td className="px-4 py-3 text-gray-700 font-mono text-xs">{u.user_id?.slice(0, 8)}...</td>
                   <td className="px-4 py-3 text-center">
                     <span className="inline-flex items-center justify-center w-8 h-8 bg-brand-50 text-brand-700 font-bold rounded-full text-xs">{u.count}</span>
                   </td>
-                  <td className="px-4 py-3 text-gray-500 text-xs">{fmtDate(u.firstSeen)}</td>
+                  <td className="px-4 py-3 text-gray-500 text-xs">{fmtDate(u.latest)}</td>
                   <td className="px-4 py-3 text-right">
                     <button
                       onClick={() => handleViewProperties(u.user_id)}
@@ -365,7 +358,7 @@ function UsersTab() {
                   </td>
                 </tr>
                 {selectedUser === u.user_id && (
-                  <tr key={u.user_id + '-props'}>
+                  <tr>
                     <td colSpan="4" className="px-4 py-3 bg-brand-50/30">
                       <div className="space-y-2">
                         {userProperties.map(p => (
@@ -389,7 +382,7 @@ function UsersTab() {
                     </td>
                   </tr>
                 )}
-              </>
+              </Fragment>
             ))}
             {users.length === 0 && (
               <tr><td colSpan="4" className="px-4 py-12 text-center text-gray-400">No hay usuarios registrados</td></tr>
@@ -500,15 +493,105 @@ function PaymentsTab() {
 
 // ─── Reports Tab ───
 function ReportsTab() {
-  return (
-    <div className="flex flex-col items-center justify-center py-20">
-      <div className="w-20 h-20 bg-gray-100 rounded-2xl flex items-center justify-center mb-6">
-        <svg className="w-10 h-10 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-          <path strokeLinecap="round" strokeLinejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z" />
-        </svg>
+  const [reports, setReports] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
+
+  useEffect(() => {
+    async function load() {
+      setLoading(true)
+      setError(null)
+      const { data, error: err } = await supabase
+        .from('reports')
+        .select('*')
+        .order('created_at', { ascending: false })
+        .limit(50)
+
+      if (err) {
+        setError(err.message)
+        setReports([])
+      } else {
+        setReports(data || [])
+      }
+      setLoading(false)
+    }
+    load()
+  }, [])
+
+  const fmtDate = (d) => new Date(d).toLocaleDateString('es-CL', { day: '2-digit', month: 'short', year: 'numeric' })
+
+  if (loading) return <LoadingSkeleton />
+
+  if (error) {
+    return (
+      <div className="bg-white rounded-2xl border border-gray-100 p-8 text-center">
+        <div className="w-14 h-14 bg-gray-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
+          <svg className="w-7 h-7 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
+          </svg>
+        </div>
+        <h3 className="font-display font-bold text-xl text-gray-800 mb-2">No hay reportes</h3>
+        <p className="text-gray-500 text-sm">La tabla de reportes aún no existe o no se pudo consultar.</p>
       </div>
-      <h3 className="font-display font-bold text-xl text-gray-800 mb-2">Reportes</h3>
-      <p className="text-gray-500 text-sm">Próximamente. Esta sección está en desarrollo.</p>
+    )
+  }
+
+  if (reports.length === 0) {
+    return (
+      <div className="bg-white rounded-2xl border border-gray-100 p-8 text-center">
+        <div className="w-14 h-14 bg-green-50 rounded-2xl flex items-center justify-center mx-auto mb-4">
+          <svg className="w-7 h-7 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+        </div>
+        <h3 className="font-display font-bold text-xl text-gray-800 mb-2">Sin reportes</h3>
+        <p className="text-gray-500 text-sm">No hay reportes de usuarios por el momento.</p>
+      </div>
+    )
+  }
+
+  return (
+    <div>
+      <p className="text-sm text-gray-500 mb-4">{reports.length} reporte{reports.length !== 1 ? 's' : ''}</p>
+
+      <div className="overflow-x-auto rounded-2xl border border-gray-200 bg-white">
+        <table className="w-full text-sm">
+          <thead>
+            <tr className="bg-gray-50 text-left text-gray-500 font-medium">
+              <th className="px-4 py-3">Propiedad</th>
+              <th className="px-4 py-3">Motivo</th>
+              <th className="px-4 py-3">Fecha</th>
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-gray-100">
+            {reports.map((r, i) => {
+              const isScam = r.reason?.toLowerCase().includes('estafa')
+              return (
+                <tr key={r.id || i} className={`${i % 2 === 0 ? 'bg-white' : 'bg-gray-50/50'} hover:bg-brand-50/30 transition-colors`}>
+                  <td className="px-4 py-3">
+                    <a
+                      href={`/propiedad/${r.property_id}`}
+                      className="text-brand-600 hover:text-brand-700 font-medium text-xs font-mono underline"
+                    >
+                      {r.property_id?.slice(0, 8)}...
+                    </a>
+                  </td>
+                  <td className="px-4 py-3">
+                    <span className={`inline-block text-xs px-2.5 py-1 rounded-full font-medium ${
+                      isScam
+                        ? 'bg-red-50 text-red-600'
+                        : 'bg-orange-50 text-orange-600'
+                    }`}>
+                      {r.reason || 'Sin motivo'}
+                    </span>
+                  </td>
+                  <td className="px-4 py-3 text-gray-500 text-xs">{r.created_at ? fmtDate(r.created_at) : '-'}</td>
+                </tr>
+              )
+            })}
+          </tbody>
+        </table>
+      </div>
     </div>
   )
 }

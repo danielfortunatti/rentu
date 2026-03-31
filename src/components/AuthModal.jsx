@@ -88,12 +88,12 @@ export default function AuthModal({ isOpen, onClose, onAuth }) {
     setResendSuccess(false)
   }
 
-  const inputClass = "w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:border-brand-500 focus:ring-2 focus:ring-brand-500/10"
+  const inputClass = "w-full bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-xl px-4 py-3 text-sm text-gray-800 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:border-brand-500 focus:ring-2 focus:ring-brand-500/10"
 
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-label={mode === 'login' ? 'Iniciar sesión' : 'Crear cuenta'}>
-      <div className="absolute inset-0 bg-black/30 backdrop-blur-sm" onClick={onClose} aria-label="Cerrar modal" />
-      <div className="relative bg-white border border-gray-100 rounded-2xl w-full max-w-md p-7 shadow-2xl">
+      <div className="absolute inset-0 bg-black/30 backdrop-blur-sm" onClick={() => { onClose(); resetModal() }} aria-label="Cerrar modal" />
+      <div className="relative bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-2xl w-full max-w-md p-7 shadow-2xl">
         <button onClick={() => { onClose(); resetModal() }} aria-label="Cerrar" className="absolute top-4 right-4 p-1.5 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-colors">
           <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
         </button>
