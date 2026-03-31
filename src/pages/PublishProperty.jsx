@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback } from 'react'
 import { Helmet } from 'react-helmet-async'
 import { MapContainer, TileLayer, Marker, useMap, useMapEvents } from 'react-leaflet'
 import L from 'leaflet'
-import { comunas, comunasByRegion, tiposPropiedad, amenitiesEdificio, cercaniasOptions, estadoPropiedad, amobladoOptions } from '../data/comunas'
+import { comunas, comunasByRegion, tiposPropiedad, tiposArriendo, amenitiesEdificio, cercaniasOptions, estadoPropiedad, amobladoOptions } from '../data/comunas'
 import { createProperty, uploadPhoto } from '../lib/supabase'
 import { compressImage } from '../utils/imageCompressor'
 import { getRecaptchaToken, verifyRecaptcha } from '../utils/recaptcha'
@@ -90,7 +90,7 @@ export default function PublishProperty({ user }) {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const [form, setForm] = useState({
-    titulo: '', tipo: '', comuna: '', direccion: '', precio: '', gastoComun: '',
+    titulo: '', tipo: '', tipoArriendo: '', comuna: '', direccion: '', precio: '', gastoComun: '',
     m2: '', habitaciones: '1', banos: '1', piso: '', estacionamiento: false,
     bodega: false, mascotas: false, amoblado: 'sin', estado: 'Buen estado',
     amenities: [], cercanias: [], descripcion: '', telefono: '', email: '', googleMapsLink: '',
@@ -191,7 +191,7 @@ export default function PublishProperty({ user }) {
     }
 
     const propertyData = {
-      user_id: user.id, titulo: form.titulo, tipo: form.tipo, comuna: form.comuna,
+      user_id: user.id, titulo: form.titulo, tipo: form.tipo, tipo_arriendo: form.tipoArriendo || null, comuna: form.comuna,
       direccion: form.direccion, precio: Number(form.precio), gasto_comun: Number(form.gastoComun) || 0,
       m2: Number(form.m2) || null, habitaciones: Number(form.habitaciones), banos: Number(form.banos),
       piso: Number(form.piso) || null, estacionamiento: form.estacionamiento, bodega: form.bodega,
@@ -280,6 +280,7 @@ export default function PublishProperty({ user }) {
                 <div><label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Tipo *</label><select required value={form.tipo} onChange={e => update('tipo', e.target.value)} className={inputClass}><option value="">Seleccionar</option>{tiposPropiedad.map(t => <option key={t} value={t}>{t}</option>)}</select></div>
                 <div><label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Comuna *</label><select required value={form.comuna} onChange={e => update('comuna', e.target.value)} className={inputClass}><option value="">Seleccionar</option>{comunasByRegion.map(group => <optgroup key={group.region} label={group.region}>{group.comunas.map(c => <option key={c} value={c}>{c}</option>)}</optgroup>)}</select></div>
               </div>
+              <div><label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Tipo de arriendo</label><select value={form.tipoArriendo} onChange={e => update('tipoArriendo', e.target.value)} className={inputClass}><option value="">Seleccionar</option>{tiposArriendo.map(t => <option key={t} value={t}>{t}</option>)}</select></div>
               <div><label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Dirección *</label><input type="text" required value={form.direccion} onChange={e => update('direccion', e.target.value)} placeholder="Ej: Av. Providencia 1234" className={inputClass} /></div>
 
               {/* Google Maps link */}

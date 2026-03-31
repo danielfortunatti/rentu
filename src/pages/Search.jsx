@@ -5,7 +5,7 @@ import PropertyCard from '../components/PropertyCard'
 import CompareDrawer from '../components/CompareDrawer'
 import { SkeletonCard } from '../components/SkeletonLoader'
 import { getProperties, saveSearch, getSavedSearches, deleteSavedSearch } from '../lib/supabase'
-import { comunas, comunasByRegion, tiposPropiedad, amenitiesEdificio, cercaniasOptions, amobladoOptions, estadoPropiedad } from '../data/comunas'
+import { comunas, comunasByRegion, tiposPropiedad, tiposArriendo, amenitiesEdificio, cercaniasOptions, amobladoOptions, estadoPropiedad } from '../data/comunas'
 import { formatPrice } from '../data/properties'
 
 const SearchMap = lazy(() => import('../components/SearchMap'))

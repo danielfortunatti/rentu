@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { getProperty, updateProperty } from '../lib/supabase'
-import { comunas, comunasByRegion, tiposPropiedad, amenitiesEdificio, cercaniasOptions, estadoPropiedad, amobladoOptions } from '../data/comunas'
+import { comunas, comunasByRegion, tiposPropiedad, tiposArriendo, amenitiesEdificio, cercaniasOptions, estadoPropiedad, amobladoOptions } from '../data/comunas'
 
 export default function EditProperty({ user }) {
   const { id } = useParams()
@@ -20,7 +20,7 @@ export default function EditProperty({ user }) {
         return
       }
       setForm({
-        titulo: data.titulo || '', tipo: data.tipo || '', comuna: data.comuna || '',
+        titulo: data.titulo || '', tipo: data.tipo || '', tipoArriendo: data.tipo_arriendo || '', comuna: data.comuna || '',
         direccion: data.direccion || '', precio: data.precio || '', gastoComun: data.gasto_comun || '',
         m2: data.m2 || '', habitaciones: data.habitaciones || 1, banos: data.banos || 1,
         piso: data.piso || '', estacionamiento: data.estacionamiento || false,
@@ -52,7 +52,7 @@ export default function EditProperty({ user }) {
     setSaving(true)
     setError('')
     const updates = {
-      titulo: form.titulo, tipo: form.tipo, comuna: form.comuna,
+      titulo: form.titulo, tipo: form.tipo, tipo_arriendo: form.tipoArriendo || null, comuna: form.comuna,
       direccion: form.direccion, precio: Number(form.precio), gasto_comun: Number(form.gastoComun) || 0,
       m2: Number(form.m2) || null, habitaciones: Number(form.habitaciones), banos: Number(form.banos),
       piso: Number(form.piso) || null, estacionamiento: form.estacionamiento, bodega: form.bodega,
@@ -88,6 +88,7 @@ export default function EditProperty({ user }) {
             <div><label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Tipo</label><select required value={form.tipo} onChange={e => update('tipo', e.target.value)} className={inputClass}><option value="">Seleccionar</option>{tiposPropiedad.map(t => <option key={t} value={t}>{t}</option>)}</select></div>
             <div><label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Comuna</label><select required value={form.comuna} onChange={e => update('comuna', e.target.value)} className={inputClass}><option value="">Seleccionar</option>{comunasByRegion.map(group => <optgroup key={group.region} label={group.region}>{group.comunas.map(c => <option key={c} value={c}>{c}</option>)}</optgroup>)}</select></div>
           </div>
+          <div><label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Tipo de arriendo</label><select value={form.tipoArriendo} onChange={e => update('tipoArriendo', e.target.value)} className={inputClass}><option value="">Seleccionar</option>{tiposArriendo.map(t => <option key={t} value={t}>{t}</option>)}</select></div>
           <div><label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Dirección</label><input type="text" required value={form.direccion} onChange={e => update('direccion', e.target.value)} className={inputClass} /></div>
           <div className="grid grid-cols-2 gap-4">
             <div><label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Arriendo mensual (CLP)</label><input type="number" required value={form.precio} onChange={e => update('precio', e.target.value)} className={inputClass} /></div>

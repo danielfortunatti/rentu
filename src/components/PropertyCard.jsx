@@ -7,7 +7,7 @@ import StarRating from './StarRating'
 import VerificationBadge from './VerificationBadge'
 
 export default function PropertyCard({ property }) {
-  const { id, titulo, tipo, precio, comuna, m2, habitaciones, banos, fotos, destacada, estacionamiento, mascotas, amoblado, gastoComun, user_id } = property
+  const { id, titulo, tipo, precio, comuna, m2, habitaciones, banos, fotos, destacada, estacionamiento, mascotas, amoblado, gastoComun, user_id, created_at, fechaPublicacion, precio_anterior, disponible_desde } = property
   const [imgLoaded, setImgLoaded] = useState(false)
   const [hovered, setHovered] = useState(false)
   const [tilt, setTilt] = useState({ x: 0, y: 0 })
@@ -96,12 +96,31 @@ export default function PropertyCard({ property }) {
         {/* Overlays */}
         <div className="absolute inset-0 bg-gradient-to-t from-gray-900/60 via-transparent to-transparent opacity-80 group-hover:opacity-90 transition-opacity" />
 
-        {/* Badges */}
-        {destacada && (
-          <div className="absolute top-3 left-3 px-2.5 py-1 bg-gradient-to-r from-amber-500 to-orange-500 text-white text-[10px] font-bold uppercase tracking-wider rounded-lg shadow-lg shadow-amber-500/30 badge-glow">
-            Destacada
-          </div>
-        )}
+        {/* Smart Badges */}
+        {(() => {
+          const badges = []
+          if (destacada) badges.push({ label: 'Destacada', className: 'bg-gradient-to-r from-amber-500 to-orange-500 shadow-lg shadow-amber-500/30 badge-glow' })
+          const publishDate = created_at || fechaPublicacion
+          if (publishDate && (Date.now() - new Date(publishDate).getTime()) < 3 * 24 * 60 * 60 * 1000) {
+            badges.push({ label: 'Nuevo', className: 'bg-blue-500' })
+          }
+          if (precio_anterior && precio_anterior > precio) {
+            badges.push({ label: 'Precio rebajado', className: 'bg-red-500' })
+          }
+          if (!disponible_desde || new Date(disponible_desde) <= new Date()) {
+            badges.push({ label: 'Disponible hoy', className: 'bg-green-500' })
+          }
+          const visibleBadges = badges.slice(0, 2)
+          return visibleBadges.length > 0 && (
+            <div className="absolute top-3 left-3 flex flex-col gap-1.5">
+              {visibleBadges.map((badge) => (
+                <div key={badge.label} className={`px-2.5 py-1 text-white text-[10px] font-bold uppercase tracking-wider rounded-lg ${badge.className}`}>
+                  {badge.label}
+                </div>
+              ))}
+            </div>
+          )
+        })()}
         <div className="absolute top-3 right-3 px-2.5 py-1 bg-white/90 backdrop-blur-sm text-gray-700 text-xs font-medium rounded-lg shadow-sm">
           {tipo}
         </div>
@@ -122,7 +141,7 @@ export default function PropertyCard({ property }) {
 
         {/* Photo count */}
         {fotos && fotos.length > 1 && (
-          <div className="absolute bottom-3 right-3 flex items-center gap-1 px-2 py-1 bg-black/40 backdrop-blur-sm rounded-lg text-white text-xs opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+          <div className="absolute bottom-3 right-3 flex items-center gap-1 px-2 py-1 bg-black/40 backdrop-blur-sm rounded-lg text-white text-xs">
             <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14" /></svg>
             {fotos.length}
           </div>

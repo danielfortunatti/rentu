@@ -24,9 +24,18 @@ export const tiposPropiedad = [
   'Casa',
   'Estudio',
   'Habitación',
+  'Pieza',
   'Oficina',
   'Local comercial',
   'Bodega',
+  'Terreno',
+]
+
+export const tiposArriendo = [
+  'Largo plazo',
+  'Corto plazo',
+  'Temporal',
+  'Por día',
 ]
 
 export const amenitiesEdificio = [
