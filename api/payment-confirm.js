@@ -39,16 +39,11 @@ export default async function handler(req, res) {
 
     if (data.status === 2) { // Pagado
       // Actualizar pago buscando por commerce_order (no por flow_token)
-      await supabase
+      const { data: payment } = await supabase
         .from('payments')
         .update({ estado: 'completado', flow_token: token })
         .eq('commerce_order', data.commerceOrder)
-
-      // Si es pago de destacar, activar destacada
-      const { data: payment } = await supabase
-        .from('payments')
-        .select('*')
-        .eq('commerce_order', data.commerceOrder)
+        .select()
         .single()
 
       if (payment && payment.tipo === 'destacar') {

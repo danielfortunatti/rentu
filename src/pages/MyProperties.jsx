@@ -11,14 +11,22 @@ export default function MyProperties({ user }) {
   const [deleting, setDeleting] = useState(null)
   const [deleteTarget, setDeleteTarget] = useState(null)
   const [highlighting, setHighlighting] = useState(null)
+  const [destacarMenu, setDestacarMenu] = useState(null)
 
-  const handleDestacar = async (property) => {
+  const destacarOptions = [
+    { type: 'destacar_7', label: '7 días', price: '$2.990' },
+    { type: 'destacar_30', label: '30 días', price: '$9.990' },
+    { type: 'destacar_90', label: '90 días', price: '$19.990' },
+  ]
+
+  const handleDestacar = async (property, type) => {
     setHighlighting(property.id)
+    setDestacarMenu(null)
     try {
       const res = await fetch('/api/create-payment', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ propertyId: property.id, userId: user.id, type: 'destacar', email: user.email }),
+        body: JSON.stringify({ propertyId: property.id, userId: user.id, type, email: user.email }),
       })
       const data = await res.json()
       if (data.paymentUrl) {
@@ -116,14 +124,31 @@ export default function MyProperties({ user }) {
                         Destacada
                       </span>
                     ) : (
-                      <button
-                        onClick={() => handleDestacar(p)}
-                        disabled={highlighting === p.id}
-                        className="inline-flex items-center gap-1 px-3 py-1.5 bg-amber-50 hover:bg-amber-100 dark:bg-amber-900/30 dark:hover:bg-amber-900/50 border border-amber-300 dark:border-amber-700 text-amber-700 dark:text-amber-400 text-xs font-medium rounded-lg disabled:opacity-50 transition-colors"
-                      >
-                        <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" /></svg>
-                        {highlighting === p.id ? 'Procesando...' : 'Destacar'}
-                      </button>
+                      <div className="relative">
+                        <button
+                          onClick={() => setDestacarMenu(destacarMenu === p.id ? null : p.id)}
+                          disabled={highlighting === p.id}
+                          className="inline-flex items-center gap-1 px-3 py-1.5 bg-amber-50 hover:bg-amber-100 dark:bg-amber-900/30 dark:hover:bg-amber-900/50 border border-amber-300 dark:border-amber-700 text-amber-700 dark:text-amber-400 text-xs font-medium rounded-lg disabled:opacity-50 transition-colors"
+                        >
+                          <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" /></svg>
+                          {highlighting === p.id ? 'Procesando...' : 'Destacar'}
+                          <svg className="w-3 h-3 ml-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
+                        </button>
+                        {destacarMenu === p.id && (
+                          <div className="absolute top-full left-0 mt-1 w-48 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl shadow-lg z-20 overflow-hidden">
+                            {destacarOptions.map(opt => (
+                              <button
+                                key={opt.type}
+                                onClick={() => handleDestacar(p, opt.type)}
+                                className="w-full text-left px-4 py-2.5 text-xs hover:bg-amber-50 dark:hover:bg-amber-900/30 text-gray-700 dark:text-gray-300 transition-colors flex items-center justify-between"
+                              >
+                                <span>{opt.label}</span>
+                                <span className="font-semibold text-amber-700 dark:text-amber-400">{opt.price}</span>
+                              </button>
+                            ))}
+                          </div>
+                        )}
+                      </div>
                     )}
                     <button onClick={() => setDeleteTarget(p.id)} disabled={deleting === p.id} className="px-3 py-1.5 bg-red-50 hover:bg-red-100 dark:bg-red-900/30 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800 text-red-600 dark:text-red-400 text-xs font-medium rounded-lg disabled:opacity-50">
                       {deleting === p.id ? 'Eliminando...' : 'Eliminar'}

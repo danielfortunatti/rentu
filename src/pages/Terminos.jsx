@@ -11,7 +11,7 @@ export default function Terminos() {
       <div className="max-w-3xl mx-auto px-4 sm:px-6 py-10">
         <Link to="/" className="text-sm text-brand-600 hover:text-brand-700 mb-6 inline-block">&larr; Volver al inicio</Link>
         <h1 className="font-display font-bold text-3xl text-gray-900 mb-2">Términos y Condiciones de Uso</h1>
-        <p className="text-sm text-gray-500 mb-8">Última actualización: {new Date().toLocaleDateString('es-CL', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
+        <p className="text-sm text-gray-500 mb-8">Última actualización: 31 de marzo de 2026</p>
 
         <div className="prose prose-sm prose-gray max-w-none space-y-6 text-gray-600 leading-relaxed">
           <section className="bg-gray-50 border border-gray-200 rounded-xl p-4">

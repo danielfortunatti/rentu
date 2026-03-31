@@ -128,7 +128,9 @@ export default function PropertyDetail({ user, onContractClick }) {
   const handleDelete = async () => {
     setShowDeleteConfirm(false)
     setDeleting(true)
-    await deleteProperty(property.id)
+    const { error } = await deleteProperty(property.id)
+    setDeleting(false)
+    if (error) { showToast('Error al eliminar la propiedad.', 'error'); return }
     navigate('/buscar')
   }
 
@@ -336,7 +338,14 @@ export default function PropertyDetail({ user, onContractClick }) {
               )}
 
               {/* Mapa de ubicación */}
-              {(property.google_maps_link || property.direccion) && (
+              {(property.lat && property.lng) ? (
+                <PropertyMap
+                  lat={property.lat}
+                  lng={property.lng}
+                  comuna={property.comuna}
+                  address={property.direccion}
+                />
+              ) : (property.google_maps_link || property.direccion) && (
                 <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700 p-5">
                   <h3 className="font-display font-semibold text-lg text-gray-800 dark:text-gray-100 mb-3">Ubicación</h3>
                   <div className="rounded-xl overflow-hidden border border-gray-200 dark:border-gray-700 shadow-sm" style={{ height: 350 }}>
@@ -367,15 +376,6 @@ export default function PropertyDetail({ user, onContractClick }) {
                     </a>
                   </div>
                 </div>
-              )}
-              {/* POIs cercanos (si hay coordenadas) */}
-              {property.lat && property.lng && (
-                <PropertyMap
-                  lat={property.lat}
-                  lng={property.lng}
-                  comuna={property.comuna}
-                  address={property.direccion}
-                />
               )}
             </div>
 

@@ -26,9 +26,14 @@ const plans = [
   },
   {
     name: 'Destacar',
-    price: '$2.990',
+    price: 'Desde $2.990',
     priceDetail: 'por propiedad',
     desc: 'Haz que tu propiedad aparezca primero y llegue a más personas.',
+    tiers: [
+      { label: '7 días', price: '$2.990' },
+      { label: '30 días', price: '$9.990' },
+      { label: '90 días', price: '$19.990' },
+    ],
     features: [
       'Todo lo del plan Gratis',
       'Propiedad aparece primero en búsqueda',
@@ -121,6 +126,17 @@ export default function Pricing() {
                   <span className="font-display font-extrabold text-4xl text-gray-900 dark:text-gray-100">{plan.price}</span>
                   <span className="text-sm text-gray-400 ml-1">/{plan.priceDetail}</span>
                 </div>
+
+                {plan.tiers && (
+                  <div className="mb-6 space-y-2">
+                    {plan.tiers.map((tier) => (
+                      <div key={tier.label} className="flex items-center justify-between px-3 py-2 bg-brand-50/50 dark:bg-brand-900/20 rounded-lg">
+                        <span className="text-sm text-gray-700 dark:text-gray-300">{tier.label}</span>
+                        <span className="text-sm font-bold text-brand-700 dark:text-brand-400">{tier.price}</span>
+                      </div>
+                    ))}
+                  </div>
+                )}
 
                 <ul className="space-y-3 mb-8 flex-1">
                   {plan.features.map((f) => (

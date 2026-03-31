@@ -12,12 +12,16 @@ const supabase = createClient(
 
 // Precios fijos — no se aceptan desde el cliente
 const PRICES = {
-  destacar: 2990,
+  destacar_7: 2990,
+  destacar_30: 9990,
+  destacar_90: 19990,
   corredor: 5990,
 }
 
 const SUBJECTS = {
-  destacar: 'Destacar propiedad en Rentu',
+  destacar_7: 'Destacar propiedad 7 días - Rentu',
+  destacar_30: 'Destacar propiedad 30 días - Rentu',
+  destacar_90: 'Destacar propiedad 90 días - Rentu',
   corredor: 'Publicación de corredor en Rentu',
 }
 

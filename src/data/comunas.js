@@ -23,6 +23,7 @@ export const tiposPropiedad = [
   'Departamento',
   'Casa',
   'Estudio',
+  'Habitación',
   'Oficina',
   'Local comercial',
   'Bodega',

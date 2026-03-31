@@ -239,7 +239,7 @@ export default function PublishProperty({ user }) {
           </div>
           <h2 className="font-display font-bold text-2xl text-gray-900 mb-3">Propiedad publicada!</h2>
           <p className="text-gray-500 text-sm mb-6">Tu propiedad ya está visible para miles de personas buscando arriendo en {form.comuna}.</p>
-          <button onClick={() => { setSubmitted(false); setStep(1); setForm({ titulo: '', tipo: '', comuna: '', direccion: '', precio: '', gastoComun: '', m2: '', habitaciones: '1', banos: '1', piso: '', estacionamiento: false, bodega: false, mascotas: false, amoblado: 'sin', estado: 'Buen estado', amenities: [], cercanias: [], descripcion: '', telefono: '', email: '' }); setPhotoFiles([]); setPhotoPreviews([]); setCoords(null) }} className="px-6 py-3 bg-brand-600 hover:bg-brand-700 text-white font-semibold rounded-xl">Publicar otra</button>
+          <button onClick={() => { setSubmitted(false); setStep(1); setForm({ titulo: '', tipo: '', comuna: '', direccion: '', precio: '', gastoComun: '', m2: '', habitaciones: '1', banos: '1', piso: '', estacionamiento: false, bodega: false, mascotas: false, amoblado: 'sin', estado: 'Buen estado', amenities: [], cercanias: [], descripcion: '', telefono: '', email: '', googleMapsLink: '' }); setPhotoFiles([]); setPhotoPreviews([]); setCoords(null) }} className="px-6 py-3 bg-brand-600 hover:bg-brand-700 text-white font-semibold rounded-xl">Publicar otra</button>
         </div>
       </div>
     )

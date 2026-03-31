@@ -156,6 +156,22 @@ export async function updateProperty(propertyId, updates) {
 }
 
 export async function deleteProperty(propertyId) {
+  // Delete photos from storage first
+  const { data: photos } = await supabase
+    .from('property_photos')
+    .select('url')
+    .eq('property_id', propertyId)
+
+  if (photos && photos.length > 0) {
+    const paths = photos.map(p => {
+      const parts = p.url.split('/property-photos/')
+      return parts.length > 1 ? parts[1] : null
+    }).filter(Boolean)
+    if (paths.length > 0) {
+      await supabase.storage.from('property-photos').remove(paths)
+    }
+  }
+
   await supabase.from('property_photos').delete().eq('property_id', propertyId)
   const { error } = await supabase.from('properties').delete().eq('id', propertyId)
   return { error }
@@ -435,52 +451,32 @@ export async function getAllPayments(page = 1, pageSize = 20, estado = '') {
 }
 
 export async function getAdminStats() {
-  // Total active properties
-  const { count: totalActive } = await supabase
-    .from('properties')
-    .select('*', { count: 'exact', head: true })
-    .eq('activa', true)
-
-  // Total properties
-  const { count: totalProperties } = await supabase
-    .from('properties')
-    .select('*', { count: 'exact', head: true })
-
-  // Unique users from properties
-  const { data: usersData } = await supabase
-    .from('properties')
-    .select('user_id')
-  const uniqueUsers = usersData ? new Set(usersData.map(p => p.user_id)).size : 0
-
-  // Properties today
   const today = new Date()
   today.setHours(0, 0, 0, 0)
-  const { count: todayCount } = await supabase
-    .from('properties')
-    .select('*', { count: 'exact', head: true })
-    .gte('created_at', today.toISOString())
-
-  // Properties this week
   const weekAgo = new Date()
   weekAgo.setDate(weekAgo.getDate() - 7)
-  const { count: weekCount } = await supabase
-    .from('properties')
-    .select('*', { count: 'exact', head: true })
-    .gte('created_at', weekAgo.toISOString())
-
-  // Properties this month
   const monthAgo = new Date()
   monthAgo.setDate(monthAgo.getDate() - 30)
-  const { count: monthCount } = await supabase
-    .from('properties')
-    .select('*', { count: 'exact', head: true })
-    .gte('created_at', monthAgo.toISOString())
 
-  // Completed payments
-  const { data: payments } = await supabase
-    .from('payments')
-    .select('monto')
-    .eq('estado', 'completado')
+  const [
+    { count: totalActive },
+    { count: totalProperties },
+    { data: usersData },
+    { count: todayCount },
+    { count: weekCount },
+    { count: monthCount },
+    { data: payments },
+  ] = await Promise.all([
+    supabase.from('properties').select('*', { count: 'exact', head: true }).eq('activa', true),
+    supabase.from('properties').select('*', { count: 'exact', head: true }),
+    supabase.from('properties').select('user_id'),
+    supabase.from('properties').select('*', { count: 'exact', head: true }).gte('created_at', today.toISOString()),
+    supabase.from('properties').select('*', { count: 'exact', head: true }).gte('created_at', weekAgo.toISOString()),
+    supabase.from('properties').select('*', { count: 'exact', head: true }).gte('created_at', monthAgo.toISOString()),
+    supabase.from('payments').select('monto').eq('estado', 'completado'),
+  ])
+
+  const uniqueUsers = usersData ? new Set(usersData.map(p => p.user_id)).size : 0
   const totalRevenue = payments ? payments.reduce((sum, p) => sum + (p.monto || 0), 0) : 0
   const totalPayments = payments ? payments.length : 0
 

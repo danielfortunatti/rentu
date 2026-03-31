@@ -12,7 +12,7 @@ export async function compressImage(file, maxWidth = 1200, quality = 0.8) {
   const MAX_SIZE = 500 * 1024 // 500 KB
 
   // Si el archivo ya es menor al máximo y no necesita redimensionar, devolverlo tal cual
-  if (file.size <= MAX_SIZE && !file.type.startsWith('image/')) {
+  if (file.size <= MAX_SIZE || !file.type.startsWith('image/')) {
     return file
   }
 
