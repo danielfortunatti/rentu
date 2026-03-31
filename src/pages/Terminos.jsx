@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 
 export default function Terminos() {
   return (
-    <div className="min-h-screen bg-warm-50 pt-20">
+    <div className="min-h-screen bg-warm-50 dark:bg-gray-900 pt-20">
       <Helmet>
         <title>Términos y Condiciones | Rentu</title>
         <meta name="description" content="Términos y condiciones de uso de Rentu, plataforma de arriendos en Chile." />

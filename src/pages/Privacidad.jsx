@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 
 export default function Privacidad() {
   return (
-    <div className="min-h-screen bg-warm-50 pt-20">
+    <div className="min-h-screen bg-warm-50 dark:bg-gray-900 pt-20">
       <Helmet>
         <title>Política de Privacidad | Rentu</title>
         <meta name="description" content="Política de privacidad y protección de datos personales de Rentu." />

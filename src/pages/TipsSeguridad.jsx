@@ -66,7 +66,7 @@ const tips = [
 
 export default function TipsSeguridad() {
   return (
-    <div className="min-h-screen bg-warm-50 pt-20">
+    <div className="min-h-screen bg-warm-50 dark:bg-gray-900 pt-20">
       <Helmet>
         <title>Tips de seguridad para arrendar | Rentu</title>
         <meta name="description" content="Consejos de seguridad para arrendar en Chile. Verifica propiedades, contratos y evita estafas." />

@@ -119,7 +119,7 @@ export default function Compare() {
                     <Link to={`/propiedad/${p.id}`} className="block group">
                       <div className="aspect-[4/3] rounded-xl overflow-hidden mb-3">
                         {p.fotos?.[0] ? (
-                          <img src={p.fotos[0]} alt={p.titulo} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+                          <img src={p.fotos[0]} alt={p.titulo} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" loading="lazy" />
                         ) : (
                           <div className="w-full h-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center text-gray-300">
                             <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1}><path strokeLinecap="round" strokeLinejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14" /></svg>

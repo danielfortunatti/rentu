@@ -16,7 +16,7 @@ export default function Footer() {
           {/* Brand column */}
           <div className="md:col-span-4">
             <Link to="/" className="inline-flex items-center gap-2.5 group">
-              <img src="/mascot-icon.svg" alt="Rentu logo" className="w-9 h-9 transition-transform duration-300 group-hover:scale-110" />
+              <img src="/mascot-icon.svg" alt="Rentu logo" className="w-9 h-9 transition-transform duration-300 group-hover:scale-110" loading="lazy" />
               <span className="font-display font-bold text-lg text-white">
                 Ren<span className="text-brand-400">tu</span>
               </span>

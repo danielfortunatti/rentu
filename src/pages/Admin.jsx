@@ -635,7 +635,7 @@ export default function Admin({ user }) {
   if (!user || !isAdmin(user)) return null
 
   return (
-    <div className="min-h-screen bg-warm-50 pt-24 pb-16">
+    <div className="min-h-screen bg-warm-50 dark:bg-gray-900 pt-24 pb-16">
       <Helmet>
         <title>Panel de administración | Rentu</title>
       </Helmet>

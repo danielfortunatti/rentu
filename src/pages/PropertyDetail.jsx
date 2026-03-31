@@ -300,7 +300,7 @@ export default function PropertyDetail({ user, onContractClick }) {
                 <div className="grid grid-cols-4 gap-2">
                   {property.fotos.map((foto, i) => (
                     <button key={i} onClick={() => setActivePhoto(i)} className={`aspect-[4/3] rounded-xl overflow-hidden border-2 transition-all ${activePhoto === i ? 'border-brand-500 shadow-lg shadow-brand-500/20' : 'border-transparent opacity-60 hover:opacity-100'}`}>
-                      <img src={foto} alt={`Foto ${i + 1} de la propiedad`} className="w-full h-full object-cover" />
+                      <img src={foto} alt={`Foto ${i + 1} de la propiedad`} className="w-full h-full object-cover" loading="lazy" />
                     </button>
                   ))}
                 </div>

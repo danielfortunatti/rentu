@@ -60,12 +60,12 @@ export default function TenantProfile({ user }) {
 
   const inputClass = "w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:border-brand-500 focus:ring-2 focus:ring-brand-500/10"
 
-  if (loading) return <div className="min-h-screen bg-warm-50 pt-20 flex items-center justify-center"><div className="w-8 h-8 border-2 border-brand-500 border-t-transparent rounded-full animate-spin" /></div>
+  if (loading) return <div className="min-h-screen bg-warm-50 dark:bg-gray-900 pt-20 flex items-center justify-center"><div className="w-8 h-8 border-2 border-brand-500 border-t-transparent rounded-full animate-spin" /></div>
 
   return (
-    <div className="min-h-screen bg-warm-50 pt-20">
+    <div className="min-h-screen bg-warm-50 dark:bg-gray-900 pt-20">
       <div className="max-w-xl mx-auto px-4 sm:px-6 py-8">
-        <h1 className="font-display font-bold text-2xl text-gray-900 mb-2">Perfil de arrendatario</h1>
+        <h1 className="font-display font-bold text-2xl text-gray-900 dark:text-gray-100 mb-2">Perfil de arrendatario</h1>
         <p className="text-gray-500 text-sm mb-2">Completa tu perfil para postular a arriendos con 1 clic.</p>
         <p className="text-xs text-brand-600 bg-brand-50 border border-brand-200 rounded-lg p-2 mb-4">Los arrendadores ven tu perfil cuando les envías una solicitud. Un perfil completo genera más confianza.</p>
 

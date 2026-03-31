@@ -37,7 +37,7 @@ export default function EditProperty({ user }) {
     load()
   }, [id, user])
 
-  if (loading || !form) return <div className="min-h-screen bg-warm-50 pt-20 flex items-center justify-center"><div className="w-8 h-8 border-2 border-brand-500 border-t-transparent rounded-full animate-spin" /></div>
+  if (loading || !form) return <div className="min-h-screen bg-warm-50 dark:bg-gray-900 pt-20 flex items-center justify-center"><div className="w-8 h-8 border-2 border-brand-500 border-t-transparent rounded-full animate-spin" /></div>
 
   const update = (key, value) => setForm(prev => ({ ...prev, [key]: value }))
   const toggleArray = (key, value) => {
@@ -74,9 +74,9 @@ export default function EditProperty({ user }) {
   const chipClass = (active) => `px-3 py-1.5 rounded-lg text-xs font-medium border transition-all cursor-pointer ${active ? 'bg-brand-50 border-brand-300 text-brand-700' : 'bg-gray-50 border-gray-200 text-gray-500 hover:border-gray-300'}`
 
   return (
-    <div className="min-h-screen bg-warm-50 pt-20">
+    <div className="min-h-screen bg-warm-50 dark:bg-gray-900 pt-20">
       <div className="max-w-2xl mx-auto px-4 sm:px-6 py-8">
-        <h1 className="font-display font-bold text-2xl text-gray-900 mb-2">Editar propiedad</h1>
+        <h1 className="font-display font-bold text-2xl text-gray-900 dark:text-gray-100 mb-2">Editar propiedad</h1>
         <p className="text-gray-500 text-sm mb-8">Modifica los datos de tu publicación.</p>
 
         {error && <div className="bg-red-50 border border-red-200 rounded-xl p-3 mb-6 text-sm text-red-600">{error}</div>}

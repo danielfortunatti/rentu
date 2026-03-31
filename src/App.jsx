@@ -84,8 +84,8 @@ export default function App() {
           <Route path="/propiedad/:id" element={<PropertyDetail user={user} onContractClick={handleContractClick} />} />
           <Route path="/publicar" element={
             user ? <PublishProperty user={user} />
-              : <div className="min-h-screen bg-warm-50 pt-20 flex items-center justify-center">
-                  <div className="text-center bg-white rounded-2xl p-10 shadow-sm border border-gray-100">
+              : <div className="min-h-screen bg-warm-50 dark:bg-gray-900 pt-20 flex items-center justify-center">
+                  <div className="text-center bg-white dark:bg-gray-800 rounded-2xl p-10 shadow-sm border border-gray-100 dark:border-gray-700">
                     <div className="w-16 h-16 bg-brand-50 rounded-2xl flex items-center justify-center mx-auto mb-4">
                       <svg className="w-8 h-8 text-brand-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
                     </div>

@@ -24,7 +24,7 @@ export default function CompareDrawer({ properties, onRemove, onClear }) {
             {properties.map(p => (
               <div key={p.id} className="flex items-center gap-2 px-3 py-1.5 bg-gray-50 dark:bg-gray-700 rounded-lg flex-shrink-0">
                 {p.fotos?.[0] && (
-                  <img src={p.fotos[0]} alt="" className="w-8 h-8 rounded object-cover" />
+                  <img src={p.fotos[0]} alt="" className="w-8 h-8 rounded object-cover" loading="lazy" />
                 )}
                 <span className="text-xs text-gray-700 dark:text-gray-300 max-w-[120px] truncate">{p.titulo}</span>
                 <button

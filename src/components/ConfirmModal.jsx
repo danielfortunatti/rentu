@@ -41,7 +41,7 @@ export default function ConfirmModal({
         onClick={handleCancel}
       />
       <div
-        className={`relative bg-white border border-gray-100 rounded-2xl w-full max-w-sm p-6 shadow-2xl transition-all duration-200 ${
+        className={`relative bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-2xl w-full max-w-sm p-6 shadow-2xl transition-all duration-200 ${
           visible ? 'scale-100 opacity-100' : 'scale-95 opacity-0'
         }`}
       >
@@ -82,15 +82,15 @@ export default function ConfirmModal({
             )}
           </div>
           <div className="flex-1 min-w-0">
-            <h3 className="font-display font-semibold text-gray-900 text-base mb-1">{title}</h3>
-            <p className="text-sm text-gray-500 leading-relaxed">{message}</p>
+            <h3 className="font-display font-semibold text-gray-900 dark:text-gray-100 text-base mb-1">{title}</h3>
+            <p className="text-sm text-gray-500 dark:text-gray-400 leading-relaxed">{message}</p>
           </div>
         </div>
 
         <div className="flex gap-3 mt-6">
           <button
             onClick={handleCancel}
-            className="flex-1 py-2.5 px-4 bg-gray-100 hover:bg-gray-200 text-gray-700 text-sm font-semibold rounded-xl transition-colors"
+            className="flex-1 py-2.5 px-4 bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-200 text-sm font-semibold rounded-xl transition-colors"
           >
             {cancelText}
           </button>

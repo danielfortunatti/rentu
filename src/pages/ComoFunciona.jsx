@@ -28,7 +28,7 @@ const ventajas = [
 
 export default function ComoFunciona() {
   return (
-    <div className="min-h-screen bg-warm-50 pt-20">
+    <div className="min-h-screen bg-warm-50 dark:bg-gray-900 pt-20">
       <Helmet>
         <title>Cómo funciona Rentu | Arriendos sin comisiones</title>
         <meta name="description" content="Aprende cómo publicar y buscar arriendos en Rentu. Sin intermediarios, contacto directo." />

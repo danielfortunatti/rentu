@@ -74,7 +74,7 @@ export default function MoveChecklist() {
   const progress = Math.round((totalDone / items.length) * 100)
 
   return (
-    <div className="min-h-screen bg-warm-50 pt-20">
+    <div className="min-h-screen bg-warm-50 dark:bg-gray-900 pt-20">
       <Helmet>
         <title>Checklist de mudanza | Rentu</title>
         <meta name="description" content="Lista completa para tu mudanza. No olvides nada: servicios, llaves, inventario y más." />

@@ -234,7 +234,7 @@ export default function PublishProperty({ user }) {
 
   if (submitted) {
     return (
-      <div className="min-h-screen bg-warm-50 pt-20 flex items-center justify-center">
+      <div className="min-h-screen bg-warm-50 dark:bg-gray-900 pt-20 flex items-center justify-center">
         <div className="text-center max-w-md mx-auto px-4">
           <div className="w-20 h-20 bg-brand-50 border border-brand-200 rounded-full flex items-center justify-center mx-auto mb-6">
             <svg className="w-10 h-10 text-brand-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
@@ -248,7 +248,7 @@ export default function PublishProperty({ user }) {
   }
 
   return (
-    <div className="min-h-screen bg-warm-50 pt-20">
+    <div className="min-h-screen bg-warm-50 dark:bg-gray-900 pt-20">
       <Helmet>
         <title>Publicar propiedad gratis | Rentu</title>
         <meta name="description" content="Publica tu propiedad en arriendo gratis. Sin comisiones, contacto directo por WhatsApp." />
@@ -419,7 +419,7 @@ export default function PublishProperty({ user }) {
                   <div className="grid grid-cols-4 gap-2 mt-3">
                     {photoPreviews.map((url, i) => (
                       <div key={i} className="relative aspect-square rounded-xl overflow-hidden group">
-                        <img src={url} alt={`Vista previa foto ${i + 1}`} className="w-full h-full object-cover" />
+                        <img src={url} alt={`Vista previa foto ${i + 1}`} className="w-full h-full object-cover" loading="lazy" />
                         <button type="button" onClick={() => removePhoto(i)} className="absolute top-1 right-1 w-6 h-6 bg-red-500 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                           <svg className="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
                         </button>
