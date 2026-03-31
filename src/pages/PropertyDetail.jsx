@@ -8,6 +8,7 @@ import PropertyMap from '../components/PropertyMap'
 import ConfirmModal from '../components/ConfirmModal'
 import Lightbox from '../components/Lightbox'
 
+import PropertyCard from '../components/PropertyCard'
 import { SkeletonPropertyDetail } from '../components/SkeletonLoader'
 import useToast from '../hooks/useToast'
 import useRecentlyViewed from '../hooks/useRecentlyViewed'
@@ -31,6 +32,7 @@ export default function PropertyDetail({ user, onContractClick }) {
   const [reportSubmitting, setReportSubmitting] = useState(false)
   const [ownerLastActive, setOwnerLastActive] = useState(null)
   const [userVerified, setUserVerified] = useState(false)
+  const [similarProperties, setSimilarProperties] = useState([])
   const { toast, showToast } = useToast()
   const { addToRecentlyViewed } = useRecentlyViewed()
 
@@ -149,6 +151,30 @@ export default function PropertyDetail({ user, onContractClick }) {
     }
     load()
   }, [id])
+
+  useEffect(() => {
+    if (!property) return
+    async function loadSimilar() {
+      const { data } = await supabase
+        .from('properties')
+        .select('*, property_photos (id, url, position)')
+        .eq('activa', true)
+        .neq('id', property.id)
+        .or(`comuna.eq.${property.comuna},tipo.eq.${property.tipo}`)
+        .order('created_at', { ascending: false })
+        .limit(4)
+      if (data) {
+        const mapped = data.map(p => ({
+          ...p,
+          fotos: p.property_photos?.sort((a, b) => (a.position || 0) - (b.position || 0)).map(ph => ph.url) || [],
+          gastoComun: p.gasto_comun,
+          fechaPublicacion: p.created_at,
+        }))
+        setSimilarProperties(mapped)
+      }
+    }
+    loadSimilar()
+  }, [property])
 
   if (loading) return <SkeletonPropertyDetail />
 
@@ -381,6 +407,18 @@ export default function PropertyDetail({ user, onContractClick }) {
 
             {/* Valoraciones */}
             <ReviewSection userId={property.user_id} propertyId={property.id} currentUser={user} />
+
+            {/* Propiedades similares */}
+            {similarProperties.length > 0 && (
+              <div>
+                <h2 className="font-display font-bold text-xl text-gray-900 dark:text-gray-100 mb-4">Propiedades similares</h2>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                  {similarProperties.map(sp => (
+                    <PropertyCard key={sp.id} property={sp} />
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
 
           {/* Sidebar */}
