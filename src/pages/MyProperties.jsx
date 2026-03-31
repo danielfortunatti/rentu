@@ -55,7 +55,7 @@ export default function MyProperties({ user }) {
         window.location.href = data.paymentUrl
       }
     } catch (err) {
-      console.error('Error al crear pago:', err)
+      // Payment creation failed silently
     } finally {
       setHighlighting(null)
     }
@@ -260,6 +260,16 @@ export default function MyProperties({ user }) {
                       <p className="text-xs text-gray-400 dark:text-gray-500 mt-0.5">{p.comuna} · {p.tipo}</p>
                     </div>
                     <div className="flex items-center gap-1.5 flex-shrink-0">
+                      {(() => {
+                        if (p.created_at && p.activa && p.estado_arriendo !== 'arrendada') {
+                          const daysSince = Math.floor((new Date() - new Date(p.created_at)) / (1000 * 60 * 60 * 24))
+                          const daysRemaining = 90 - daysSince
+                          if (daysSince >= 75 && daysRemaining > 0) {
+                            return <span className="px-2 py-0.5 bg-amber-100 dark:bg-amber-900/40 text-amber-700 dark:text-amber-400 text-[10px] font-bold rounded">Expira en {daysRemaining} día{daysRemaining !== 1 ? 's' : ''}</span>
+                          }
+                        }
+                        return null
+                      })()}
                       {p.destacada && <span className="px-2 py-0.5 bg-warm-100 text-warm-700 text-[10px] font-bold rounded">Destacada</span>}
                       {p.estado_arriendo === 'arrendada' ? (
                         <span className="px-2 py-0.5 bg-gray-200 dark:bg-gray-600 text-gray-600 dark:text-gray-300 text-[10px] font-bold rounded">Arrendada</span>

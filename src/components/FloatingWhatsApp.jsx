@@ -19,13 +19,12 @@ export default function FloatingWhatsApp() {
         created_at: new Date().toISOString()
       })
       if (error) {
-        console.warn('Error saving contact message (table may not exist yet):', error)
+        // Non-critical: contact message table may not exist yet
       }
       setStatus('sent')
       setForm({ nombre: '', email: '', asunto: 'Consulta general', mensaje: '' })
       setTimeout(() => { setStatus('idle'); setOpen(false) }, 3000)
     } catch (err) {
-      console.error('Contact form error:', err)
       setStatus('error')
     }
   }

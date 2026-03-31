@@ -30,8 +30,8 @@ export default class ErrorBoundary extends Component {
   render() {
     if (this.state.hasError) {
       return (
-        <div className="min-h-screen bg-warm-50 flex items-center justify-center px-4">
-          <div className="bg-white rounded-2xl p-8 sm:p-10 shadow-sm border border-gray-100 max-w-md w-full text-center">
+        <div className="min-h-screen bg-warm-50 dark:bg-gray-900 flex items-center justify-center px-4">
+          <div className="bg-white dark:bg-gray-800 rounded-2xl p-8 sm:p-10 shadow-sm border border-gray-100 dark:border-gray-700 max-w-md w-full text-center">
             <div className="w-16 h-16 bg-red-50 border border-red-200 rounded-2xl flex items-center justify-center mx-auto mb-5">
               <svg
                 className="w-8 h-8 text-red-500"
@@ -48,19 +48,19 @@ export default class ErrorBoundary extends Component {
               </svg>
             </div>
 
-            <h2 className="font-display font-bold text-2xl text-gray-900 mb-2">
+            <h2 className="font-display font-bold text-2xl text-gray-900 dark:text-gray-100 mb-2">
               Algo salió mal
             </h2>
-            <p className="text-gray-500 text-sm mb-6 leading-relaxed">
+            <p className="text-gray-500 dark:text-gray-400 text-sm mb-6 leading-relaxed">
               Ocurrió un error inesperado. Puedes intentar de nuevo o volver al inicio.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
               <button
-                onClick={this.handleReset}
-                className="px-6 py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold rounded-xl transition-colors"
+                onClick={() => window.location.reload()}
+                className="px-6 py-3 bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-200 font-semibold rounded-xl transition-colors"
               >
-                Intentar de nuevo
+                Reintentar
               </button>
               <button
                 onClick={this.handleGoHome}

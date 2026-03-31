@@ -51,6 +51,13 @@ export default async function handler(req, res) {
           .from('properties')
           .update({ destacada: true })
           .eq('id', payment.property_id)
+
+        // Notify saved search subscribers
+        fetch(`https://${req.headers.host || 'rentu-cl.vercel.app'}/api/send-search-alerts`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ propertyId: payment.property_id })
+        }).catch(() => {})
       }
     }
 
