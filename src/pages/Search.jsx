@@ -5,7 +5,7 @@ import PropertyCard from '../components/PropertyCard'
 import CompareDrawer from '../components/CompareDrawer'
 import { SkeletonCard } from '../components/SkeletonLoader'
 import { getProperties, saveSearch, getSavedSearches, deleteSavedSearch } from '../lib/supabase'
-import { comunas, tiposPropiedad, amenitiesEdificio, cercaniasOptions, amobladoOptions, estadoPropiedad } from '../data/comunas'
+import { comunas, comunasByRegion, tiposPropiedad, amenitiesEdificio, cercaniasOptions, amobladoOptions, estadoPropiedad } from '../data/comunas'
 
 const SearchMap = lazy(() => import('../components/SearchMap'))
 
@@ -284,7 +284,7 @@ export default function Search({ user }) {
 
               <div className="space-y-4">
                 <h4 className="text-xs font-bold text-gray-400 uppercase tracking-widest">Ubicación y tipo</h4>
-                <div><label className="block text-xs text-gray-500 mb-1.5">Comuna</label><select value={filters.comuna} onChange={e => updateFilter('comuna', e.target.value)} aria-label="Filtrar por comuna" className={selectClass}><option value="">Todas</option>{comunas.map(c => <option key={c} value={c}>{c}</option>)}</select></div>
+                <div><label className="block text-xs text-gray-500 mb-1.5">Comuna</label><select value={filters.comuna} onChange={e => updateFilter('comuna', e.target.value)} aria-label="Filtrar por comuna" className={selectClass}><option value="">Todas</option>{comunasByRegion.map(group => <optgroup key={group.region} label={group.region}>{group.comunas.map(c => <option key={c} value={c}>{c}</option>)}</optgroup>)}</select></div>
                 <div><label className="block text-xs text-gray-500 mb-1.5">Tipo</label><select value={filters.tipo} onChange={e => updateFilter('tipo', e.target.value)} aria-label="Filtrar por tipo de propiedad" className={selectClass}><option value="">Todos</option>{tiposPropiedad.map(t => <option key={t} value={t}>{t}</option>)}</select></div>
               </div>
 

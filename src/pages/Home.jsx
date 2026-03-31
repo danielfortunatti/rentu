@@ -10,7 +10,7 @@ import NewsletterSignup from '../components/NewsletterSignup'
 import PriceEstimator from '../components/PriceEstimator'
 import Recommendations from '../components/Recommendations'
 import { getFeaturedProperties, supabase } from '../lib/supabase'
-import { comunas, tiposPropiedad } from '../data/comunas'
+import { comunas, comunasByRegion, tiposPropiedad } from '../data/comunas'
 import RecentlyViewed from '../components/RecentlyViewed'
 
 /* ─── DATA ─── */
@@ -305,7 +305,7 @@ export default function Home({ user }) {
                 <div className="relative grid grid-cols-1 sm:grid-cols-4 gap-2 sm:gap-2.5">
                   <select value={comuna} onChange={e => setComuna(e.target.value)} className={selectClass} aria-label="Seleccionar comuna">
                     <option value="">Comuna</option>
-                    {comunas.map(c => <option key={c} value={c}>{c}</option>)}
+                    {comunasByRegion.map(group => <optgroup key={group.region} label={group.region}>{group.comunas.map(c => <option key={c} value={c}>{c}</option>)}</optgroup>)}
                   </select>
                   <select value={tipo} onChange={e => setTipo(e.target.value)} className={selectClass} aria-label="Tipo de propiedad">
                     <option value="">Tipo</option>

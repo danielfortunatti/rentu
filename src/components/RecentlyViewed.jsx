@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
+import { supabase } from '../lib/supabase'
 import { formatPrice } from '../data/properties'
 
 const STORAGE_KEY = 'rentu_recently_viewed'
@@ -8,17 +9,32 @@ export default function RecentlyViewed() {
   const [items, setItems] = useState([])
 
   useEffect(() => {
-    try {
-      const raw = localStorage.getItem(STORAGE_KEY)
-      if (raw) {
+    async function loadAndValidate() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY)
+        if (!raw) return
         const parsed = JSON.parse(raw)
-        if (Array.isArray(parsed) && parsed.length > 0) {
-          setItems(parsed.slice(0, 8))
-        }
+        if (!Array.isArray(parsed) || parsed.length === 0) return
+
+        // Verify properties still exist and are active
+        const ids = parsed.slice(0, 8).map(p => p.id)
+        const { data: existing } = await supabase
+          .from('properties')
+          .select('id')
+          .in('id', ids)
+          .eq('activa', true)
+
+        const existingIds = new Set((existing || []).map(p => p.id))
+        const valid = parsed.filter(p => existingIds.has(p.id))
+
+        // Update localStorage with only valid items
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(valid))
+        setItems(valid.slice(0, 8))
+      } catch {
+        // ignore errors
       }
-    } catch {
-      // ignore parse errors
     }
+    loadAndValidate()
   }, [])
 
   if (items.length === 0) return null

@@ -42,8 +42,8 @@ const situacionesLaborales = [
 
 function calculateScore(data) {
   let score = 0
-  if (data.cedula_frente_url) score += 25
-  if (data.selfie_url) score += 15
+  if (data.cedula_frente_url) score += 20
+  if (data.cedula_dorso_url) score += 20
   if (data.rut && validarRut(data.rut)) score += 10
   if (data.situacion_laboral) score += 15
   if (data.liquidacion_url) score += 10
@@ -107,7 +107,6 @@ export default function Verification({ user }) {
   // File states
   const [cedulaFrente, setCedulaFrente] = useState(null)
   const [cedulaDorso, setCedulaDorso] = useState(null)
-  const [selfie, setSelfie] = useState(null)
   const [liquidacion, setLiquidacion] = useState(null)
 
   // Existing URLs from DB
@@ -173,14 +172,13 @@ export default function Verification({ user }) {
       // Upload files
       const cedulaFrenteUrl = cedulaFrente ? await uploadFile(cedulaFrente, 'cedula_frente') : existingUrls.cedula_frente_url
       const cedulaDorsoUrl = cedulaDorso ? await uploadFile(cedulaDorso, 'cedula_dorso') : existingUrls.cedula_dorso_url
-      const selfieUrl = selfie ? await uploadFile(selfie, 'selfie') : existingUrls.selfie_url
       const liquidacionUrl = liquidacion ? await uploadFile(liquidacion, 'liquidacion') : existingUrls.liquidacion_url
 
       const verificationData = {
         ...form,
         cedula_frente_url: cedulaFrenteUrl || null,
         cedula_dorso_url: cedulaDorsoUrl || null,
-        selfie_url: selfieUrl || null,
+        selfie_url: null,
         liquidacion_url: liquidacionUrl || null,
       }
 
@@ -200,7 +198,6 @@ export default function Verification({ user }) {
       setExistingUrls({
         cedula_frente_url: cedulaFrenteUrl,
         cedula_dorso_url: cedulaDorsoUrl,
-        selfie_url: selfieUrl,
         liquidacion_url: liquidacionUrl,
       })
       setStep(4)
@@ -275,7 +272,7 @@ export default function Verification({ user }) {
         {step === 1 && (
           <div className="bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-2xl p-6 shadow-sm space-y-5">
             <h2 className="font-display font-semibold text-lg text-gray-800 dark:text-gray-100">Paso 1: Identidad</h2>
-            <p className="text-sm text-gray-500 dark:text-gray-400">Sube tu cédula de identidad y una selfie para verificar tu identidad.</p>
+            <p className="text-sm text-gray-500 dark:text-gray-400">Sube tu carnet de identidad (frente y reverso) para verificar tu identidad.</p>
 
             <div>
               <label htmlFor="nombre" className="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">Nombre completo</label>
@@ -304,7 +301,7 @@ export default function Verification({ user }) {
 
             <FileUploadField
               id="cedula-frente"
-              label="Foto cédula (frente)"
+              label="Carnet de identidad (frente)"
               accept="image/*"
               file={cedulaFrente}
               onChange={setCedulaFrente}
@@ -313,20 +310,11 @@ export default function Verification({ user }) {
 
             <FileUploadField
               id="cedula-dorso"
-              label="Foto cédula (dorso)"
+              label="Carnet de identidad (reverso)"
               accept="image/*"
               file={cedulaDorso}
               onChange={setCedulaDorso}
               existingUrl={existingUrls.cedula_dorso_url}
-            />
-
-            <FileUploadField
-              id="selfie"
-              label="Selfie sosteniendo la cédula"
-              accept="image/*"
-              file={selfie}
-              onChange={setSelfie}
-              existingUrl={existingUrls.selfie_url}
             />
 
             <div className="flex justify-end pt-2">
@@ -549,8 +537,8 @@ export default function Verification({ user }) {
                 <p className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-3">Desglose del puntaje</p>
                 <div className="space-y-2">
                   {[
-                    { label: 'Fotos de cédula', points: 25, done: !!existingUrls.cedula_frente_url },
-                    { label: 'Selfie con cédula', points: 15, done: !!existingUrls.selfie_url },
+                    { label: 'Carnet de identidad (frente)', points: 20, done: !!existingUrls.cedula_frente_url },
+                    { label: 'Carnet de identidad (reverso)', points: 20, done: !!existingUrls.cedula_dorso_url },
                     { label: 'RUT validado', points: 10, done: form.rut && validarRut(form.rut) },
                     { label: 'Información laboral', points: 15, done: !!form.situacion_laboral },
                     { label: 'Comprobante de ingresos', points: 10, done: !!existingUrls.liquidacion_url },

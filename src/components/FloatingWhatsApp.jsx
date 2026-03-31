@@ -4,7 +4,7 @@ export default function FloatingWhatsApp() {
   const [showTooltip, setShowTooltip] = useState(false)
 
   return (
-    <div className="fixed bottom-6 right-6 z-40">
+    <div className="fixed bottom-6 right-6 z-[60]">
       {showTooltip && (
         <div className="absolute bottom-16 right-0 bg-white dark:bg-gray-800 rounded-xl shadow-xl border border-gray-200 dark:border-gray-700 p-3 w-48 animate-fadeIn">
           <p className="text-xs text-gray-600 dark:text-gray-300 font-medium">¿Necesitas ayuda?</p>
@@ -14,7 +14,10 @@ export default function FloatingWhatsApp() {
       )}
       <a
         href="mailto:rentu.contacto@gmail.com"
-        className="group flex items-center justify-center w-14 h-14 bg-brand-600 hover:bg-brand-500 rounded-full shadow-lg shadow-brand-500/30 hover:shadow-brand-500/50 transition-all hover:scale-110 active:scale-95"
+        target="_blank"
+        rel="noopener noreferrer"
+        onClick={(e) => { e.stopPropagation(); window.location.href = 'mailto:rentu.contacto@gmail.com' }}
+        className="group relative flex items-center justify-center w-14 h-14 bg-brand-600 hover:bg-brand-500 rounded-full shadow-lg shadow-brand-500/30 hover:shadow-brand-500/50 transition-all hover:scale-110 active:scale-95 cursor-pointer"
         aria-label="Contactar por email"
         onMouseEnter={() => setShowTooltip(true)}
         onMouseLeave={() => setShowTooltip(false)}

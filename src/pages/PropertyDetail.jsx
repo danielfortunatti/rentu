@@ -30,6 +30,7 @@ export default function PropertyDetail({ user, onContractClick }) {
   const [showReportMenu, setShowReportMenu] = useState(false)
   const [reportSubmitting, setReportSubmitting] = useState(false)
   const [ownerLastActive, setOwnerLastActive] = useState(null)
+  const [userVerified, setUserVerified] = useState(false)
   const { toast, showToast } = useToast()
   const { addToRecentlyViewed } = useRecentlyViewed()
 
@@ -45,6 +46,11 @@ export default function PropertyDetail({ user, onContractClick }) {
     if (user) {
       getTenantProfile(user.id).then(({ data }) => {
         if (data) setHasTenantProfile(true)
+      })
+      getVerification(user.id).then(({ data }) => {
+        if (data && (data.estado === 'verificado_basico' || data.estado === 'verificado_completo')) {
+          setUserVerified(true)
+        }
       })
     }
   }, [user])
@@ -444,8 +450,20 @@ export default function PropertyDetail({ user, onContractClick }) {
                 )}
 
                 <div className="space-y-3">
-                  {whatsappUrl ? (
-                    <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" onClick={() => {
+                  {/* Verification gate */}
+                  {user && !isOwner && !userVerified && (
+                    <div className="bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-xl p-4 mb-2">
+                      <p className="text-sm font-semibold text-amber-800 dark:text-amber-300 mb-1">Verifica tu identidad</p>
+                      <p className="text-xs text-amber-600 dark:text-amber-400 mb-3">Para contactar al propietario necesitas verificar tu identidad con tu RUT y carnet.</p>
+                      <Link to="/verificacion" className="inline-flex items-center gap-1.5 px-4 py-2 bg-amber-500 hover:bg-amber-600 text-white text-xs font-semibold rounded-lg transition-colors">
+                        <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" /></svg>
+                        Verificar ahora
+                      </Link>
+                    </div>
+                  )}
+                  {(!user || isOwner || userVerified) && whatsappUrl ? (
+                    <a href={!user ? '#' : whatsappUrl} target={user ? '_blank' : undefined} rel="noopener noreferrer" onClick={(e) => {
+                      if (!user) { e.preventDefault(); return }
                       // Notificar al dueño (fire and forget)
                       fetch('/api/send-notification', {
                         method: 'POST',
@@ -467,7 +485,7 @@ export default function PropertyDetail({ user, onContractClick }) {
                   ) : (
                     <div className="w-full text-center px-6 py-3 bg-gray-100 text-gray-400 font-semibold rounded-xl text-sm">Teléfono no disponible</div>
                   )}
-                  {property.email && (
+                  {property.email && (!user || isOwner || userVerified) && (
                     <a href={`mailto:${property.email}`} className="w-full flex items-center justify-center gap-2 px-6 py-3 bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-200 font-semibold rounded-xl transition-all text-sm">
                       <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
                       Contactar por email

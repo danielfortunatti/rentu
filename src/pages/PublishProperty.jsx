@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback } from 'react'
 import { Helmet } from 'react-helmet-async'
 import { MapContainer, TileLayer, Marker, useMap, useMapEvents } from 'react-leaflet'
 import L from 'leaflet'
-import { comunas, tiposPropiedad, amenitiesEdificio, cercaniasOptions, estadoPropiedad, amobladoOptions } from '../data/comunas'
+import { comunas, comunasByRegion, tiposPropiedad, amenitiesEdificio, cercaniasOptions, estadoPropiedad, amobladoOptions } from '../data/comunas'
 import { createProperty, uploadPhoto } from '../lib/supabase'
 import { compressImage } from '../utils/imageCompressor'
 import { getRecaptchaToken, verifyRecaptcha } from '../utils/recaptcha'
@@ -275,7 +275,7 @@ export default function PublishProperty({ user }) {
               <div><label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Título *</label><input type="text" required value={form.titulo} onChange={e => update('titulo', e.target.value)} placeholder="Ej: Departamento moderno en Providencia" className={inputClass} /></div>
               <div className="grid grid-cols-2 gap-4">
                 <div><label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Tipo *</label><select required value={form.tipo} onChange={e => update('tipo', e.target.value)} className={inputClass}><option value="">Seleccionar</option>{tiposPropiedad.map(t => <option key={t} value={t}>{t}</option>)}</select></div>
-                <div><label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Comuna *</label><select required value={form.comuna} onChange={e => update('comuna', e.target.value)} className={inputClass}><option value="">Seleccionar</option>{comunas.map(c => <option key={c} value={c}>{c}</option>)}</select></div>
+                <div><label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Comuna *</label><select required value={form.comuna} onChange={e => update('comuna', e.target.value)} className={inputClass}><option value="">Seleccionar</option>{comunasByRegion.map(group => <optgroup key={group.region} label={group.region}>{group.comunas.map(c => <option key={c} value={c}>{c}</option>)}</optgroup>)}</select></div>
               </div>
               <div><label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Dirección *</label><input type="text" required value={form.direccion} onChange={e => update('direccion', e.target.value)} placeholder="Ej: Av. Providencia 1234" className={inputClass} /></div>
 
