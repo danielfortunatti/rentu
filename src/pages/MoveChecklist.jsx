@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Helmet } from 'react-helmet-async'
+import { Link } from 'react-router-dom'
 
 const defaultChecklist = [
   // Antes de firmar
@@ -79,6 +80,11 @@ export default function MoveChecklist() {
         <meta name="description" content="Lista completa para tu mudanza. No olvides nada: servicios, llaves, inventario y más." />
       </Helmet>
       <div className="max-w-xl mx-auto px-4 sm:px-6 py-8">
+        <div className="flex items-center gap-2 text-sm text-gray-400 mb-6">
+          <Link to="/" className="hover:text-gray-600 dark:hover:text-gray-300">Inicio</Link>
+          <span>/</span>
+          <span className="text-gray-700 dark:text-gray-300">Checklist mudanza</span>
+        </div>
         <h1 className="font-display font-bold text-2xl text-gray-900 mb-2">Checklist de mudanza</h1>
         <p className="text-gray-500 text-sm mb-6">Guía paso a paso para tu arriendo nuevo. Tu progreso se guarda automáticamente.</p>
 

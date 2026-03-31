@@ -72,6 +72,11 @@ export default function TipsSeguridad() {
         <meta name="description" content="Consejos de seguridad para arrendar en Chile. Verifica propiedades, contratos y evita estafas." />
       </Helmet>
       <div className="max-w-3xl mx-auto px-4 sm:px-6 py-8">
+        <div className="flex items-center gap-2 text-sm text-gray-400 mb-6">
+          <Link to="/" className="hover:text-gray-600 dark:hover:text-gray-300">Inicio</Link>
+          <span>/</span>
+          <span className="text-gray-700 dark:text-gray-300">Tips de seguridad</span>
+        </div>
         <h1 className="font-display font-bold text-2xl sm:text-3xl text-gray-900 mb-2">Tips de seguridad para arrendar</h1>
         <p className="text-gray-500 text-sm mb-8">Guía para arrendar de forma segura en Chile y evitar estafas.</p>
 

@@ -76,6 +76,14 @@ export default function Pricing() {
         <meta name="description" content="Planes de publicación en Rentu. Publica gratis o destaca tu propiedad para arrendar más rápido." />
       </Helmet>
 
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 pt-6">
+        <div className="flex items-center gap-2 text-sm text-gray-400 mb-6">
+          <Link to="/" className="hover:text-gray-600 dark:hover:text-gray-300">Inicio</Link>
+          <span>/</span>
+          <span className="text-gray-700 dark:text-gray-300">Planes y precios</span>
+        </div>
+      </div>
+
       {/* Hero */}
       <section className="py-16 sm:py-20 text-center">
         <div className="max-w-3xl mx-auto px-4 sm:px-6">

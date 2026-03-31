@@ -3,7 +3,7 @@ import { supabase } from '../lib/supabase'
 
 export default function FloatingWhatsApp() {
   const [open, setOpen] = useState(false)
-  const [form, setForm] = useState({ nombre: '', email: '', mensaje: '' })
+  const [form, setForm] = useState({ nombre: '', email: '', asunto: 'Consulta general', mensaje: '' })
   const [status, setStatus] = useState('idle')
 
   const handleSubmit = async (e) => {
@@ -14,6 +14,7 @@ export default function FloatingWhatsApp() {
       const { error } = await supabase.from('contact_messages').insert({
         nombre: form.nombre,
         email: form.email,
+        asunto: form.asunto,
         mensaje: form.mensaje,
         created_at: new Date().toISOString()
       })
@@ -21,7 +22,7 @@ export default function FloatingWhatsApp() {
         console.warn('Error saving contact message (table may not exist yet):', error)
       }
       setStatus('sent')
-      setForm({ nombre: '', email: '', mensaje: '' })
+      setForm({ nombre: '', email: '', asunto: 'Consulta general', mensaje: '' })
       setTimeout(() => { setStatus('idle'); setOpen(false) }, 3000)
     } catch (err) {
       console.error('Contact form error:', err)
@@ -67,6 +68,18 @@ export default function FloatingWhatsApp() {
                 className="w-full px-3 py-2 text-sm bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg focus:outline-none focus:border-brand-500 text-gray-700 dark:text-gray-200 placeholder-gray-400"
                 aria-label="Email"
               />
+              <select
+                value={form.asunto}
+                onChange={e => setForm(prev => ({ ...prev, asunto: e.target.value }))}
+                className="w-full px-3 py-2 text-sm bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg focus:outline-none focus:border-brand-500 text-gray-700 dark:text-gray-200"
+                aria-label="Asunto"
+              >
+                <option value="Consulta general">Consulta general</option>
+                <option value="Problema con mi cuenta">Problema con mi cuenta</option>
+                <option value="Reportar un error">Reportar un error</option>
+                <option value="Sugerencia">Sugerencia</option>
+                <option value="Otro">Otro</option>
+              </select>
               <textarea
                 value={form.mensaje}
                 onChange={e => setForm(prev => ({ ...prev, mensaje: e.target.value }))}

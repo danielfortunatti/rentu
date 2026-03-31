@@ -34,6 +34,11 @@ export default function ComoFunciona() {
         <meta name="description" content="Aprende cómo publicar y buscar arriendos en Rentu. Sin intermediarios, contacto directo." />
       </Helmet>
       <div className="max-w-4xl mx-auto px-4 sm:px-6 py-8">
+        <div className="flex items-center gap-2 text-sm text-gray-400 mb-6">
+          <Link to="/" className="hover:text-gray-600 dark:hover:text-gray-300">Inicio</Link>
+          <span>/</span>
+          <span className="text-gray-700 dark:text-gray-300">Cómo funciona</span>
+        </div>
         <div className="text-center mb-12">
           <h1 className="font-display font-bold text-3xl sm:text-4xl text-gray-900 mb-3">Cómo funciona Rentu</h1>
           <p className="text-gray-500 text-lg">Una forma simple de arrendar en Chile</p>

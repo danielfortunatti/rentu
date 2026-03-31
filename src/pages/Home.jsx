@@ -12,6 +12,7 @@ import Recommendations from '../components/Recommendations'
 import { getFeaturedProperties, supabase } from '../lib/supabase'
 import { comunas, comunasByRegion, tiposPropiedad } from '../data/comunas'
 import RecentlyViewed from '../components/RecentlyViewed'
+import Onboarding from '../components/Onboarding'
 
 /* ─── DATA ─── */
 const comunasDestacadas = [
@@ -684,6 +685,8 @@ export default function Home({ user }) {
 
       {/* ══════════ PRICE ESTIMATOR MODAL ══════════ */}
       {showEstimator && <PriceEstimator onClose={() => setShowEstimator(false)} />}
+
+      <Onboarding />
     </div>
   )
 }

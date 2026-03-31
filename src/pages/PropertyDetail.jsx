@@ -13,6 +13,7 @@ import { SkeletonPropertyDetail } from '../components/SkeletonLoader'
 import useToast from '../hooks/useToast'
 import useRecentlyViewed from '../hooks/useRecentlyViewed'
 import { formatPrice } from '../data/properties'
+import { formatUf } from '../utils/ufConverter'
 import { amenitiesEdificio, cercaniasOptions } from '../data/comunas'
 
 export default function PropertyDetail({ user, onContractClick }) {
@@ -430,6 +431,7 @@ export default function PropertyDetail({ user, onContractClick }) {
                   <span className="font-display font-extrabold text-3xl text-gray-900 dark:text-gray-100">{formatPrice(property.precio)}</span>
                   <span className="text-gray-400 text-sm">/mes</span>
                 </div>
+                <p className="text-xs text-gray-400 mt-1">{formatUf(property.precio)} UF/mes</p>
                 {property.gastoComun > 0 && <p className="text-xs text-gray-400">+ Gasto común: {formatPrice(property.gastoComun)}</p>}
 
                 {ownerVerification && (

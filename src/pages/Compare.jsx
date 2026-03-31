@@ -3,6 +3,7 @@ import { Helmet } from 'react-helmet-async'
 import { useSearchParams, Link } from 'react-router-dom'
 import { getProperty } from '../lib/supabase'
 import { formatPrice } from '../data/properties'
+import { formatUf } from '../utils/ufConverter'
 import { amenitiesEdificio, cercaniasOptions } from '../data/comunas'
 
 export default function Compare() {
@@ -40,7 +41,7 @@ export default function Compare() {
   const rows = [
     { label: 'Precio', render: (p) => <span className="font-display font-bold text-lg text-brand-700 dark:text-brand-400">{formatPrice(p.precio)}/mes</span> },
     { label: 'Gasto común', render: (p) => p.gastoComun > 0 ? formatPrice(p.gastoComun) : 'No tiene' },
-    { label: 'Costo total est.', render: (p) => <span className="font-semibold">{formatPrice(p.precio + (p.gastoComun || 0))}</span> },
+    { label: 'Costo total est.', render: (p) => <><span className="font-semibold">{formatPrice(p.precio + (p.gastoComun || 0))}</span><span className="block text-[10px] text-gray-400">{formatUf(p.precio + (p.gastoComun || 0))} UF</span></> },
     { label: 'Tipo', render: (p) => p.tipo },
     { label: 'Comuna', render: (p) => p.comuna },
     { label: 'Superficie', render: (p) => p.m2 ? `${p.m2} m²` : '—' },
