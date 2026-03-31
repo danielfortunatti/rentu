@@ -155,6 +155,12 @@ export default function PublishProperty({ user }) {
         return false
       }
     }
+    if (s === 4) {
+      if (photoPreviews.length < 4) {
+        setError('Debes subir al menos 4 fotos de la propiedad.')
+        return false
+      }
+    }
     setError('')
     return true
   }
@@ -165,6 +171,10 @@ export default function PublishProperty({ user }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+    if (photoPreviews.length < 4) {
+      setError('Debes subir al menos 4 fotos de la propiedad.')
+      return
+    }
     setLoading(true)
     setError('')
 
@@ -350,10 +360,10 @@ export default function PublishProperty({ user }) {
 
           {step === 3 && (
             <div className="space-y-6 animate-fadeIn">
-              <h3 className="font-display font-semibold text-lg text-gray-800 mb-4">Amenities y cercanías</h3>
+              <h3 className="font-display font-semibold text-lg text-gray-800 mb-4">Equipamiento y alrededores</h3>
 
               <div>
-                <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">Amenities del edificio/condominio</label>
+                <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">Equipamiento del edificio/condominio</label>
                 <div className="flex flex-wrap gap-2">
                   {amenitiesEdificio.map(a => (
                     <button key={a.key} type="button" onClick={() => toggleArray('amenities', a.key)} className={chipClass(form.amenities.includes(a.key))}>
@@ -364,7 +374,7 @@ export default function PublishProperty({ user }) {
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">Qué hay cerca?</label>
+                <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">Alrededores</label>
                 <div className="flex flex-wrap gap-2">
                   {cercaniasOptions.map(c => (
                     <button key={c.key} type="button" onClick={() => toggleArray('cercanias', c.key)} className={chipClass(form.cercanias.includes(c.key))}>
@@ -383,14 +393,22 @@ export default function PublishProperty({ user }) {
 
           {step === 4 && (
             <div className="space-y-5 animate-fadeIn">
-              <h3 className="font-display font-semibold text-lg text-gray-800 mb-4">Fotos y publicación</h3>
+              <h3 className="font-display font-semibold text-lg text-gray-800 mb-4">Fotos, videos y publicación</h3>
               <div>
-                <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">Fotos</label>
+                <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Fotos *</label>
+                <p className="text-xs text-gray-400 mb-3">Mínimo 4 fotos requeridas. Mientras más fotos, más interés genera tu publicación.</p>
                 <label className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-gray-300 rounded-2xl cursor-pointer hover:border-brand-400 transition-colors bg-white">
                   <svg className="w-8 h-8 text-gray-400 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
                   <span className="text-sm text-gray-500">Haz clic para subir fotos</span>
+                  <span className="text-xs text-gray-400 mt-1">{photoPreviews.length}/4 mínimo</span>
                   <input type="file" multiple accept="image/*" onChange={handlePhotoUpload} className="hidden" />
                 </label>
+                {photoPreviews.length > 0 && photoPreviews.length < 4 && (
+                  <p className="text-xs text-amber-600 mt-2 flex items-center gap-1">
+                    <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
+                    Faltan {4 - photoPreviews.length} foto{4 - photoPreviews.length > 1 ? 's' : ''} más para publicar
+                  </p>
+                )}
                 {photoPreviews.length > 0 && (
                   <div className="grid grid-cols-4 gap-2 mt-3">
                     {photoPreviews.map((url, i) => (
@@ -405,6 +423,35 @@ export default function PublishProperty({ user }) {
                 )}
               </div>
 
+              {/* Video upload */}
+              <div>
+                <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Video (opcional)</label>
+                <p className="text-xs text-gray-400 mb-3">Sube un video corto de tu propiedad para atraer más interesados.</p>
+                <label className="flex flex-col items-center justify-center w-full h-24 border-2 border-dashed border-gray-300 rounded-2xl cursor-pointer hover:border-brand-400 transition-colors bg-white">
+                  <svg className="w-6 h-6 text-gray-400 mb-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="m15.75 10.5 4.72-4.72a.75.75 0 0 1 1.28.53v11.38a.75.75 0 0 1-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 0 0 2.25-2.25v-9a2.25 2.25 0 0 0-2.25-2.25h-9A2.25 2.25 0 0 0 2.25 7.5v9a2.25 2.25 0 0 0 2.25 2.25Z" /></svg>
+                  <span className="text-xs text-gray-500">Subir video (MP4, máx. 50MB)</span>
+                  <input type="file" accept="video/mp4,video/webm" onChange={(e) => {
+                    const file = e.target.files?.[0]
+                    if (file && file.size > 50 * 1024 * 1024) {
+                      alert('El video no puede superar los 50MB')
+                      return
+                    }
+                    if (file) {
+                      setForm(prev => ({ ...prev, videoFile: file }))
+                    }
+                  }} className="hidden" />
+                </label>
+                {form.videoFile && (
+                  <div className="flex items-center gap-2 mt-2 px-3 py-2 bg-brand-50 border border-brand-200 rounded-xl">
+                    <svg className="w-4 h-4 text-brand-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
+                    <span className="text-xs text-brand-700 flex-1 truncate">{form.videoFile.name}</span>
+                    <button type="button" onClick={() => setForm(prev => ({ ...prev, videoFile: null }))} className="text-brand-600 hover:text-red-500">
+                      <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+                    </button>
+                  </div>
+                )}
+              </div>
+
               <div className="bg-white border border-gray-100 rounded-2xl p-5 shadow-sm">
                 <h4 className="font-display font-semibold text-gray-800 text-sm mb-3">Vista previa</h4>
                 <div className="text-sm text-gray-500 space-y-1">
@@ -412,8 +459,8 @@ export default function PublishProperty({ user }) {
                   <p>{form.tipo} en {form.comuna || '...'} — {form.direccion || '...'}</p>
                   <p className="font-display font-bold text-brand-600 text-lg">${Number(form.precio || 0).toLocaleString('es-CL')}/mes</p>
                   <p>{form.m2 || '?'} m2 - {form.habitaciones} dormitorio{form.habitaciones > 1 ? 's' : ''} - {form.banos} baño{form.banos > 1 ? 's' : ''} - {form.amoblado}</p>
-                  {form.amenities.length > 0 && <p>Amenities: {form.amenities.map(a => amenitiesEdificio.find(x => x.key === a)?.label).filter(Boolean).join(', ')}</p>}
-                  {form.cercanias.length > 0 && <p>Cerca de: {form.cercanias.map(c => cercaniasOptions.find(x => x.key === c)?.label).filter(Boolean).join(', ')}</p>}
+                  {form.amenities.length > 0 && <p>Equipamiento: {form.amenities.map(a => amenitiesEdificio.find(x => x.key === a)?.label).filter(Boolean).join(', ')}</p>}
+                  {form.cercanias.length > 0 && <p>Alrededores: {form.cercanias.map(c => cercaniasOptions.find(x => x.key === c)?.label).filter(Boolean).join(', ')}</p>}
                   <p>{photoPreviews.length} foto{photoPreviews.length !== 1 ? 's' : ''}</p>
                 </div>
               </div>

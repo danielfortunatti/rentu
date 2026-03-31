@@ -83,9 +83,6 @@ export default function Navbar({ user, onAuthClick, onSignOut, isDark, toggleDar
             {user ? (
               <div className="flex items-center gap-2">
                 <NotificationBell user={user} transparent={transparent} />
-                <Link to="/mensajes" className={`p-2 transition-colors duration-300 ${transparent ? 'text-white/70 hover:text-white' : 'text-gray-400 hover:text-indigo-500'}`} title="Mis mensajes">
-                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" /></svg>
-                </Link>
                 <Link to="/favoritos" className={`p-2 transition-colors duration-300 ${transparent ? 'text-white/70 hover:text-red-300' : 'text-gray-400 hover:text-red-500'}`} title="Mis favoritos">
                   <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" /></svg>
                 </Link>
@@ -110,7 +107,7 @@ export default function Navbar({ user, onAuthClick, onSignOut, isDark, toggleDar
 
                       {[
                         { to: '/mis-propiedades', label: 'Mis propiedades', icon: <path strokeLinecap="round" strokeLinejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-4 0a1 1 0 01-1-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 01-1 1h-2z" /> },
-                        { to: '/mensajes', label: 'Mensajes', icon: <path strokeLinecap="round" strokeLinejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" /> },
+
                         { to: '/favoritos', label: 'Mis favoritos', icon: <path strokeLinecap="round" strokeLinejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" /> },
                         { to: '/perfil-arrendatario', label: 'Mi perfil', icon: <path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /> },
                         { to: '/verificacion', label: 'Verificar mi identidad', icon: <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" /> },
@@ -193,7 +190,7 @@ export default function Navbar({ user, onAuthClick, onSignOut, isDark, toggleDar
                   <p className="px-4 py-1 text-xs text-gray-400 uppercase tracking-wider">Mi cuenta</p>
                 </div>
                 <Link to="/mis-propiedades" onClick={() => setMenuOpen(false)} className="block px-4 py-2.5 rounded-xl text-gray-600 hover:text-gray-800 hover:bg-gray-50 text-sm font-medium">Mis propiedades</Link>
-                <Link to="/mensajes" onClick={() => setMenuOpen(false)} className="block px-4 py-2.5 rounded-xl text-gray-600 hover:text-gray-800 hover:bg-gray-50 text-sm font-medium">Mensajes</Link>
+
                 <Link to="/favoritos" onClick={() => setMenuOpen(false)} className="block px-4 py-2.5 rounded-xl text-gray-600 hover:text-gray-800 hover:bg-gray-50 text-sm font-medium">Mis favoritos</Link>
                 <Link to="/perfil-arrendatario" onClick={() => setMenuOpen(false)} className="block px-4 py-2.5 rounded-xl text-gray-600 hover:text-gray-800 hover:bg-gray-50 text-sm font-medium">Mi perfil</Link>
                 <Link to="/verificacion" onClick={() => setMenuOpen(false)} className="block px-4 py-2.5 rounded-xl text-gray-600 hover:text-gray-800 hover:bg-gray-50 text-sm font-medium">Verificar mi identidad</Link>

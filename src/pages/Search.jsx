@@ -293,8 +293,8 @@ export default function Search({ user }) {
               <div className="space-y-4">
                 <h4 className="text-xs font-bold text-gray-400 uppercase tracking-widest">Precio arriendo</h4>
                 <div className="grid grid-cols-2 gap-2">
-                  <div><label className="block text-xs text-gray-500 mb-1.5">Mínimo</label><select value={filters.precioMin} onChange={e => updateFilter('precioMin', e.target.value)} aria-label="Precio mínimo" className={selectClass}><option value="">Sin mín.</option><option value="200000">$200K</option><option value="300000">$300K</option><option value="400000">$400K</option><option value="500000">$500K</option><option value="600000">$600K</option><option value="800000">$800K</option></select></div>
-                  <div><label className="block text-xs text-gray-500 mb-1.5">Máximo</label><select value={filters.precioMax} onChange={e => updateFilter('precioMax', e.target.value)} aria-label="Precio máximo" className={selectClass}><option value="">Sin máx.</option><option value="400000">$400K</option><option value="600000">$600K</option><option value="800000">$800K</option><option value="1000000">$1M</option><option value="1500000">$1.5M</option><option value="2000000">$2M</option></select></div>
+                  <div><label className="block text-xs text-gray-500 mb-1.5">Mínimo</label><select value={filters.precioMin} onChange={e => updateFilter('precioMin', e.target.value)} aria-label="Precio mínimo" className={selectClass}><option value="">Sin mín.</option><option value="100000">$100K</option><option value="200000">$200K</option><option value="300000">$300K</option><option value="400000">$400K</option><option value="500000">$500K</option><option value="600000">$600K</option><option value="800000">$800K</option></select></div>
+                  <div><label className="block text-xs text-gray-500 mb-1.5">Máximo</label><select value={filters.precioMax} onChange={e => updateFilter('precioMax', e.target.value)} aria-label="Precio máximo" className={selectClass}><option value="">Sin máx.</option><option value="400000">$400K</option><option value="600000">$600K</option><option value="800000">$800K</option><option value="1000000">$1M</option><option value="1500000">$1.5M</option><option value="2000000">$2M</option><option value="2500000">$2.5M</option><option value="3000000">$3M</option></select></div>
                 </div>
                 <div><label className="block text-xs text-gray-500 mb-1.5">Gasto común máx.</label><select value={filters.gastoMax} onChange={e => updateFilter('gastoMax', e.target.value)} aria-label="Gasto común máximo" className={selectClass}><option value="">Sin límite</option><option value="50000">$50.000</option><option value="80000">$80.000</option><option value="100000">$100.000</option><option value="150000">$150.000</option></select></div>
               </div>
@@ -340,7 +340,7 @@ export default function Search({ user }) {
               <div className="h-px bg-gray-100" />
 
               <div className="space-y-3">
-                <h4 className="text-xs font-bold text-gray-400 uppercase tracking-widest">Amenities</h4>
+                <h4 className="text-xs font-bold text-gray-400 uppercase tracking-widest">Equipamiento</h4>
                 <div className="flex flex-wrap gap-1.5">
                   {amenitiesEdificio.slice(0, showMoreAmenities ? undefined : 6).map(a => (
                     <button key={a.key} type="button" onClick={() => toggleArrayFilter('amenities', a.key)} className={chipClass(filters.amenities.includes(a.key))}>{a.icon} {a.label}</button>
@@ -352,7 +352,7 @@ export default function Search({ user }) {
               <div className="h-px bg-gray-100" />
 
               <div className="space-y-3">
-                <h4 className="text-xs font-bold text-gray-400 uppercase tracking-widest">Cerca de</h4>
+                <h4 className="text-xs font-bold text-gray-400 uppercase tracking-widest">Alrededores</h4>
                 <div className="flex flex-wrap gap-1.5">
                   {cercaniasOptions.slice(0, showMoreCercanias ? undefined : 6).map(c => (
                     <button key={c.key} type="button" onClick={() => toggleArrayFilter('cercanias', c.key)} className={chipClass(filters.cercanias.includes(c.key))}>{c.icon} {c.label}</button>

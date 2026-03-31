@@ -7,7 +7,7 @@ import ReviewSection from '../components/ReviewSection'
 import PropertyMap from '../components/PropertyMap'
 import ConfirmModal from '../components/ConfirmModal'
 import Lightbox from '../components/Lightbox'
-import ChatWidget from '../components/ChatWidget'
+
 import { SkeletonPropertyDetail } from '../components/SkeletonLoader'
 import useToast from '../hooks/useToast'
 import useRecentlyViewed from '../hooks/useRecentlyViewed'
@@ -106,89 +106,6 @@ export default function PropertyDetail({ user, onContractClick }) {
     } else {
       showToast('Reporte enviado correctamente. Gracias por ayudarnos.', 'success')
     }
-  }
-
-  const handleDownloadPdf = async () => {
-    const { default: jsPDF } = await import('jspdf')
-    const doc = new jsPDF()
-    const pageWidth = doc.internal.pageSize.getWidth()
-    const margin = 20
-    const maxWidth = pageWidth - margin * 2
-    let y = 20
-
-    doc.setFont('helvetica', 'bold')
-    doc.setFontSize(18)
-    const titleLines = doc.splitTextToSize(property.titulo || 'Propiedad', maxWidth)
-    doc.text(titleLines, margin, y)
-    y += titleLines.length * 8 + 4
-
-    doc.setFont('helvetica', 'normal')
-    doc.setFontSize(11)
-    doc.setTextColor(100)
-    doc.text(`${property.direccion || ''}, ${property.comuna || ''}`, margin, y)
-    y += 12
-
-    doc.setDrawColor(4, 158, 141)
-    doc.setLineWidth(0.5)
-    doc.line(margin, y, pageWidth - margin, y)
-    y += 10
-
-    doc.setTextColor(0)
-    doc.setFont('helvetica', 'bold')
-    doc.setFontSize(14)
-    doc.text(`Precio: ${formatPrice(property.precio)}/mes`, margin, y)
-    y += 8
-    if (property.gastoComun > 0) {
-      doc.setFont('helvetica', 'normal')
-      doc.setFontSize(11)
-      doc.text(`Gasto comun: ${formatPrice(property.gastoComun)}`, margin, y)
-      y += 8
-    }
-    y += 6
-
-    doc.setFont('helvetica', 'bold')
-    doc.setFontSize(12)
-    doc.text('Caracteristicas', margin, y)
-    y += 8
-
-    doc.setFont('helvetica', 'normal')
-    doc.setFontSize(11)
-    const stats = [
-      `Tipo: ${property.tipo || '-'}`,
-      `Superficie: ${property.m2 || '-'} m2`,
-      `Dormitorios: ${property.habitaciones || '-'}`,
-      `Banos: ${property.banos || '-'}`,
-    ]
-    stats.forEach(line => {
-      doc.text(line, margin, y)
-      y += 7
-    })
-    y += 6
-
-    if (property.descripcion) {
-      doc.setFont('helvetica', 'bold')
-      doc.setFontSize(12)
-      doc.text('Descripcion', margin, y)
-      y += 8
-      doc.setFont('helvetica', 'normal')
-      doc.setFontSize(10)
-      const descLines = doc.splitTextToSize(property.descripcion, maxWidth)
-      descLines.forEach(line => {
-        if (y > 270) { doc.addPage(); y = 20 }
-        doc.text(line, margin, y)
-        y += 6
-      })
-    }
-
-    y += 14
-    doc.setDrawColor(4, 158, 141)
-    doc.line(margin, y, pageWidth - margin, y)
-    y += 8
-    doc.setFontSize(9)
-    doc.setTextColor(4, 158, 141)
-    doc.text('Publicado en Rentu - rentu-cl.vercel.app', margin, y)
-
-    doc.save(`${(property.titulo || 'propiedad').replace(/\s+/g, '_')}.pdf`)
   }
 
   const toggleFav = async () => {
@@ -366,7 +283,7 @@ export default function PropertyDetail({ user, onContractClick }) {
               {/* Amenities */}
               {property.amenities && property.amenities.length > 0 && (
                 <div className="mb-6">
-                  <h3 className="font-display font-semibold text-gray-800 text-lg mb-3">Amenities</h3>
+                  <h3 className="font-display font-semibold text-gray-800 text-lg mb-3">Equipamiento</h3>
                   <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
                     {property.amenities.map(key => {
                       const a = amenitiesEdificio.find(x => x.key === key)
@@ -384,7 +301,7 @@ export default function PropertyDetail({ user, onContractClick }) {
               {/* Cercanias */}
               {property.cercanias && property.cercanias.length > 0 && (
                 <div>
-                  <h3 className="font-display font-semibold text-gray-800 text-lg mb-3">Qué hay cerca?</h3>
+                  <h3 className="font-display font-semibold text-gray-800 text-lg mb-3">Alrededores</h3>
                   <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
                     {property.cercanias.map(key => {
                       const c = cercaniasOptions.find(x => x.key === key)
@@ -470,13 +387,11 @@ export default function PropertyDetail({ user, onContractClick }) {
                   <div className="space-y-1 text-xs text-gray-500">
                     <div className="flex justify-between"><span>Arriendo</span><span>{formatPrice(property.precio)}</span></div>
                     {property.gastoComun > 0 && <div className="flex justify-between"><span>Gastos comunes</span><span>{formatPrice(property.gastoComun)}</span></div>}
-                    <div className="flex justify-between"><span>Servicios (est.)</span><span>{formatPrice(45000)}</span></div>
                     <div className="border-t border-gray-200 mt-2 pt-2 flex justify-between font-bold text-gray-800 text-sm">
                       <span>Total mensual</span>
-                      <span>{formatPrice(property.precio + (property.gastoComun || 0) + 45000)}</span>
+                      <span>{formatPrice(property.precio + (property.gastoComun || 0))}</span>
                     </div>
                   </div>
-                  <p className="text-[10px] text-gray-400 mt-2">Servicios estimados incluyen agua, luz, gas e internet.</p>
                 </div>
 
                 {/* Boton favorito */}
@@ -552,6 +467,12 @@ export default function PropertyDetail({ user, onContractClick }) {
                   ) : (
                     <div className="w-full text-center px-6 py-3 bg-gray-100 text-gray-400 font-semibold rounded-xl text-sm">Teléfono no disponible</div>
                   )}
+                  {property.email && (
+                    <a href={`mailto:${property.email}`} className="w-full flex items-center justify-center gap-2 px-6 py-3 bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-200 font-semibold rounded-xl transition-all text-sm">
+                      <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+                      Contactar por email
+                    </a>
+                  )}
                   <button onClick={() => onContractClick(property)} className="w-full flex items-center justify-center gap-2 px-6 py-3 bg-brand-600 hover:bg-brand-700 text-white font-semibold rounded-xl transition-all btn-glow">
                     <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
                     Generar contrato
@@ -594,23 +515,6 @@ export default function PropertyDetail({ user, onContractClick }) {
                   {deleting ? 'Eliminando...' : 'Eliminar propiedad'}
                 </button>
               )}
-
-              {/* Chat */}
-              <ChatWidget
-                user={user}
-                propertyId={property.id}
-                propertyTitle={property.titulo}
-                ownerId={property.user_id}
-              />
-
-              {/* Descargar PDF */}
-              <button
-                onClick={handleDownloadPdf}
-                className="w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-xl text-sm font-medium transition-colors shadow-sm"
-              >
-                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
-                Descargar ficha PDF
-              </button>
 
               {/* Disclaimer */}
               <div className="bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-xl p-4">

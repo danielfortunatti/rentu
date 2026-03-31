@@ -20,8 +20,8 @@ const stepsArrendador = [
 const ventajas = [
   { title: 'Sin comisiones', desc: 'No cobramos porcentaje del arriendo. Publicar es gratis.', icon: '💰' },
   { title: 'Sin intermediarios', desc: 'Contacto directo entre arrendador y arrendatario por WhatsApp.', icon: '🤝' },
-  { title: 'Modelo de contrato gratis', desc: 'Genera contratos basados en la Ley 18.101 de Chile en PDF.', icon: '📋' },
-  { title: 'Filtros avanzados', desc: 'Busca por comuna, precio, mascotas, estacionamiento, amenities y más.', icon: '🎯' },
+  { title: 'Contrato de referencia gratis', desc: 'Genera un modelo de contrato de referencia basado en la Ley 18.101 en PDF.', icon: '📋' },
+  { title: 'Filtros avanzados', desc: 'Busca por comuna, precio, mascotas, estacionamiento, equipamiento y más.', icon: '🎯' },
   { title: '100% online', desc: 'Publica, busca y genera contratos desde tu celular o computador.', icon: '🌐' },
   { title: 'Seguro y confiable', desc: 'Tips de seguridad, verificación de identidad y valoraciones mutuas.', icon: '🛡️' },
 ]

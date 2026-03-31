@@ -18,7 +18,7 @@ export async function geocodeAddress(address, comuna) {
       addressdetails: '1',
     })
     const res = await fetch(`https://nominatim.openstreetmap.org/search?${params}`, {
-      headers: { 'User-Agent': 'ArriendaYa/1.0 (contacto@arriendaya.cl)' },
+      headers: { 'User-Agent': 'Rentu/1.0 (rentu.contacto@gmail.com)' },
     })
     const data = await res.json()
     const result = pickBestResult(data, cleanComuna)
@@ -36,7 +36,7 @@ export async function geocodeAddress(address, comuna) {
     try {
       const res = await fetch(
         `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&limit=10&countrycodes=cl&addressdetails=1&bounded=1&viewbox=-71.1,-33.2,-70.3,-33.7`,
-        { headers: { 'User-Agent': 'ArriendaYa/1.0 (contacto@arriendaya.cl)' } }
+        { headers: { 'User-Agent': 'Rentu/1.0 (rentu.contacto@gmail.com)' } }
       )
       const data = await res.json()
       const result = pickBestResult(data, cleanComuna)
@@ -50,7 +50,7 @@ export async function geocodeAddress(address, comuna) {
     try {
       const res = await fetch(
         `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(`${streetOnly}, ${cleanComuna}, Chile`)}&limit=10&countrycodes=cl&addressdetails=1`,
-        { headers: { 'User-Agent': 'ArriendaYa/1.0 (contacto@arriendaya.cl)' } }
+        { headers: { 'User-Agent': 'Rentu/1.0 (rentu.contacto@gmail.com)' } }
       )
       const data = await res.json()
       const result = pickBestResult(data, cleanComuna)

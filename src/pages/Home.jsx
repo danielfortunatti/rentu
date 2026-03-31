@@ -318,6 +318,9 @@ export default function Home({ user }) {
                     <option value="800000">$800.000</option>
                     <option value="1000000">$1.000.000</option>
                     <option value="1500000">$1.500.000</option>
+                    <option value="2000000">$2.000.000</option>
+                    <option value="2500000">$2.500.000</option>
+                    <option value="3000000">$3.000.000</option>
                   </select>
                   <button type="submit" className="bg-brand-600 hover:bg-brand-500 active:bg-brand-700 text-white font-semibold rounded-xl px-6 py-3.5 text-sm transition-all btn-glow flex items-center justify-center gap-2">
                     <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
@@ -470,7 +473,7 @@ export default function Home({ user }) {
         </div>
       </section>
 
-      {/* ══════════ POR QUE ARRIENDAYA — SPOTLIGHT ══════════ */}
+      {/* ══════════ POR QUE RENTU — SPOTLIGHT ══════════ */}
       <section className="py-20 sm:py-24 bg-white dark:bg-gray-800/50 relative overflow-hidden">
         <div className="absolute top-1/2 right-0 w-[500px] h-[500px] bg-brand-100/20 dark:bg-brand-900/10 rounded-full blur-[100px] translate-x-1/2 -translate-y-1/2" />
 
@@ -487,7 +490,7 @@ export default function Home({ user }) {
                   { title: 'Sin comisiones ocultas', desc: 'No cobramos comisión ni al arrendador ni al arrendatario. La publicación es 100% gratis.' },
                   { title: 'Contacto directo por WhatsApp', desc: 'Habla directamente con el dueño de la propiedad. Sin formularios, sin esperas.' },
                   { title: 'Contrato de arriendo legal', desc: 'Genera un contrato basado en la Ley 18.101 en PDF, gratis e inmediato.' },
-                  { title: 'Filtros avanzados', desc: 'Busca por comuna, precio, dormitorios, mascotas, estacionamiento, amenities y cercanías.' },
+                  { title: 'Filtros avanzados', desc: 'Busca por comuna, precio, dormitorios, mascotas, estacionamiento, equipamiento y alrededores.' },
                 ].map((item, i) => (
                   <ScrollReveal key={item.title} delay={i * 100} direction="left">
                     <div className="flex gap-4 group cursor-default">

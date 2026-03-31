@@ -318,7 +318,7 @@ export default function ContractGenerator({ isOpen, onClose, property }) {
           </svg>
         </button>
 
-        <h2 className="font-display font-bold text-xl text-gray-900 mb-1">Generar contrato de arriendo</h2>
+        <h2 className="font-display font-bold text-xl text-gray-900 mb-1">Generar contrato de referencia</h2>
         <p className="text-sm text-gray-500 mb-2">{property.titulo} — {formatPrice(property.precio)}/mes</p>
 
         <div className="bg-red-50 border-2 border-red-300 rounded-xl p-4 mb-4">

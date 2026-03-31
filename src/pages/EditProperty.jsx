@@ -117,7 +117,7 @@ export default function EditProperty({ user }) {
           </div>
 
           <div>
-            <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">Amenities</label>
+            <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">Equipamiento</label>
             <div className="flex flex-wrap gap-2">
               {amenitiesEdificio.map(a => (
                 <button key={a.key} type="button" onClick={() => toggleArray('amenities', a.key)} className={chipClass(form.amenities.includes(a.key))}>{a.icon} {a.label}</button>
@@ -126,7 +126,7 @@ export default function EditProperty({ user }) {
           </div>
 
           <div>
-            <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">Cercanías</label>
+            <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">Alrededores</label>
             <div className="flex flex-wrap gap-2">
               {cercaniasOptions.map(c => (
                 <button key={c.key} type="button" onClick={() => toggleArray('cercanias', c.key)} className={chipClass(form.cercanias.includes(c.key))}>{c.icon} {c.label}</button>

@@ -52,7 +52,7 @@ export default function Compare() {
     { label: 'Estacionamiento', render: (p) => p.estacionamiento ? <Check /> : <Cross /> },
     { label: 'Bodega', render: (p) => p.bodega ? <Check /> : <Cross /> },
     { label: 'Mascotas', render: (p) => p.mascotas ? <Check /> : <Cross /> },
-    { label: 'Amenities', render: (p) => (
+    { label: 'Equipamiento', render: (p) => (
       <div className="flex flex-wrap gap-1">
         {(p.amenities || []).map(key => {
           const a = amenitiesEdificio.find(x => x.key === key)
