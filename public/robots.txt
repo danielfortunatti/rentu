@@ -1,8 +1,12 @@
 User-agent: *
 Allow: /
 Disallow: /admin
+Disallow: /verificacion
+Disallow: /eliminar-cuenta
 Disallow: /mis-propiedades
 Disallow: /mis-pagos
-Disallow: /eliminar-cuenta
 Disallow: /perfil-arrendatario
+Disallow: /pago-exitoso
+Disallow: /editar/
+
 Sitemap: https://rentu-cl.vercel.app/sitemap.xml

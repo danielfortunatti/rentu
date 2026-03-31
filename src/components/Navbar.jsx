@@ -37,6 +37,7 @@ export default function Navbar({ user, onAuthClick, onSignOut, isDark, toggleDar
   const activeColor = transparent ? 'text-white bg-white/15' : 'text-brand-700 bg-brand-50 dark:text-brand-400 dark:bg-brand-900/30'
 
   return (
+    <>
     <nav aria-label="Navegación principal" className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${transparent ? 'navbar-transparent' : 'navbar-solid'}`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         <div className="flex items-center justify-between h-16">
@@ -211,5 +212,51 @@ export default function Navbar({ user, onAuthClick, onSignOut, isDark, toggleDar
         </div>
       )}
     </nav>
+
+      {/* Mobile bottom nav */}
+      {!location.pathname.startsWith('/admin') && (
+        <nav className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800" style={{ paddingBottom: 'env(safe-area-inset-bottom)' }} aria-label="Navegacion mobile">
+          <div className="flex items-center justify-around h-14">
+            {[
+              { to: '/', label: 'Inicio', icon: (
+                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-4 0a1 1 0 01-1-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 01-1 1h-2z" /></svg>
+              )},
+              { to: '/buscar', label: 'Buscar', icon: (
+                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+              )},
+              { to: '/publicar', label: 'Publicar', icon: (
+                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+              )},
+              { to: '/favoritos', label: 'Favoritos', icon: (
+                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" /></svg>
+              )},
+              { to: user ? '/mis-propiedades' : '#', label: 'Mi cuenta', onClick: user ? undefined : () => onAuthClick(), icon: (
+                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
+              )},
+            ].map(item => {
+              const active = item.to === '/' ? location.pathname === '/' : location.pathname.startsWith(item.to) && item.to !== '#'
+              const content = (
+                <div className="flex flex-col items-center gap-0.5">
+                  <span className={active ? 'text-brand-600 dark:text-brand-400' : 'text-gray-400 dark:text-gray-500'}>{item.icon}</span>
+                  <span className={`text-[10px] font-medium ${active ? 'text-brand-600 dark:text-brand-400' : 'text-gray-400 dark:text-gray-500'}`}>{item.label}</span>
+                </div>
+              )
+              if (item.onClick) {
+                return (
+                  <button key={item.label} onClick={item.onClick} className="flex-1 flex items-center justify-center py-1" aria-label={item.label}>
+                    {content}
+                  </button>
+                )
+              }
+              return (
+                <Link key={item.to} to={item.to} className="flex-1 flex items-center justify-center py-1" aria-label={item.label}>
+                  {content}
+                </Link>
+              )
+            })}
+          </div>
+        </nav>
+      )}
+    </>
   )
 }

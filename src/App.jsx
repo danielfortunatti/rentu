@@ -72,7 +72,7 @@ export default function App() {
 
   return (
     <BrowserRouter>
-      <div className="min-h-screen bg-warm-50 dark:bg-gray-900 text-gray-800 dark:text-gray-100 font-body page-enter">
+      <div className="min-h-screen bg-warm-50 dark:bg-gray-900 text-gray-800 dark:text-gray-100 font-body page-enter pb-14 md:pb-0">
         <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-[200] focus:px-4 focus:py-2 focus:bg-brand-600 focus:text-white focus:rounded-lg focus:text-sm focus:font-semibold">Saltar al contenido</a>
         <Navbar user={user} onAuthClick={() => setAuthOpen(true)} onSignOut={() => supabase.auth.signOut()} isDark={isDark} toggleDark={toggleDark} />
         <ErrorBoundary>

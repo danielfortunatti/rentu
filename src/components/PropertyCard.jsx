@@ -1,6 +1,7 @@
 import { useState, useRef, useCallback, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { formatPrice } from '../data/properties'
+import { formatUf } from '../utils/ufConverter'
 import { getUserRating, getVerification } from '../lib/supabase'
 import StarRating from './StarRating'
 import VerificationBadge from './VerificationBadge'
@@ -110,6 +111,7 @@ export default function PropertyCard({ property }) {
           <div>
             <span className="font-display font-bold text-2xl text-white drop-shadow-lg">{formatPrice(precio)}</span>
             <span className="text-white/70 text-sm">/mes</span>
+            <span className="text-white/50 text-[10px] ml-1">{formatUf(precio)}</span>
           </div>
           {gastoComun > 0 && (
             <span className="text-white/60 text-xs bg-black/30 backdrop-blur-sm px-2 py-0.5 rounded-md">

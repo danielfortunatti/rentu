@@ -42,6 +42,7 @@ export default function Search({ user }) {
     habitaciones: searchParams.get('habitaciones') || '', banos: searchParams.get('banos') || '', gastoMax: searchParams.get('gastoMax') || '',
     estacionamiento: searchParams.get('estacionamiento') === 'true', bodega: searchParams.get('bodega') === 'true', mascotas: searchParams.get('mascotas') === 'true', amoblado: searchParams.get('amoblado') || '',
     m2Min: searchParams.get('m2Min') || '', m2Max: searchParams.get('m2Max') || '', estado: searchParams.get('estado') || '', pisoMin: searchParams.get('pisoMin') || '', publicadoEn: searchParams.get('publicadoEn') || '',
+    disponibleDesde: searchParams.get('disponibleDesde') || '',
     amenities: [], cercanias: [],
   })
   const [sortBy, setSortBy] = useState(searchParams.get('sort') || 'destacados')
@@ -184,6 +185,7 @@ export default function Search({ user }) {
     if (filters.estado) params.set('estado', filters.estado)
     if (filters.pisoMin) params.set('pisoMin', filters.pisoMin)
     if (filters.publicadoEn) params.set('publicadoEn', filters.publicadoEn)
+    if (filters.disponibleDesde) params.set('disponibleDesde', filters.disponibleDesde)
     if (search) params.set('q', search)
     if (sortBy !== 'destacados') params.set('sort', sortBy)
     setSearchParams(params, { replace: true })
@@ -232,10 +234,10 @@ export default function Search({ user }) {
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 
-  const activeFilterCount = [filters.comuna, filters.tipo, filters.precioMin, filters.precioMax, filters.habitaciones, filters.banos, filters.gastoMax, filters.estacionamiento, filters.bodega, filters.mascotas, filters.amoblado, filters.m2Min, filters.m2Max, filters.estado, filters.pisoMin, filters.publicadoEn].filter(Boolean).length + filters.amenities.length + filters.cercanias.length
+  const activeFilterCount = [filters.comuna, filters.tipo, filters.precioMin, filters.precioMax, filters.habitaciones, filters.banos, filters.gastoMax, filters.estacionamiento, filters.bodega, filters.mascotas, filters.amoblado, filters.m2Min, filters.m2Max, filters.estado, filters.pisoMin, filters.publicadoEn, filters.disponibleDesde].filter(Boolean).length + filters.amenities.length + filters.cercanias.length
 
   const clearFilters = () => {
-    const cleared = { comuna: '', tipo: '', precioMin: '', precioMax: '', habitaciones: '', banos: '', gastoMax: '', estacionamiento: false, bodega: false, mascotas: false, amoblado: '', m2Min: '', m2Max: '', estado: '', pisoMin: '', publicadoEn: '', amenities: [], cercanias: [] }
+    const cleared = { comuna: '', tipo: '', precioMin: '', precioMax: '', habitaciones: '', banos: '', gastoMax: '', estacionamiento: false, bodega: false, mascotas: false, amoblado: '', m2Min: '', m2Max: '', estado: '', pisoMin: '', publicadoEn: '', disponibleDesde: '', amenities: [], cercanias: [] }
     setFilters(cleared)
     setSearch('')
     setPage(1)
