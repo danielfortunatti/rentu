@@ -34,6 +34,7 @@ const ContractGenerator = lazy(() => import('./components/ContractGenerator'))
 const Verification = lazy(() => import('./pages/Verification'))
 const Compare = lazy(() => import('./pages/Compare'))
 const ComunaLanding = lazy(() => import('./pages/ComunaLanding'))
+const Pricing = lazy(() => import('./pages/Pricing'))
 
 function LoadingSpinner() {
   return (
@@ -107,6 +108,7 @@ export default function App() {
           <Route path="/admin" element={<Admin user={user} />} />
           <Route path="/perfil/:userId" element={<PublicTenantProfile />} />
           <Route path="/comparar" element={<Compare />} />
+          <Route path="/precios" element={<Pricing />} />
           <Route path="/arriendos/:slug" element={<ComunaLanding />} />
 
           <Route path="/terminos" element={<Terminos />} />

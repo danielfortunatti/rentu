@@ -54,6 +54,7 @@ export default function Footer() {
                 { to: '/buscar', label: 'Buscar arriendos' },
                 { to: '/publicar', label: 'Publicar propiedad' },
                 { to: '/como-funciona', label: 'Cómo funciona' },
+                { to: '/precios', label: 'Planes y precios' },
                 { to: '/tips-seguridad', label: 'Tips de seguridad' },
                 { to: '/checklist-mudanza', label: 'Checklist mudanza' },
               ].map(link => (
@@ -69,7 +70,7 @@ export default function Footer() {
             <ul className="grid grid-cols-2 gap-x-4 gap-y-3">
               {['Providencia', 'Las Condes', 'Ñuñoa', 'Santiago Centro', 'Viña del Mar', 'La Florida'].map(comuna => (
                 <li key={comuna}>
-                  <Link to={`/buscar?comuna=${encodeURIComponent(comuna)}`} className="text-sm text-gray-500 hover:text-brand-400 transition-colors duration-200">{comuna}</Link>
+                  <Link to={`/arriendos/${comuna.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/\s+/g, '-')}`} className="text-sm text-gray-500 hover:text-brand-400 transition-colors duration-200">{comuna}</Link>
                 </li>
               ))}
             </ul>
