@@ -49,9 +49,14 @@ const plans = [
   },
   {
     name: 'Corredor',
-    price: '$5.990',
+    price: 'Desde $14.990',
     priceDetail: 'por publicación',
     desc: 'Para corredores de propiedades y administradores de arriendos.',
+    tiers: [
+      { label: 'Por publicación', price: '$14.990' },
+      { label: 'Mensual (5 propiedades)', price: '$29.990/mes' },
+      { label: 'Ilimitado', price: '$59.990/mes' },
+    ],
     features: [
       'Publicar como corredor profesional',
       'Badge "Corredor verificado"',

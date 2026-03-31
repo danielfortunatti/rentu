@@ -15,14 +15,18 @@ const PRICES = {
   destacar_7: 2990,
   destacar_30: 9990,
   destacar_90: 19990,
-  corredor: 5990,
+  corredor_publicacion: 14990,
+  corredor_mensual: 29990,
+  corredor_ilimitado: 59990,
 }
 
 const SUBJECTS = {
   destacar_7: 'Destacar propiedad 7 días - Rentu',
   destacar_30: 'Destacar propiedad 30 días - Rentu',
   destacar_90: 'Destacar propiedad 90 días - Rentu',
-  corredor: 'Publicación de corredor en Rentu',
+  corredor_publicacion: 'Publicación individual de corredor - Rentu',
+  corredor_mensual: 'Plan Corredor Mensual (5 propiedades) - Rentu',
+  corredor_ilimitado: 'Plan Corredor Ilimitado - Rentu',
 }
 
 function signParams(params) {
