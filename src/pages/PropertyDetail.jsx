@@ -34,6 +34,7 @@ export default function PropertyDetail({ user, onContractClick }) {
   const [ownerLastActive, setOwnerLastActive] = useState(null)
   const [userVerified, setUserVerified] = useState(false)
   const [similarProperties, setSimilarProperties] = useState([])
+  const [viewCount, setViewCount] = useState(null)
   const { toast, showToast } = useToast()
   const { addToRecentlyViewed } = useRecentlyViewed()
 
@@ -152,6 +153,21 @@ export default function PropertyDetail({ user, onContractClick }) {
     }
     load()
   }, [id])
+
+  // Track property view and fetch view count
+  useEffect(() => {
+    if (!property) return
+    // Fire and forget: insert view row
+    supabase.from('property_views').insert({ property_id: property.id }).then(() => {})
+    // Get total view count
+    supabase
+      .from('property_views')
+      .select('*', { count: 'exact', head: true })
+      .eq('property_id', property.id)
+      .then(({ count, error }) => {
+        if (!error && typeof count === 'number') setViewCount(count)
+      })
+  }, [property?.id])
 
   useEffect(() => {
     if (!property) return
@@ -619,6 +635,12 @@ export default function PropertyDetail({ user, onContractClick }) {
                 <p className="text-xs text-gray-400 dark:text-gray-500">Publicado el {new Date(property.fechaPublicacion).toLocaleDateString('es-CL', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
                 {ownerLastActive && (
                   <p className="text-xs text-brand-600 dark:text-brand-400 font-medium">Propietario activo {formatRelativeTime(ownerLastActive)}</p>
+                )}
+                {viewCount !== null && viewCount > 0 && (
+                  <p className="text-xs text-gray-400 dark:text-gray-500 flex items-center justify-center gap-1 pt-1">
+                    <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path strokeLinecap="round" strokeLinejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>
+                    {viewCount} {viewCount === 1 ? 'persona vio' : 'personas vieron'} esta propiedad
+                  </p>
                 )}
               </div>
 

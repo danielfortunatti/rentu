@@ -37,7 +37,7 @@ export default function Search({ user }) {
   const [search, setSearch] = useState(searchParams.get('q') || '')
   const [compareList, setCompareList] = useState([])
   const [filters, setFilters] = useState({
-    comuna: searchParams.get('comuna') || '', tipo: searchParams.get('tipo') || '',
+    comuna: searchParams.get('comuna') || '', tipo: searchParams.get('tipo') || '', tipoArriendo: searchParams.get('tipoArriendo') || '',
     precioMin: searchParams.get('precioMin') || '', precioMax: searchParams.get('precioMax') || '',
     habitaciones: searchParams.get('habitaciones') || '', banos: searchParams.get('banos') || '', gastoMax: searchParams.get('gastoMax') || '',
     estacionamiento: searchParams.get('estacionamiento') === 'true', bodega: searchParams.get('bodega') === 'true', mascotas: searchParams.get('mascotas') === 'true', amoblado: searchParams.get('amoblado') || '',
@@ -171,6 +171,7 @@ export default function Search({ user }) {
     const params = new URLSearchParams()
     if (filters.comuna) params.set('comuna', filters.comuna)
     if (filters.tipo) params.set('tipo', filters.tipo)
+    if (filters.tipoArriendo) params.set('tipoArriendo', filters.tipoArriendo)
     if (filters.precioMin) params.set('precioMin', filters.precioMin)
     if (filters.precioMax) params.set('precioMax', filters.precioMax)
     if (filters.habitaciones) params.set('habitaciones', filters.habitaciones)
@@ -234,10 +235,10 @@ export default function Search({ user }) {
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 
-  const activeFilterCount = [filters.comuna, filters.tipo, filters.precioMin, filters.precioMax, filters.habitaciones, filters.banos, filters.gastoMax, filters.estacionamiento, filters.bodega, filters.mascotas, filters.amoblado, filters.m2Min, filters.m2Max, filters.estado, filters.pisoMin, filters.publicadoEn, filters.disponibleDesde].filter(Boolean).length + filters.amenities.length + filters.cercanias.length
+  const activeFilterCount = [filters.comuna, filters.tipo, filters.tipoArriendo, filters.precioMin, filters.precioMax, filters.habitaciones, filters.banos, filters.gastoMax, filters.estacionamiento, filters.bodega, filters.mascotas, filters.amoblado, filters.m2Min, filters.m2Max, filters.estado, filters.pisoMin, filters.publicadoEn, filters.disponibleDesde].filter(Boolean).length + filters.amenities.length + filters.cercanias.length
 
   const clearFilters = () => {
-    const cleared = { comuna: '', tipo: '', precioMin: '', precioMax: '', habitaciones: '', banos: '', gastoMax: '', estacionamiento: false, bodega: false, mascotas: false, amoblado: '', m2Min: '', m2Max: '', estado: '', pisoMin: '', publicadoEn: '', disponibleDesde: '', amenities: [], cercanias: [] }
+    const cleared = { comuna: '', tipo: '', tipoArriendo: '', precioMin: '', precioMax: '', habitaciones: '', banos: '', gastoMax: '', estacionamiento: false, bodega: false, mascotas: false, amoblado: '', m2Min: '', m2Max: '', estado: '', pisoMin: '', publicadoEn: '', disponibleDesde: '', amenities: [], cercanias: [] }
     setFilters(cleared)
     setSearch('')
     setPage(1)
@@ -369,6 +370,7 @@ export default function Search({ user }) {
                 <h4 className="text-xs font-bold text-gray-400 uppercase tracking-widest">Ubicación y tipo</h4>
                 <div><label className="block text-xs text-gray-500 mb-1.5">Comuna</label><select value={filters.comuna} onChange={e => updateFilter('comuna', e.target.value)} aria-label="Filtrar por comuna" className={selectClass}><option value="">Todas</option>{comunasByRegion.map(group => <optgroup key={group.region} label={group.region}>{group.comunas.map(c => <option key={c} value={c}>{c}</option>)}</optgroup>)}</select></div>
                 <div><label className="block text-xs text-gray-500 mb-1.5">Tipo</label><select value={filters.tipo} onChange={e => updateFilter('tipo', e.target.value)} aria-label="Filtrar por tipo de propiedad" className={selectClass}><option value="">Todos</option>{tiposPropiedad.map(t => <option key={t} value={t}>{t}</option>)}</select></div>
+                <div><label className="block text-xs text-gray-500 mb-1.5">Tipo de arriendo</label><select value={filters.tipoArriendo} onChange={e => updateFilter('tipoArriendo', e.target.value)} aria-label="Filtrar por tipo de arriendo" className={selectClass}><option value="">Todos</option>{tiposArriendo.map(t => <option key={t} value={t}>{t}</option>)}</select></div>
               </div>
 
               <div className="h-px bg-gray-100" />
@@ -550,6 +552,7 @@ export default function Search({ user }) {
               <div className="flex flex-wrap gap-2 mb-5">
                 {filters.comuna && <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-brand-50 border border-brand-200 rounded-lg text-xs text-brand-700 font-medium">{filters.comuna}<button onClick={() => updateFilter('comuna', '')} className="hover:text-brand-900">×</button></span>}
                 {filters.tipo && <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-brand-50 border border-brand-200 rounded-lg text-xs text-brand-700 font-medium">{filters.tipo}<button onClick={() => updateFilter('tipo', '')} className="hover:text-brand-900">×</button></span>}
+                {filters.tipoArriendo && <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-brand-50 border border-brand-200 rounded-lg text-xs text-brand-700 font-medium">{filters.tipoArriendo}<button onClick={() => updateFilter('tipoArriendo', '')} className="hover:text-brand-900">×</button></span>}
                 {filters.estacionamiento && <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-brand-50 border border-brand-200 rounded-lg text-xs text-brand-700 font-medium">Estacionamiento<button onClick={() => updateFilter('estacionamiento', false)} className="hover:text-brand-900">×</button></span>}
                 {filters.mascotas && <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-brand-50 border border-brand-200 rounded-lg text-xs text-brand-700 font-medium">Mascotas<button onClick={() => updateFilter('mascotas', false)} className="hover:text-brand-900">×</button></span>}
                 {filters.m2Min && <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-brand-50 border border-brand-200 rounded-lg text-xs text-brand-700 font-medium">Desde {filters.m2Min} m²<button onClick={() => updateFilter('m2Min', '')} className="hover:text-brand-900">×</button></span>}
@@ -601,14 +604,18 @@ export default function Search({ user }) {
                     )}
                   </div>
                   <button onClick={clearFilters} className="px-5 py-2.5 bg-brand-600 hover:bg-brand-700 text-white text-sm font-medium rounded-xl shadow-sm transition-colors">Limpiar todos los filtros</button>
-                  {filters.comuna && (
-                    <div className="mt-8 pt-6 border-t border-gray-100 dark:border-gray-700">
-                      <p className="text-xs text-gray-400 dark:text-gray-500 mb-2">¿Eres propietario?</p>
-                      <Link to="/publicar" className="text-sm text-brand-600 dark:text-brand-400 hover:text-brand-700 dark:hover:text-brand-300 font-medium hover:underline">
-                        Sé el primero en publicar en {filters.comuna}
+                  <div className="mt-6 pt-6 border-t border-gray-100 dark:border-gray-700">
+                    <p className="text-sm text-gray-500 dark:text-gray-400 mb-3">¿Eres propietario?</p>
+                    {filters.comuna ? (
+                      <Link to="/publicar" className="inline-flex items-center gap-2 px-5 py-2.5 bg-brand-600 hover:bg-brand-700 text-white text-sm font-semibold rounded-xl transition-colors">
+                        Publicar en {filters.comuna} gratis
                       </Link>
-                    </div>
-                  )}
+                    ) : (
+                      <Link to="/publicar" className="inline-flex items-center gap-2 px-5 py-2.5 bg-brand-600 hover:bg-brand-700 text-white text-sm font-semibold rounded-xl transition-colors">
+                        Publicar propiedad gratis
+                      </Link>
+                    )}
+                  </div>
                 </div>
               ) : (
                 <Suspense fallback={
@@ -657,14 +664,18 @@ export default function Search({ user }) {
                 <button onClick={clearFilters} className="px-5 py-2.5 bg-brand-600 hover:bg-brand-700 text-white text-sm font-medium rounded-xl shadow-sm transition-colors">Limpiar todos los filtros</button>
 
                 {/* Owner CTA */}
-                {filters.comuna && (
-                  <div className="mt-8 pt-6 border-t border-gray-100 dark:border-gray-700">
-                    <p className="text-xs text-gray-400 dark:text-gray-500 mb-2">¿Eres propietario?</p>
-                    <Link to="/publicar" className="text-sm text-brand-600 dark:text-brand-400 hover:text-brand-700 dark:hover:text-brand-300 font-medium hover:underline">
-                      Sé el primero en publicar en {filters.comuna}
+                <div className="mt-6 pt-6 border-t border-gray-100 dark:border-gray-700">
+                  <p className="text-sm text-gray-500 dark:text-gray-400 mb-3">¿Eres propietario?</p>
+                  {filters.comuna ? (
+                    <Link to="/publicar" className="inline-flex items-center gap-2 px-5 py-2.5 bg-brand-600 hover:bg-brand-700 text-white text-sm font-semibold rounded-xl transition-colors">
+                      Publicar en {filters.comuna} gratis
                     </Link>
-                  </div>
-                )}
+                  ) : (
+                    <Link to="/publicar" className="inline-flex items-center gap-2 px-5 py-2.5 bg-brand-600 hover:bg-brand-700 text-white text-sm font-semibold rounded-xl transition-colors">
+                      Publicar propiedad gratis
+                    </Link>
+                  )}
+                </div>
               </div>
             ) : (
               <>

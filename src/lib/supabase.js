@@ -70,6 +70,7 @@ export async function getProperties({ page = 1, pageSize = 12, sortBy = 'destaca
     }
   }
   if (filters.tipo) query = query.eq('tipo', filters.tipo)
+  if (filters.tipoArriendo) query = query.eq('tipo_arriendo', filters.tipoArriendo)
   if (filters.precioMin) query = query.gte('precio', Number(filters.precioMin))
   if (filters.precioMax) query = query.lte('precio', Number(filters.precioMax))
   if (filters.habitaciones) query = query.gte('habitaciones', Number(filters.habitaciones))

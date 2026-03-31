@@ -138,6 +138,7 @@ export default function Pricing() {
                 <div className="mb-6">
                   <span className="font-display font-extrabold text-4xl text-gray-900 dark:text-gray-100">{plan.price}</span>
                   <span className="text-sm text-gray-400 ml-1">/{plan.priceDetail}</span>
+                  <p className="text-[10px] text-gray-400 mt-1">IVA incluido</p>
                 </div>
 
                 {plan.tiers && (

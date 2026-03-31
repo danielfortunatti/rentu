@@ -188,6 +188,7 @@ export default function Home({ user }) {
   const [showEstimator, setShowEstimator] = useState(false)
   const [loading, setLoading] = useState(true)
   const [activeCount, setActiveCount] = useState(null)
+  const [weekCount, setWeekCount] = useState(null)
   const [heroRef, heroMouse] = useMouseParallax()
 
   useEffect(() => {
@@ -210,6 +211,18 @@ export default function Home({ user }) {
       .eq('activa', true)
       .then(({ count }) => {
         if (typeof count === 'number') setActiveCount(count)
+      })
+
+    // Fetch properties published in the last 7 days
+    const weekAgo = new Date()
+    weekAgo.setDate(weekAgo.getDate() - 7)
+    supabase
+      .from('properties')
+      .select('*', { count: 'exact', head: true })
+      .gte('created_at', weekAgo.toISOString())
+      .eq('activa', true)
+      .then(({ count }) => {
+        if (typeof count === 'number') setWeekCount(count)
       })
   }, [])
 
@@ -362,7 +375,7 @@ export default function Home({ user }) {
               { value: activeCount !== null ? `${activeCount}+` : '$0', label: activeCount !== null ? 'Propiedades activas' : 'Costo por publicar' },
               { value: '0%', label: 'Comisión' },
               { value: 'Directo', label: 'Contacto por WhatsApp' },
-              { value: 'PDF', label: 'Modelo de contrato gratis' },
+              { value: weekCount !== null ? `${weekCount}` : 'PDF', label: weekCount !== null ? 'Nuevas esta semana' : 'Modelo de contrato gratis' },
             ].map((s, i) => (
               <ScrollReveal key={s.label} delay={i * 100} direction="up">
                 <div className="text-center group cursor-default">
