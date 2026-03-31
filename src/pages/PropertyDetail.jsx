@@ -157,8 +157,12 @@ export default function PropertyDetail({ user, onContractClick }) {
   // Track property view and fetch view count
   useEffect(() => {
     if (!property) return
-    // Fire and forget: insert view row
-    supabase.from('property_views').insert({ property_id: property.id }).then(() => {})
+    // Fire and forget: insert view row (once per session per property)
+    const viewKey = `rentu_viewed_${property.id}`
+    if (!sessionStorage.getItem(viewKey)) {
+      sessionStorage.setItem(viewKey, '1')
+      supabase.from('property_views').insert({ property_id: property.id }).then(() => {})
+    }
     // Get total view count
     supabase
       .from('property_views')
@@ -617,7 +621,7 @@ export default function PropertyDetail({ user, onContractClick }) {
               </div>
 
               {/* Compartir */}
-              <div className="bg-white border border-gray-100 rounded-xl p-4 shadow-sm">
+              <div className="bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-xl p-4 shadow-sm">
                 <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">Compartir</p>
                 <div className="flex gap-2">
                   <a href={`https://wa.me/?text=${encodeURIComponent(`Mira este arriendo: ${property.titulo} en ${property.comuna} por ${formatPrice(property.precio)}/mes - https://rentu-cl.vercel.app/propiedad/${property.id}`)}`} target="_blank" rel="noopener noreferrer" className="flex-1 flex items-center justify-center gap-1.5 py-2 bg-green-50 hover:bg-green-100 text-green-700 rounded-lg text-xs font-medium transition-colors">

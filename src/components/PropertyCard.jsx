@@ -1,10 +1,7 @@
-import { useState, useRef, useCallback, useEffect } from 'react'
+import { useState, useRef, useCallback } from 'react'
 import { Link } from 'react-router-dom'
 import { formatPrice } from '../data/properties'
 import { formatUf } from '../utils/ufConverter'
-import { getUserRating, getVerification } from '../lib/supabase'
-import StarRating from './StarRating'
-import VerificationBadge from './VerificationBadge'
 
 export default function PropertyCard({ property }) {
   const { id, titulo, tipo, precio, comuna, m2, habitaciones, banos, fotos, destacada, estacionamiento, mascotas, amoblado, gastoComun, user_id, created_at, fechaPublicacion, precio_anterior, disponible_desde } = property
@@ -12,22 +9,7 @@ export default function PropertyCard({ property }) {
   const [hovered, setHovered] = useState(false)
   const [tilt, setTilt] = useState({ x: 0, y: 0 })
   const [mousePos, setMousePos] = useState({ x: 50, y: 50 })
-  const [ownerRating, setOwnerRating] = useState(null)
-  const [ownerVerification, setOwnerVerification] = useState(null)
   const cardRef = useRef(null)
-
-  useEffect(() => {
-    if (user_id) {
-      getUserRating(user_id).then((r) => {
-        if (r.count > 0) setOwnerRating(r)
-      })
-      getVerification(user_id).then(({ data }) => {
-        if (data && (data.estado === 'verificado_basico' || data.estado === 'verificado_completo')) {
-          setOwnerVerification(data.estado)
-        }
-      })
-    }
-  }, [user_id])
 
   const handleMove = useCallback((e) => {
     const rect = cardRef.current?.getBoundingClientRect()
@@ -76,9 +58,11 @@ export default function PropertyCard({ property }) {
       <div className="relative overflow-hidden aspect-[4/3]">
         {fotos && fotos.length > 0 ? (
           <>
-            <div className={`absolute inset-0 bg-gray-100 dark:bg-gray-700 ${imgLoaded ? 'opacity-0' : 'opacity-100'} transition-opacity duration-300`}>
-              <div className="w-full h-full animate-shimmer" />
-            </div>
+            {!imgLoaded && (
+              <div className="absolute inset-0 bg-gray-100 dark:bg-gray-700">
+                <div className="w-full h-full animate-shimmer" />
+              </div>
+            )}
             <img
               src={fotos[0]}
               alt={titulo}
@@ -156,18 +140,6 @@ export default function PropertyCard({ property }) {
           <svg className="w-3.5 h-3.5 text-brand-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path strokeLinecap="round" strokeLinejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
           <span className="text-xs text-gray-500 dark:text-gray-400">{comuna}</span>
         </div>
-
-        {(ownerRating || ownerVerification) && (
-          <div className="flex items-center gap-2 mb-2 flex-wrap">
-            {ownerRating && (
-              <div className="flex items-center gap-1.5">
-                <StarRating rating={ownerRating.avg} size="sm" />
-                <span className="text-[11px] text-gray-400">{ownerRating.avg} ({ownerRating.count})</span>
-              </div>
-            )}
-            {ownerVerification && <VerificationBadge estado={ownerVerification} size="sm" />}
-          </div>
-        )}
 
         <div className="flex items-center gap-3 text-xs text-gray-500 dark:text-gray-400 mb-3">
           <span className="flex items-center gap-1">

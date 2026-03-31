@@ -89,7 +89,7 @@ export default function MoveChecklist() {
         <p className="text-gray-500 text-sm mb-6">Guía paso a paso para tu arriendo nuevo. Tu progreso se guarda automáticamente.</p>
 
         {/* Barra de progreso */}
-        <div className="bg-white border border-gray-100 rounded-2xl p-5 shadow-sm mb-8">
+        <div className="bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-2xl p-5 shadow-sm mb-8">
           <div className="flex items-center justify-between mb-2">
             <span className="text-sm font-semibold text-gray-700">{totalDone} de {items.length} completados</span>
             <span className="text-sm font-bold text-brand-600">{progress}%</span>

@@ -46,7 +46,7 @@ export default async function handler(req, res) {
         .select()
         .single()
 
-      if (payment && payment.tipo === 'destacar') {
+      if (payment && payment.tipo?.startsWith('destacar')) {
         await supabase
           .from('properties')
           .update({ destacada: true })

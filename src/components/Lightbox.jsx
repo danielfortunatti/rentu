@@ -108,7 +108,7 @@ export default function Lightbox({ photos, initialIndex = 0, onClose }) {
               onClick={(e) => { e.stopPropagation(); setCurrent(i); setZoom(false) }}
               className={`flex-shrink-0 w-12 h-12 rounded-lg overflow-hidden border-2 transition-all ${current === i ? 'border-white opacity-100 scale-110' : 'border-transparent opacity-50 hover:opacity-80'}`}
             >
-              <img src={photo} alt={`Miniatura ${i + 1}`} className="w-full h-full object-cover" />
+              <img src={photo} alt={`Miniatura ${i + 1}`} className="w-full h-full object-cover" loading="lazy" />
             </button>
           ))}
         </div>

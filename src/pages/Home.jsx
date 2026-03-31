@@ -1,14 +1,14 @@
-import { useState, useEffect, useRef, useCallback } from 'react'
+import React, { useState, useEffect, useRef, useCallback, lazy, Suspense } from 'react'
 import { Helmet } from 'react-helmet-async'
 import { useNavigate, Link } from 'react-router-dom'
 import PropertyCard from '../components/PropertyCard'
 import { ScrollReveal, useCountUp } from '../hooks/useScrollReveal'
 import { useMouseParallax, FloatingOrbs, InteractiveGrid } from '../hooks/useInteractive'
 import Mascot from '../components/Mascot'
-import RentCalculator from '../components/RentCalculator'
-import NewsletterSignup from '../components/NewsletterSignup'
-import PriceEstimator from '../components/PriceEstimator'
-import Recommendations from '../components/Recommendations'
+const RentCalculator = lazy(() => import('../components/RentCalculator'))
+const NewsletterSignup = lazy(() => import('../components/NewsletterSignup'))
+const PriceEstimator = lazy(() => import('../components/PriceEstimator'))
+const Recommendations = lazy(() => import('../components/Recommendations'))
 import { getFeaturedProperties, supabase } from '../lib/supabase'
 import { comunas, comunasByRegion, tiposPropiedad } from '../data/comunas'
 import RecentlyViewed from '../components/RecentlyViewed'
@@ -45,7 +45,7 @@ const steps = [
 ]
 
 /* ─── ABSTRACT COMUNA CARD ─── */
-function ComunaCard({ comuna }) {
+const ComunaCard = React.memo(function ComunaCard({ comuna }) {
   const [hovered, setHovered] = useState(false)
   const cardRef = useRef(null)
   const [mouse, setMouse] = useState({ x: 50, y: 50 })
@@ -124,10 +124,10 @@ function ComunaCard({ comuna }) {
       </div>
     </Link>
   )
-}
+})
 
 /* ─── STEP CARD 3D ─── */
-function StepCard({ item, index }) {
+const StepCard = React.memo(function StepCard({ item, index }) {
   const ref = useRef(null)
   const [tilt, setTilt] = useState({ x: 0, y: 0 })
   const [hovered, setHovered] = useState(false)
@@ -170,7 +170,7 @@ function StepCard({ item, index }) {
       </div>
     </ScrollReveal>
   )
-}
+})
 
 /* ─── ANIMATED COUNTER ─── */
 function AnimatedCounter({ end, suffix = '', prefix = '' }) {
@@ -485,7 +485,9 @@ export default function Home({ user }) {
           </ScrollReveal>
 
           <ScrollReveal direction="up" delay={100}>
-            <RentCalculator />
+            <Suspense fallback={null}>
+              <RentCalculator />
+            </Suspense>
           </ScrollReveal>
         </div>
       </section>
@@ -651,7 +653,9 @@ export default function Home({ user }) {
       </section>
 
       {/* ══════════ RECOMMENDATIONS ══════════ */}
-      <Recommendations user={user} />
+      <Suspense fallback={null}>
+        <Recommendations user={user} />
+      </Suspense>
 
       {/* ══════════ MASCOT VIDEO CTA ══════════ */}
       <section className="py-16 sm:py-20 bg-warm-50 dark:bg-gray-900 overflow-hidden">
@@ -696,10 +700,16 @@ export default function Home({ user }) {
       </section>
 
       {/* ══════════ NEWSLETTER ══════════ */}
-      <NewsletterSignup />
+      <Suspense fallback={null}>
+        <NewsletterSignup />
+      </Suspense>
 
       {/* ══════════ PRICE ESTIMATOR MODAL ══════════ */}
-      {showEstimator && <PriceEstimator onClose={() => setShowEstimator(false)} />}
+      {showEstimator && (
+        <Suspense fallback={null}>
+          <PriceEstimator onClose={() => setShowEstimator(false)} />
+        </Suspense>
+      )}
 
       <Onboarding />
     </div>

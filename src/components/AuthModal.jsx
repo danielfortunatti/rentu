@@ -160,7 +160,7 @@ export default function AuthModal({ isOpen, onClose, onAuth }) {
                 <label className="flex items-start gap-2.5 cursor-pointer">
                   <input type="checkbox" checked={acceptTerms} onChange={e => setAcceptTerms(e.target.checked)} className="w-4 h-4 mt-0.5 rounded border-gray-300 text-brand-600 focus:ring-brand-500" />
                   <span className="text-xs text-gray-500 leading-relaxed">
-                    Acepto los <a href="/terminos" target="_blank" className="text-brand-600 hover:underline">Términos y Condiciones</a> y la <a href="/privacidad" target="_blank" className="text-brand-600 hover:underline">Política de Privacidad</a> de Rentu.
+                    Acepto los <a href="/terminos" target="_blank" rel="noopener noreferrer" className="text-brand-600 hover:underline">Términos y Condiciones</a> y la <a href="/privacidad" target="_blank" rel="noopener noreferrer" className="text-brand-600 hover:underline">Política de Privacidad</a> de Rentu.
                   </span>
                 </label>
               )}

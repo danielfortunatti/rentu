@@ -70,7 +70,7 @@ export default function ReviewSection({ userId, propertyId, currentUser }) {
   }
 
   return (
-    <div className="bg-white border border-gray-100 rounded-2xl p-6 shadow-sm">
+    <div className="bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-2xl p-6 shadow-sm">
       <h3 className="font-display font-semibold text-gray-800 text-lg mb-1">Valoraciones del arrendador</h3>
 
       {/* Average rating summary */}
