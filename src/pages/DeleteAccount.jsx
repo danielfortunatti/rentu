@@ -42,30 +42,30 @@ export default function DeleteAccount({ user }) {
 
   if (deleted) {
     return (
-      <div className="min-h-screen bg-warm-50 pt-20 flex items-center justify-center">
-        <div className="text-center bg-white rounded-2xl p-10 shadow-sm border border-gray-100 max-w-md mx-4">
-          <div className="w-16 h-16 bg-green-50 rounded-2xl flex items-center justify-center mx-auto mb-4">
+      <div className="min-h-screen bg-warm-50 dark:bg-gray-900 pt-20 flex items-center justify-center">
+        <div className="text-center bg-white dark:bg-gray-800 rounded-2xl p-10 shadow-sm border border-gray-100 dark:border-gray-700 max-w-md mx-4">
+          <div className="w-16 h-16 bg-green-50 dark:bg-green-900/20 rounded-2xl flex items-center justify-center mx-auto mb-4">
             <svg className="w-8 h-8 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
             </svg>
           </div>
-          <h2 className="font-display font-bold text-2xl text-gray-800 mb-2">Cuenta eliminada</h2>
-          <p className="text-gray-500 text-sm">Tu cuenta ha sido eliminada exitosamente. Serás redirigido al inicio en unos segundos.</p>
+          <h2 className="font-display font-bold text-2xl text-gray-800 dark:text-gray-100 mb-2">Cuenta eliminada</h2>
+          <p className="text-gray-500 dark:text-gray-400 text-sm">Tu cuenta ha sido eliminada exitosamente. Serás redirigido al inicio en unos segundos.</p>
         </div>
       </div>
     )
   }
 
   return (
-    <div className="min-h-screen bg-warm-50 pt-20">
+    <div className="min-h-screen bg-warm-50 dark:bg-gray-900 pt-20">
       <Helmet>
         <title>Eliminar cuenta | Rentu</title>
       </Helmet>
       <div className="max-w-lg mx-auto px-4 sm:px-6 py-8">
-        <h1 className="font-display font-bold text-2xl sm:text-3xl text-gray-900 mb-2">Eliminar cuenta</h1>
-        <p className="text-gray-500 text-sm mb-8">Esta acción es permanente y no se puede deshacer.</p>
+        <h1 className="font-display font-bold text-2xl sm:text-3xl text-gray-900 dark:text-gray-100 mb-2">Eliminar cuenta</h1>
+        <p className="text-gray-500 dark:text-gray-400 text-sm mb-8">Esta accion es permanente y no se puede deshacer.</p>
 
-        <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+        <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700 shadow-sm overflow-hidden">
           {/* Warning */}
           <div className="bg-red-50 border-b border-red-100 px-6 py-5">
             <div className="flex gap-3">
@@ -106,7 +106,7 @@ export default function DeleteAccount({ user }) {
           {/* Confirmation */}
           <div className="px-6 py-6 space-y-5">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 Escribe <span className="font-bold text-red-600">ELIMINAR</span> para confirmar
               </label>
               <input
@@ -114,7 +114,7 @@ export default function DeleteAccount({ user }) {
                 value={confirmText}
                 onChange={e => setConfirmText(e.target.value)}
                 placeholder="ELIMINAR"
-                className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-red-500 focus:ring-2 focus:ring-red-500/10"
+                className="w-full border border-gray-200 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-red-500 focus:ring-2 focus:ring-red-500/10"
                 autoComplete="off"
               />
             </div>

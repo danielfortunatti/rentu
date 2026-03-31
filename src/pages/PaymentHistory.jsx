@@ -65,7 +65,7 @@ export default function PaymentHistory({ user }) {
         ) : (
           <div className="space-y-3">
             {/* Desktop table header */}
-            <div className="hidden sm:grid grid-cols-12 gap-4 px-5 py-3 text-xs font-bold text-gray-400 uppercase tracking-widest">
+            <div className="hidden sm:grid grid-cols-12 gap-4 px-5 py-3 text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest">
               <div className="col-span-2">Fecha</div>
               <div className="col-span-4">Propiedad</div>
               <div className="col-span-2">Tipo</div>
@@ -76,16 +76,16 @@ export default function PaymentHistory({ user }) {
             {payments.map(payment => {
               const status = statusConfig[payment.estado] || statusConfig.pendiente
               return (
-                <div key={payment.id} className="bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow">
+                <div key={payment.id} className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700 shadow-sm hover:shadow-md transition-shadow">
                   {/* Desktop row */}
                   <div className="hidden sm:grid grid-cols-12 gap-4 items-center px-5 py-4">
-                    <div className="col-span-2 text-sm text-gray-600">{formatDate(payment.created_at)}</div>
+                    <div className="col-span-2 text-sm text-gray-600 dark:text-gray-400">{formatDate(payment.created_at)}</div>
                     <div className="col-span-4">
-                      <p className="text-sm font-medium text-gray-800 truncate">{payment.properties?.titulo || 'Propiedad eliminada'}</p>
-                      <p className="text-xs text-gray-400">{payment.properties?.comuna || ''}</p>
+                      <p className="text-sm font-medium text-gray-800 dark:text-gray-200 truncate">{payment.properties?.titulo || 'Propiedad eliminada'}</p>
+                      <p className="text-xs text-gray-400 dark:text-gray-500">{payment.properties?.comuna || ''}</p>
                     </div>
-                    <div className="col-span-2 text-sm text-gray-600">{tipoLabels[payment.tipo] || payment.tipo}</div>
-                    <div className="col-span-2 text-sm font-semibold text-gray-800 text-right">{formatMoney(payment.monto)}</div>
+                    <div className="col-span-2 text-sm text-gray-600 dark:text-gray-400">{tipoLabels[payment.tipo] || payment.tipo}</div>
+                    <div className="col-span-2 text-sm font-semibold text-gray-800 dark:text-gray-200 text-right">{formatMoney(payment.monto)}</div>
                     <div className="col-span-2 flex justify-center">
                       <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium border ${status.bg} ${status.text} ${status.border}`}>
                         <span className={`w-1.5 h-1.5 rounded-full ${status.dot}`} />
@@ -98,8 +98,8 @@ export default function PaymentHistory({ user }) {
                   <div className="sm:hidden p-4 space-y-3">
                     <div className="flex items-start justify-between">
                       <div>
-                        <p className="text-sm font-medium text-gray-800">{payment.properties?.titulo || 'Propiedad eliminada'}</p>
-                        <p className="text-xs text-gray-400">{payment.properties?.comuna || ''}</p>
+                        <p className="text-sm font-medium text-gray-800 dark:text-gray-200">{payment.properties?.titulo || 'Propiedad eliminada'}</p>
+                        <p className="text-xs text-gray-400 dark:text-gray-500">{payment.properties?.comuna || ''}</p>
                       </div>
                       <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium border ${status.bg} ${status.text} ${status.border}`}>
                         <span className={`w-1.5 h-1.5 rounded-full ${status.dot}`} />
@@ -107,8 +107,8 @@ export default function PaymentHistory({ user }) {
                       </span>
                     </div>
                     <div className="flex items-center justify-between text-sm">
-                      <span className="text-gray-500">{formatDate(payment.created_at)} &middot; {tipoLabels[payment.tipo] || payment.tipo}</span>
-                      <span className="font-semibold text-gray-800">{formatMoney(payment.monto)}</span>
+                      <span className="text-gray-500 dark:text-gray-400">{formatDate(payment.created_at)} &middot; {tipoLabels[payment.tipo] || payment.tipo}</span>
+                      <span className="font-semibold text-gray-800 dark:text-gray-200">{formatMoney(payment.monto)}</span>
                     </div>
                   </div>
                 </div>
