@@ -366,6 +366,24 @@ export default function Search({ user }) {
           </aside>
 
           <div className="flex-1">
+            {/* Quick date filters */}
+            <div className="flex flex-wrap gap-2 mb-4">
+              {[
+                { value: '', label: 'Todas las fechas' },
+                { value: '1', label: 'Últimas 24h' },
+                { value: '7', label: 'Última semana' },
+                { value: '30', label: 'Último mes' },
+              ].map(opt => (
+                <button
+                  key={opt.value}
+                  onClick={() => updateFilter('publicadoEn', opt.value)}
+                  className={`px-3 py-1.5 rounded-lg text-xs font-medium border transition-all ${filters.publicadoEn === opt.value ? 'bg-brand-50 dark:bg-brand-900/30 border-brand-200 dark:border-brand-700 text-brand-700 dark:text-brand-400' : 'bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-gray-500 dark:text-gray-400 hover:border-gray-300 dark:hover:border-gray-600'}`}
+                >
+                  {opt.label}
+                </button>
+              ))}
+            </div>
+
             {/* Saved searches bar */}
             {user && (
               <div className="flex flex-wrap items-center gap-2 mb-4">

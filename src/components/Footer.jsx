@@ -95,15 +95,6 @@ export default function Footer() {
               <p className="text-xs text-gray-600 leading-relaxed">Santiago, Región Metropolitana, Chile</p>
             </div>
 
-            {/* Newsletter teaser */}
-            <div className="mt-8 p-4 rounded-xl bg-white/5 border border-white/5">
-              <p className="text-xs text-gray-400 font-medium mb-1">Publica tu primera propiedad</p>
-              <p className="text-[11px] text-gray-600 mb-3">Es gratis y toma menos de 5 minutos</p>
-              <Link to="/publicar" className="inline-flex items-center gap-1.5 text-xs font-semibold text-brand-400 hover:text-brand-300 transition-colors">
-                Comenzar ahora
-                <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
-              </Link>
-            </div>
           </div>
         </div>
 

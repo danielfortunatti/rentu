@@ -284,13 +284,13 @@ export default function Home({ user }) {
 
             {/* Heading */}
             <h1 className="font-display font-extrabold text-4xl sm:text-5xl lg:text-[3.5rem] text-white leading-[1.06] mb-6 hero-text-reveal" style={{ animationDelay: '0.25s' }}>
-              Encuentra tu arriendo ideal,{' '}
-              <span className="text-gradient-animated">sin pagar comisiones</span>
+              Encuentra y publica tu arriendo ideal,{' '}
+              <span className="text-gradient-animated">sin intermediarios</span>
             </h1>
 
             {/* Sub */}
             <p className="text-gray-400 text-lg leading-relaxed max-w-xl mb-10 hero-text-reveal" style={{ animationDelay: '0.4s' }}>
-              Conectamos arrendadores y arrendatarios directamente. Publica gratis, contacta por WhatsApp y genera tu contrato al instante.
+              Genera tu contrato de referencia al instante. Publica gratis, contacta por WhatsApp y arrienda directo con el dueño.
             </p>
 
             {/* 3D Search Box */}
@@ -443,7 +443,7 @@ export default function Home({ user }) {
             <div className="text-center mb-16">
               <p className="text-brand-600 text-xs font-semibold tracking-widest uppercase mb-2">Proceso</p>
               <h2 className="font-display font-bold text-2xl sm:text-3xl text-gray-900 dark:text-gray-100">Así de simple</h2>
-              <p className="text-gray-400 text-sm mt-2 max-w-md mx-auto">Publicar o encontrar un arriendo toma minutos, no días</p>
+              <p className="text-gray-400 text-sm mt-2 max-w-md mx-auto">Publicar o encontrar un arriendo toma minutos</p>
             </div>
           </ScrollReveal>
 

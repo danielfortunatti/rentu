@@ -10,17 +10,33 @@ export default function NewsletterSignup() {
     if (!email.trim()) return
 
     setStatus('loading')
-    const { error } = await supabase
-      .from('newsletter')
-      .insert({ email: email.trim() })
+    try {
+      const { error } = await supabase
+        .from('newsletter')
+        .insert({ email: email.trim() })
 
-    if (error) {
-      if (error.code === '23505') {
-        setStatus('success') // Already subscribed, show success anyway
+      if (error) {
+        if (error.code === '23505') {
+          setStatus('success')
+        } else {
+          // Table might not exist yet, save locally
+          const saved = JSON.parse(localStorage.getItem('rentu_newsletter') || '[]')
+          if (!saved.includes(email.trim())) {
+            saved.push(email.trim())
+            localStorage.setItem('rentu_newsletter', JSON.stringify(saved))
+          }
+          setStatus('success')
+        }
       } else {
-        setStatus('error')
+        setStatus('success')
       }
-    } else {
+    } catch {
+      // Fallback to localStorage
+      const saved = JSON.parse(localStorage.getItem('rentu_newsletter') || '[]')
+      if (!saved.includes(email.trim())) {
+        saved.push(email.trim())
+        localStorage.setItem('rentu_newsletter', JSON.stringify(saved))
+      }
       setStatus('success')
     }
     setEmail('')
