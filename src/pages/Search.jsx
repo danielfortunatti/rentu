@@ -43,7 +43,8 @@ export default function Search({ user }) {
     estacionamiento: searchParams.get('estacionamiento') === 'true', bodega: searchParams.get('bodega') === 'true', mascotas: searchParams.get('mascotas') === 'true', amoblado: searchParams.get('amoblado') || '',
     m2Min: searchParams.get('m2Min') || '', m2Max: searchParams.get('m2Max') || '', estado: searchParams.get('estado') || '', pisoMin: searchParams.get('pisoMin') || '', publicadoEn: searchParams.get('publicadoEn') || '',
     disponibleDesde: searchParams.get('disponibleDesde') || '',
-    amenities: [], cercanias: [],
+    amenities: searchParams.get('amenities') ? searchParams.get('amenities').split(',') : [],
+    cercanias: searchParams.get('cercanias') ? searchParams.get('cercanias').split(',') : [],
   })
   const [sortBy, setSortBy] = useState(searchParams.get('sort') || 'destacados')
   const [viewMode, setViewMode] = useState('list') // 'list', 'gallery', or 'map'
@@ -187,6 +188,8 @@ export default function Search({ user }) {
     if (filters.pisoMin) params.set('pisoMin', filters.pisoMin)
     if (filters.publicadoEn) params.set('publicadoEn', filters.publicadoEn)
     if (filters.disponibleDesde) params.set('disponibleDesde', filters.disponibleDesde)
+    if (filters.amenities.length > 0) params.set('amenities', filters.amenities.join(','))
+    if (filters.cercanias.length > 0) params.set('cercanias', filters.cercanias.join(','))
     if (search) params.set('q', search)
     if (sortBy !== 'destacados') params.set('sort', sortBy)
     setSearchParams(params, { replace: true })
@@ -246,7 +249,14 @@ export default function Search({ user }) {
     fetchProperties(1, cleared, sortBy, '')
   }
 
-  const totalPages = Math.ceil(totalCount / PAGE_SIZE)
+  const displayCount = filters.disponibleDesde ? (() => {
+    const filtered = properties.filter(p => {
+      if (!p.disponible_desde) return true
+      return p.disponible_desde.slice(0, 7) <= filters.disponibleDesde
+    })
+    return filtered.length
+  })() : totalCount
+  const totalPages = Math.ceil(displayCount / PAGE_SIZE)
 
   // Client-side filter for disponible_desde (may not exist in DB)
   const filteredProperties = filters.disponibleDesde
@@ -269,7 +279,7 @@ export default function Search({ user }) {
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
           <div>
             <h1 className="font-display font-bold text-2xl sm:text-3xl text-gray-800 dark:text-gray-100">Buscar arriendos</h1>
-            <p className="text-sm text-gray-500 mt-1">{loading ? 'Cargando...' : `${totalCount} propiedad${totalCount !== 1 ? 'es' : ''} encontrada${totalCount !== 1 ? 's' : ''}`}</p>
+            <p className="text-sm text-gray-500 mt-1">{loading ? 'Cargando...' : `${displayCount} propiedad${displayCount !== 1 ? 'es' : ''} encontrada${displayCount !== 1 ? 's' : ''}`}</p>
           </div>
           <div className="flex items-center gap-3">
             <button onClick={() => setShowFilters(!showFilters)} className="lg:hidden flex items-center gap-2 px-4 py-2 bg-white border border-gray-200 rounded-xl text-sm text-gray-600 hover:text-gray-800 shadow-sm relative">

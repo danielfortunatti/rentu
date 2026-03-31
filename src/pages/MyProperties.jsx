@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { Helmet } from 'react-helmet-async'
 import { Link } from 'react-router-dom'
 import { getMyProperties, deleteProperty, supabase } from '../lib/supabase'
@@ -34,6 +34,15 @@ export default function MyProperties({ user }) {
   const [perPropertyFavs, setPerPropertyFavs] = useState({})
   const [markingRented, setMarkingRented] = useState(null)
   const [rentedSuccess, setRentedSuccess] = useState(null)
+  const destacarRef = useRef(null)
+
+  useEffect(() => {
+    const handleClick = (e) => {
+      if (destacarRef.current && !destacarRef.current.contains(e.target)) setDestacarMenu(null)
+    }
+    document.addEventListener('mousedown', handleClick)
+    return () => document.removeEventListener('mousedown', handleClick)
+  }, [])
 
   const destacarOptions = [
     { type: 'destacar_7', label: '7 días', price: '$2.990' },
@@ -55,7 +64,7 @@ export default function MyProperties({ user }) {
         window.location.href = data.paymentUrl
       }
     } catch (err) {
-      // Payment creation failed silently
+      alert('Error al procesar el pago. Intenta de nuevo.')
     } finally {
       setHighlighting(null)
     }
@@ -329,7 +338,7 @@ export default function MyProperties({ user }) {
                           Destacada
                         </span>
                       ) : (
-                        <div className="relative">
+                        <div className="relative" ref={destacarRef}>
                           <button
                             onClick={() => setDestacarMenu(destacarMenu === p.id ? null : p.id)}
                             disabled={highlighting === p.id}

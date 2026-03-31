@@ -3,7 +3,7 @@ import { Helmet } from 'react-helmet-async'
 import { MapContainer, TileLayer, Marker, useMap, useMapEvents } from 'react-leaflet'
 import L from 'leaflet'
 import { comunas, comunasByRegion, tiposPropiedad, tiposArriendo, amenitiesEdificio, cercaniasOptions, estadoPropiedad, amobladoOptions } from '../data/comunas'
-import { createProperty, uploadPhoto } from '../lib/supabase'
+import { createProperty, uploadPhoto, supabase } from '../lib/supabase'
 import { compressImage } from '../utils/imageCompressor'
 import { getRecaptchaToken, verifyRecaptcha } from '../utils/recaptcha'
 import { geocodeAddress } from '../utils/geocode'
@@ -210,6 +210,16 @@ export default function PublishProperty({ user }) {
       const compressed = await compressImage(file)
       await uploadPhoto(compressed, property.id)
     }
+
+    // Upload video if provided
+    if (form.videoFile) {
+      const videoExt = form.videoFile.name.split('.').pop()
+      const videoName = `${property.id}/video_${Date.now()}.${videoExt}`
+      await supabase.storage.from('property-photos').upload(videoName, form.videoFile)
+      const { data: { publicUrl: videoUrl } } = supabase.storage.from('property-photos').getPublicUrl(videoName)
+      await supabase.from('properties').update({ video_url: videoUrl }).eq('id', property.id)
+    }
+
     photoPreviews.forEach(url => URL.revokeObjectURL(url))
     setLoading(false)
     setSubmitted(true)
@@ -241,7 +251,7 @@ export default function PublishProperty({ user }) {
           </div>
           <h2 className="font-display font-bold text-2xl text-gray-900 mb-3">Propiedad publicada!</h2>
           <p className="text-gray-500 text-sm mb-6">Tu propiedad ya está visible para miles de personas buscando arriendo en {form.comuna}.</p>
-          <button onClick={() => { setSubmitted(false); setStep(1); setForm({ titulo: '', tipo: '', comuna: '', direccion: '', precio: '', gastoComun: '', m2: '', habitaciones: '1', banos: '1', piso: '', estacionamiento: false, bodega: false, mascotas: false, amoblado: 'sin', estado: 'Buen estado', amenities: [], cercanias: [], descripcion: '', telefono: '', email: '', googleMapsLink: '', disponibleDesde: '' }); setPhotoFiles([]); setPhotoPreviews([]); setCoords(null) }} className="px-6 py-3 bg-brand-600 hover:bg-brand-700 text-white font-semibold rounded-xl">Publicar otra</button>
+          <button onClick={() => { setSubmitted(false); setStep(1); setForm({ titulo: '', tipo: '', tipoArriendo: '', comuna: '', direccion: '', precio: '', gastoComun: '', m2: '', habitaciones: '1', banos: '1', piso: '', estacionamiento: false, bodega: false, mascotas: false, amoblado: 'sin', estado: 'Buen estado', amenities: [], cercanias: [], descripcion: '', telefono: '', email: '', googleMapsLink: '', disponibleDesde: '' }); setPhotoFiles([]); setPhotoPreviews([]); setCoords(null) }} className="px-6 py-3 bg-brand-600 hover:bg-brand-700 text-white font-semibold rounded-xl">Publicar otra</button>
         </div>
       </div>
     )

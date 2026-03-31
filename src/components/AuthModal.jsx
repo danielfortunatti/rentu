@@ -11,6 +11,7 @@ export default function AuthModal({ isOpen, onClose, onAuth }) {
   const [acceptTerms, setAcceptTerms] = useState(false)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
+  const [successMsg, setSuccessMsg] = useState('')
   const [verificationSent, setVerificationSent] = useState(false)
   const [resending, setResending] = useState(false)
   const [resendSuccess, setResendSuccess] = useState(false)
@@ -21,6 +22,7 @@ export default function AuthModal({ isOpen, onClose, onAuth }) {
     e.preventDefault()
     setLoading(true)
     setError('')
+    setSuccessMsg('')
 
     if (mode === 'register' && !acceptTerms) {
       setError('Debes aceptar los Términos y la Política de Privacidad para registrarte.')
@@ -81,6 +83,7 @@ export default function AuthModal({ isOpen, onClose, onAuth }) {
     setVerificationSent(false)
     setMode('login')
     setError('')
+    setSuccessMsg('')
     setEmail('')
     setPassword('')
     setName('')
@@ -138,6 +141,7 @@ export default function AuthModal({ isOpen, onClose, onAuth }) {
               <p className="text-sm text-gray-500 mt-1">{mode === 'login' ? 'Ingresa a tu cuenta de Rentu' : 'Regístrate gratis en Rentu'}</p>
             </div>
 
+            {successMsg && <p className="text-sm text-green-600 bg-green-50 dark:bg-green-900/20 dark:text-green-400 border border-green-200 dark:border-green-800 rounded-xl px-4 py-3 mb-4">{successMsg}</p>}
             {error && <div className="bg-red-50 border border-red-200 rounded-xl p-3 mb-4 text-sm text-red-600">{error}</div>}
 
             <button onClick={handleGoogle} className="w-full flex items-center justify-center gap-3 px-4 py-3 bg-white border border-gray-200 hover:bg-gray-50 text-gray-700 font-medium text-sm rounded-xl transition-colors mb-4 shadow-sm">
@@ -171,7 +175,7 @@ export default function AuthModal({ isOpen, onClose, onAuth }) {
                   setLoading(true)
                   const { error } = await supabase.auth.resetPasswordForEmail(email, { redirectTo: window.location.origin })
                   if (error) setError(error.message)
-                  else setError('Te enviamos un email para restablecer tu contraseña. Revisa tu bandeja de entrada.')
+                  else setSuccessMsg('Te enviamos un email para restablecer tu contraseña. Revisa tu bandeja de entrada.')
                   setLoading(false)
                 }} className="text-brand-600 hover:text-brand-700 font-medium">Olvidé mi contraseña</button>
               </p>
@@ -179,7 +183,7 @@ export default function AuthModal({ isOpen, onClose, onAuth }) {
 
             <p className="text-center text-sm text-gray-500 mt-3">
               {mode === 'login' ? '¿No tienes cuenta?' : '¿Ya tienes cuenta?'}{' '}
-              <button onClick={() => { setMode(mode === 'login' ? 'register' : 'login'); setError(''); setAcceptTerms(false) }} className="text-brand-600 hover:text-brand-700 font-semibold">{mode === 'login' ? 'Regístrate' : 'Inicia sesión'}</button>
+              <button onClick={() => { setMode(mode === 'login' ? 'register' : 'login'); setError(''); setSuccessMsg(''); setAcceptTerms(false) }} className="text-brand-600 hover:text-brand-700 font-semibold">{mode === 'login' ? 'Regístrate' : 'Inicia sesión'}</button>
             </p>
           </>
         )}
