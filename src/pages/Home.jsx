@@ -621,8 +621,8 @@ export default function Home({ user }) {
               <div className="absolute inset-0 iso-grid opacity-20" />
               <div className="absolute inset-0 grain-overlay" />
 
-              <div className="relative z-10 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-10">
-                <div className="max-w-xl">
+              <div className="relative z-10 flex flex-col items-center text-center gap-6">
+                <div className="max-w-2xl">
                   <h2 className="font-display font-bold text-2xl sm:text-3xl lg:text-4xl text-white leading-snug mb-4">
                     Publica tu propiedad y llega a miles de personas
                   </h2>
@@ -630,7 +630,7 @@ export default function Home({ user }) {
                     Sin costo, sin comisiones. Los interesados te contactan directo por WhatsApp. Tú decides a quién arrendar.
                   </p>
                 </div>
-                <div className="flex flex-wrap gap-3 mt-6">
+                <div className="flex flex-wrap gap-3 justify-center">
                   <button
                     onClick={() => navigate('/publicar')}
                     className="inline-flex items-center gap-2.5 px-8 py-4 bg-white hover:bg-gray-50 text-gray-900 font-bold rounded-xl text-sm sm:text-base transition-all btn-shine group shadow-2xl shadow-black/20"
@@ -659,7 +659,7 @@ export default function Home({ user }) {
 
       {/* ══════════ MASCOT VIDEO CTA ══════════ */}
       <section className="py-16 sm:py-20 bg-warm-50 dark:bg-gray-900 overflow-hidden">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6">
           <ScrollReveal direction="up">
             <div className="relative bg-gray-950 rounded-3xl overflow-hidden border border-gray-800/50">
               <div className="absolute inset-0 mesh-gradient opacity-30" />
