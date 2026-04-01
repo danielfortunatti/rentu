@@ -491,7 +491,7 @@ export default function Home({ user }) {
       </section>
 
       {/* ══════════ POR QUE RENTU — SPOTLIGHT ══════════ */}
-      <section className="py-20 sm:py-24 bg-white dark:bg-gray-800/50 relative overflow-hidden">
+      <section className="py-20 sm:py-24 bg-gray-50 dark:bg-gray-800/30 relative overflow-hidden">
         <div className="absolute top-1/2 right-0 w-[500px] h-[500px] bg-brand-100/20 dark:bg-brand-900/10 rounded-full blur-[100px] translate-x-1/2 -translate-y-1/2" />
 
         <div className="relative max-w-6xl mx-auto px-4 sm:px-6">

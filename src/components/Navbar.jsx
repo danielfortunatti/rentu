@@ -187,23 +187,23 @@ export default function Navbar({ user, onAuthClick, onSignOut, isDark, toggleDar
             <Link to="/publicar" onClick={() => setMenuOpen(false)} className="block px-4 py-2.5 rounded-xl text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-gray-100 hover:bg-gray-50 dark:hover:bg-gray-800 text-sm font-medium">Publicar</Link>
             {user ? (
               <>
-                <div className="border-t border-gray-100 mt-2 pt-2">
-                  <p className="px-4 py-1 text-xs text-gray-400 uppercase tracking-wider">Mi cuenta</p>
+                <div className="border-t border-gray-100 dark:border-gray-800 mt-2 pt-2">
+                  <p className="px-4 py-1 text-xs text-gray-400 dark:text-gray-500 uppercase tracking-wider">Mi cuenta</p>
                 </div>
-                <Link to="/mis-propiedades" onClick={() => setMenuOpen(false)} className="block px-4 py-2.5 rounded-xl text-gray-600 hover:text-gray-800 hover:bg-gray-50 text-sm font-medium">Mis propiedades</Link>
+                <Link to="/mis-propiedades" onClick={() => setMenuOpen(false)} className="block px-4 py-2.5 rounded-xl text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-gray-100 hover:bg-gray-50 dark:hover:bg-gray-800 text-sm font-medium">Mis propiedades</Link>
 
-                <Link to="/favoritos" onClick={() => setMenuOpen(false)} className="block px-4 py-2.5 rounded-xl text-gray-600 hover:text-gray-800 hover:bg-gray-50 text-sm font-medium">Mis favoritos</Link>
-                <Link to="/perfil-arrendatario" onClick={() => setMenuOpen(false)} className="block px-4 py-2.5 rounded-xl text-gray-600 hover:text-gray-800 hover:bg-gray-50 text-sm font-medium">Mi perfil</Link>
-                <Link to="/verificacion" onClick={() => setMenuOpen(false)} className="block px-4 py-2.5 rounded-xl text-gray-600 hover:text-gray-800 hover:bg-gray-50 text-sm font-medium">Verificar mi identidad</Link>
-                <Link to="/checklist-mudanza" onClick={() => setMenuOpen(false)} className="block px-4 py-2.5 rounded-xl text-gray-600 hover:text-gray-800 hover:bg-gray-50 text-sm font-medium">Checklist mudanza</Link>
-                <Link to="/mis-pagos" onClick={() => setMenuOpen(false)} className="block px-4 py-2.5 rounded-xl text-gray-600 hover:text-gray-800 hover:bg-gray-50 text-sm font-medium">Mis pagos</Link>
+                <Link to="/favoritos" onClick={() => setMenuOpen(false)} className="block px-4 py-2.5 rounded-xl text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-gray-100 hover:bg-gray-50 dark:hover:bg-gray-800 text-sm font-medium">Mis favoritos</Link>
+                <Link to="/perfil-arrendatario" onClick={() => setMenuOpen(false)} className="block px-4 py-2.5 rounded-xl text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-gray-100 hover:bg-gray-50 dark:hover:bg-gray-800 text-sm font-medium">Mi perfil</Link>
+                <Link to="/verificacion" onClick={() => setMenuOpen(false)} className="block px-4 py-2.5 rounded-xl text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-gray-100 hover:bg-gray-50 dark:hover:bg-gray-800 text-sm font-medium">Verificar mi identidad</Link>
+                <Link to="/checklist-mudanza" onClick={() => setMenuOpen(false)} className="block px-4 py-2.5 rounded-xl text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-gray-100 hover:bg-gray-50 dark:hover:bg-gray-800 text-sm font-medium">Checklist mudanza</Link>
+                <Link to="/mis-pagos" onClick={() => setMenuOpen(false)} className="block px-4 py-2.5 rounded-xl text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-gray-100 hover:bg-gray-50 dark:hover:bg-gray-800 text-sm font-medium">Mis pagos</Link>
                 {isAdmin(user) && (
-                  <Link to="/admin" onClick={() => setMenuOpen(false)} className="block px-4 py-2.5 rounded-xl text-brand-600 hover:text-brand-700 hover:bg-brand-50 text-sm font-semibold">Admin</Link>
+                  <Link to="/admin" onClick={() => setMenuOpen(false)} className="block px-4 py-2.5 rounded-xl text-brand-600 dark:text-brand-400 hover:text-brand-700 dark:hover:text-brand-300 hover:bg-brand-50 dark:hover:bg-brand-900/30 text-sm font-semibold">Admin</Link>
                 )}
-                <div className="border-t border-gray-100 mt-2 pt-2">
-                  <Link to="/eliminar-cuenta" onClick={() => setMenuOpen(false)} className="block px-4 py-2.5 rounded-xl text-red-400 hover:text-red-600 hover:bg-red-50 text-sm font-medium">Eliminar cuenta</Link>
+                <div className="border-t border-gray-100 dark:border-gray-800 mt-2 pt-2">
+                  <Link to="/eliminar-cuenta" onClick={() => setMenuOpen(false)} className="block px-4 py-2.5 rounded-xl text-red-400 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/30 text-sm font-medium">Eliminar cuenta</Link>
                 </div>
-                <button onClick={() => { onSignOut(); setMenuOpen(false) }} className="w-full mt-2 px-4 py-2.5 bg-red-50 text-red-600 text-sm font-semibold rounded-xl">Cerrar sesión</button>
+                <button onClick={() => { onSignOut(); setMenuOpen(false) }} className="w-full mt-2 px-4 py-2.5 bg-red-50 dark:bg-red-900/30 text-red-600 dark:text-red-400 text-sm font-semibold rounded-xl">Cerrar sesión</button>
               </>
             ) : (
               <button onClick={() => { onAuthClick(); setMenuOpen(false) }} className="w-full mt-2 px-4 py-2.5 bg-brand-600 text-white text-sm font-semibold rounded-xl">Iniciar sesión</button>

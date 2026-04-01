@@ -139,30 +139,40 @@ export default function MyProperties({ user }) {
 
   const handleMarkRented = async (id) => {
     setMarkingRented(id)
-    const { error } = await supabase
-      .from('properties')
-      .update({ activa: false, estado_arriendo: 'arrendada' })
-      .eq('id', id)
-    if (!error) {
-      setProperties(prev => prev.map(p => p.id === id ? { ...p, activa: false, estado_arriendo: 'arrendada' } : p))
-      setRentedSuccess(id)
-      setTimeout(() => setRentedSuccess(null), 3000)
+    try {
+      const { error } = await supabase
+        .from('properties')
+        .update({ activa: false, estado_arriendo: 'arrendada' })
+        .eq('id', id)
+      if (!error) {
+        setProperties(prev => prev.map(p => p.id === id ? { ...p, activa: false, estado_arriendo: 'arrendada' } : p))
+        setRentedSuccess(id)
+        setTimeout(() => setRentedSuccess(null), 3000)
+      }
+    } catch {
+      alert('Error al actualizar el estado. Intenta de nuevo.')
+    } finally {
+      setMarkingRented(null)
     }
-    setMarkingRented(null)
   }
 
   const handleReactivate = async (id) => {
     setMarkingRented(id)
-    const { error } = await supabase
-      .from('properties')
-      .update({ activa: true, estado_arriendo: null })
-      .eq('id', id)
-    if (!error) {
-      setProperties(prev => prev.map(p => p.id === id ? { ...p, activa: true, estado_arriendo: null } : p))
-      setRentedSuccess(id)
-      setTimeout(() => setRentedSuccess(null), 3000)
+    try {
+      const { error } = await supabase
+        .from('properties')
+        .update({ activa: true, estado_arriendo: null })
+        .eq('id', id)
+      if (!error) {
+        setProperties(prev => prev.map(p => p.id === id ? { ...p, activa: true, estado_arriendo: null } : p))
+        setRentedSuccess(id)
+        setTimeout(() => setRentedSuccess(null), 3000)
+      }
+    } catch {
+      alert('Error al reactivar la propiedad. Intenta de nuevo.')
+    } finally {
+      setMarkingRented(null)
     }
-    setMarkingRented(null)
   }
 
   const handleDelete = async (id) => {
