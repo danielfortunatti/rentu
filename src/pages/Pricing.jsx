@@ -108,7 +108,7 @@ export default function Pricing() {
       {/* Pricing cards */}
       <section className="pb-20 sm:pb-24">
         <div className="max-w-5xl mx-auto px-4 sm:px-6">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-4">
             {plans.map((plan) => (
               <div
                 key={plan.name}

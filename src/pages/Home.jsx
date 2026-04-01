@@ -348,8 +348,8 @@ export default function Home({ user }) {
             {/* Trust signals */}
             <div className="flex flex-wrap items-center gap-x-6 gap-y-2 mt-6 text-sm hero-text-reveal" style={{ animationDelay: '0.7s' }}>
               {['Publicar es gratis', 'Contacto directo', 'Contrato incluido'].map(text => (
-                <span key={text} className="flex items-center gap-1.5 text-gray-600">
-                  <svg className="w-4 h-4 text-brand-500 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
+                <span key={text} className="flex items-center gap-1.5 text-gray-300">
+                  <svg className="w-4 h-4 text-brand-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
                   {text}
                 </span>
               ))}

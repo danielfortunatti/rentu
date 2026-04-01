@@ -30,7 +30,7 @@ export default function FloatingWhatsApp() {
   }
 
   return (
-    <div className="fixed bottom-6 right-6 z-[60]">
+    <div className="fixed bottom-20 md:bottom-6 right-6 z-[60]">
       {/* Contact form */}
       {open && (
         <div className="absolute bottom-16 right-0 w-72 bg-white dark:bg-gray-800 rounded-2xl shadow-2xl border border-gray-200 dark:border-gray-700 overflow-hidden animate-fadeIn">

@@ -369,7 +369,7 @@ export default function Search({ user }) {
         </div>
 
         <div className="flex gap-8">
-          <aside aria-label="Filtros de búsqueda" className={`${showFilters ? 'fixed inset-0 z-50 bg-white dark:bg-gray-900 p-6 overflow-auto' : 'hidden'} lg:block lg:relative lg:bg-transparent lg:p-0 lg:w-72 lg:flex-shrink-0`}>
+          <aside aria-label="Filtros de búsqueda" className={`${showFilters ? 'fixed inset-x-0 top-0 bottom-14 md:bottom-0 z-50 bg-white dark:bg-gray-900 p-6 overflow-auto' : 'hidden'} lg:block lg:relative lg:bg-transparent lg:p-0 lg:w-72 lg:flex-shrink-0`}>
             <div className="lg:sticky lg:top-24 space-y-6 lg:bg-white dark:lg:bg-gray-800 lg:rounded-2xl lg:border lg:border-gray-100 dark:lg:border-gray-700 lg:p-5 lg:shadow-sm lg:max-h-[calc(100vh-120px)] lg:overflow-auto">
               <div className="flex items-center justify-between">
                 <h3 className="font-display font-bold text-lg text-gray-800 dark:text-gray-100 flex items-center gap-2">Filtros {activeFilterCount > 0 && <span className="text-xs bg-brand-100 text-brand-700 px-2 py-0.5 rounded-full font-semibold">{activeFilterCount}</span>}</h3>

@@ -740,7 +740,7 @@ export default function PropertyDetail({ user, onContractClick }) {
       />
 
       {/* Mobile fixed contact bar */}
-      <div className="lg:hidden fixed bottom-14 left-0 right-0 z-40 bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 px-4 py-3 flex items-center justify-between">
+      <div className="lg:hidden fixed left-0 right-0 z-40 bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 px-4 py-3 flex items-center justify-between" style={{ bottom: 'calc(3.5rem + env(safe-area-inset-bottom, 0px))' }}>
         <div>
           <span className="font-display font-bold text-lg text-gray-900 dark:text-gray-100">{formatPrice(property.precio)}</span>
           <span className="text-gray-400 text-xs">/mes</span>
