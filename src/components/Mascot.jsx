@@ -34,6 +34,9 @@ export default function Mascot({ mousePos = { x: 0, y: 0 } }) {
 
   return (
     <div
+      role="button"
+      aria-label="Mascota interactiva de Rentu"
+      tabIndex={0}
       className="hidden lg:block absolute right-12 top-1/2 cursor-pointer select-none"
       style={{
         transform: `translate(${mousePos.x * -12}px, ${mousePos.y * -12}px) translateY(-50%) ${clicked ? 'scale(0.9)' : 'scale(1)'}`,
@@ -42,6 +45,7 @@ export default function Mascot({ mousePos = { x: 0, y: 0 } }) {
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       onClick={handleClick}
+      onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handleClick() } }}
     >
       <div className="relative w-64 h-64 flex items-center justify-center">
 
@@ -196,11 +200,11 @@ export default function Mascot({ mousePos = { x: 0, y: 0 } }) {
 
         {/* Speech bubble on hover */}
         <div
-          className={`absolute -top-2 -right-2 bg-white rounded-2xl px-4 py-2 shadow-xl border border-gray-100 transition-all duration-300 ${hovered ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-2 scale-90'}`}
+          className={`absolute -top-2 -right-2 bg-white dark:bg-gray-800 rounded-2xl px-4 py-2 shadow-xl border border-gray-100 dark:border-gray-700 transition-all duration-300 ${hovered ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-2 scale-90'}`}
         >
-          <span className="text-sm font-display font-bold text-gray-800">Busca tu hogar</span>
+          <span className="text-sm font-display font-bold text-gray-800 dark:text-gray-100">Busca tu hogar</span>
           {/* Bubble tail */}
-          <div className="absolute -bottom-1.5 left-6 w-3 h-3 bg-white border-r border-b border-gray-100 rotate-45" />
+          <div className="absolute -bottom-1.5 left-6 w-3 h-3 bg-white dark:bg-gray-800 border-r border-b border-gray-100 dark:border-gray-700 rotate-45" />
         </div>
 
         {/* Floating particles around mascot */}

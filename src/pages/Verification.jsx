@@ -606,7 +606,7 @@ export default function Verification({ user }) {
 
       {/* Dicom Modal */}
       {dicomModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm" onClick={() => setDicomModalOpen(false)}>
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm" role="dialog" aria-modal="true" aria-label="Modal de verificación Dicom" onClick={() => setDicomModalOpen(false)}>
           <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700 shadow-2xl max-w-md w-full p-6" onClick={e => e.stopPropagation()}>
             <div className="flex items-center justify-between mb-4">
               <h3 className="font-display font-semibold text-lg text-gray-800 dark:text-gray-100">Verificación Completa Dicom</h3>

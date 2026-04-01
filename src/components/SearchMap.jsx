@@ -58,7 +58,7 @@ export default function SearchMap({ properties = [] }) {
 
   return (
     <div
-      className="rounded-2xl overflow-hidden border border-gray-200 dark:border-gray-700 shadow-sm"
+      className="relative rounded-2xl overflow-hidden border border-gray-200 dark:border-gray-700 shadow-sm"
       style={{ height: 'calc(100vh - 200px)', minHeight: '400px' }}
     >
       <MapContainer
