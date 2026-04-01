@@ -658,7 +658,7 @@ export default function Home({ user }) {
       </Suspense>
 
       {/* ══════════ MASCOT VIDEO CTA ══════════ */}
-      <section className="py-16 sm:py-20 bg-warm-50 dark:bg-gray-900 overflow-hidden">
+      <section className="py-20 sm:py-24 bg-warm-50 dark:bg-gray-900 overflow-hidden">
         <div className="max-w-5xl mx-auto px-4 sm:px-6">
           <ScrollReveal direction="up">
             <div className="relative bg-gray-950 rounded-3xl overflow-hidden border border-gray-800/50">
