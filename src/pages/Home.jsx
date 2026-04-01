@@ -282,8 +282,6 @@ export default function Home({ user }) {
         />
 
         {/* Grain */}
-        <div className="absolute inset-0 grain-overlay" />
-
         {/* Content */}
         <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 w-full py-20">
           <div className="max-w-2xl">
@@ -619,7 +617,6 @@ export default function Home({ user }) {
             <div className="relative bg-gray-950 rounded-[2rem] overflow-hidden px-8 sm:px-14 py-16 sm:py-20">
               <FloatingOrbs count={3} />
               <div className="absolute inset-0 iso-grid opacity-20" />
-              <div className="absolute inset-0 grain-overlay" />
 
               <div className="relative z-10 flex flex-col items-center text-center gap-6">
                 <div className="max-w-2xl">
