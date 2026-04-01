@@ -119,28 +119,32 @@ export default function Verification({ user }) {
 
   useEffect(() => {
     async function load() {
-      const { data } = await getVerification(user.id)
-      if (data) {
-        setForm({
-          nombre: data.nombre || '',
-          rut: data.rut || '',
-          situacion_laboral: data.situacion_laboral || '',
-          rango_ingreso: data.rango_ingreso || '',
-          empleador: data.empleador || '',
-          ref_arrendador_nombre: data.ref_arrendador_nombre || '',
-          ref_arrendador_telefono: data.ref_arrendador_telefono || '',
-          ref_personal_nombre: data.ref_personal_nombre || '',
-          ref_personal_telefono: data.ref_personal_telefono || '',
-          notas: data.notas || '',
-        })
-        setExistingUrls({
-          cedula_frente_url: data.cedula_frente_url,
-          cedula_dorso_url: data.cedula_dorso_url,
-          selfie_url: data.selfie_url,
-          liquidacion_url: data.liquidacion_url,
-        })
-        if (data.score != null) setExistingScore(data.score)
-        if (data.estado) setExistingEstado(data.estado)
+      try {
+        const { data } = await getVerification(user.id)
+        if (data) {
+          setForm({
+            nombre: data.nombre || '',
+            rut: data.rut || '',
+            situacion_laboral: data.situacion_laboral || '',
+            rango_ingreso: data.rango_ingreso || '',
+            empleador: data.empleador || '',
+            ref_arrendador_nombre: data.ref_arrendador_nombre || '',
+            ref_arrendador_telefono: data.ref_arrendador_telefono || '',
+            ref_personal_nombre: data.ref_personal_nombre || '',
+            ref_personal_telefono: data.ref_personal_telefono || '',
+            notas: data.notas || '',
+          })
+          setExistingUrls({
+            cedula_frente_url: data.cedula_frente_url,
+            cedula_dorso_url: data.cedula_dorso_url,
+            selfie_url: data.selfie_url,
+            liquidacion_url: data.liquidacion_url,
+          })
+          if (data.score != null) setExistingScore(data.score)
+          if (data.estado) setExistingEstado(data.estado)
+        }
+      } catch {
+        setError('Error al cargar la verificación. Intenta recargar la página.')
       }
       setLoading(false)
     }
@@ -214,7 +218,7 @@ export default function Verification({ user }) {
   if (loading) {
     return (
       <div className="min-h-screen bg-warm-50 dark:bg-gray-900 pt-20 flex items-center justify-center">
-        <div className="w-8 h-8 border-2 border-brand-500 border-t-transparent rounded-full animate-spin" />
+        <div className="w-8 h-8 border-2 border-brand-500 border-t-transparent rounded-full animate-spin" role="status" aria-label="Cargando verificación" />
       </div>
     )
   }

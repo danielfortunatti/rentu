@@ -26,8 +26,12 @@ export default function TenantProfile({ user }) {
 
   useEffect(() => {
     async function load() {
-      const { data } = await getTenantProfile(user.id)
-      if (data) setForm(data)
+      try {
+        const { data } = await getTenantProfile(user.id)
+        if (data) setForm(data)
+      } catch {
+        setError('Error al cargar el perfil. Intenta recargar la página.')
+      }
       setLoading(false)
     }
     load()
@@ -41,33 +45,42 @@ export default function TenantProfile({ user }) {
 
     setError('')
 
-    // reCAPTCHA v3
-    const token = await getRecaptchaToken('save_tenant_profile')
-    if (token) {
-      const verification = await verifyRecaptcha(token, 'save_tenant_profile')
-      if (!verification.success) {
+    try {
+      // reCAPTCHA v3
+      const token = await getRecaptchaToken('save_tenant_profile')
+      if (token) {
+        const verification = await verifyRecaptcha(token, 'save_tenant_profile')
+        if (!verification.success) {
+          setSaving(false)
+          setError('Verificación de seguridad fallida. Intenta de nuevo.')
+          return
+        }
+      }
+
+      const { error: saveError } = await upsertTenantProfile(user.id, form)
+      if (saveError) {
+        setError(saveError.message || 'Error al guardar el perfil.')
         setSaving(false)
-        setError('Verificación de seguridad fallida. Intenta de nuevo.')
         return
       }
+      setSuccess(true)
+      setTimeout(() => setSuccess(false), 3000)
+    } catch {
+      setError('Error inesperado. Intenta de nuevo.')
     }
-
-    await upsertTenantProfile(user.id, form)
     setSaving(false)
-    setSuccess(true)
-    setTimeout(() => setSuccess(false), 3000)
   }
 
-  const inputClass = "w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:border-brand-500 focus:ring-2 focus:ring-brand-500/10"
+  const inputClass = "w-full bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl px-4 py-3 text-sm text-gray-800 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:border-brand-500 focus:ring-2 focus:ring-brand-500/10"
 
-  if (loading) return <div className="min-h-screen bg-warm-50 dark:bg-gray-900 pt-20 flex items-center justify-center"><div className="w-8 h-8 border-2 border-brand-500 border-t-transparent rounded-full animate-spin" /></div>
+  if (loading) return <div className="min-h-screen bg-warm-50 dark:bg-gray-900 pt-20 flex items-center justify-center"><div className="w-8 h-8 border-2 border-brand-500 border-t-transparent rounded-full animate-spin" role="status" aria-label="Cargando perfil" /></div>
 
   return (
     <div className="min-h-screen bg-warm-50 dark:bg-gray-900 pt-20">
       <div className="max-w-xl mx-auto px-4 sm:px-6 py-8">
         <h1 className="font-display font-bold text-2xl text-gray-900 dark:text-gray-100 mb-2">Perfil de arrendatario</h1>
-        <p className="text-gray-500 text-sm mb-2">Completa tu perfil para postular a arriendos con 1 clic.</p>
-        <p className="text-xs text-brand-600 bg-brand-50 border border-brand-200 rounded-lg p-2 mb-4">Los arrendadores ven tu perfil cuando les envías una solicitud. Un perfil completo genera más confianza.</p>
+        <p className="text-gray-500 dark:text-gray-400 text-sm mb-2">Completa tu perfil para postular a arriendos con 1 clic.</p>
+        <p className="text-xs text-brand-600 dark:text-brand-400 bg-brand-50 dark:bg-brand-900/20 border border-brand-200 dark:border-brand-800 rounded-lg p-2 mb-4">Los arrendadores ven tu perfil cuando les envías una solicitud. Un perfil completo genera más confianza.</p>
 
         <Link to="/verificacion" className="block bg-white dark:bg-gray-800 border border-brand-200 dark:border-brand-800 rounded-2xl p-4 mb-8 hover:border-brand-400 dark:hover:border-brand-600 transition-colors group">
           <div className="flex items-center gap-3">
@@ -82,20 +95,20 @@ export default function TenantProfile({ user }) {
           </div>
         </Link>
 
-        {error && <div className="bg-red-50 border border-red-200 rounded-xl p-3 mb-6 text-sm text-red-600">{error}</div>}
-        {success && <div className="bg-green-50 border border-green-200 rounded-xl p-3 mb-6 text-sm text-green-600">Perfil guardado correctamente.</div>}
+        {error && <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-xl p-3 mb-6 text-sm text-red-600 dark:text-red-400" role="alert">{error}</div>}
+        {success && <div className="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-xl p-3 mb-6 text-sm text-green-600 dark:text-green-400" role="status">Perfil guardado correctamente.</div>}
 
         <form onSubmit={handleSubmit} className="space-y-5">
-          <div><label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Ocupación</label><input type="text" value={form.ocupacion} onChange={e => update('ocupacion', e.target.value)} placeholder="Ej: Ingeniero, Estudiante, Freelancer..." className={inputClass} /></div>
+          <div><label className="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">Ocupación</label><input type="text" value={form.ocupacion} onChange={e => update('ocupacion', e.target.value)} placeholder="Ej: Ingeniero, Estudiante, Freelancer..." className={inputClass} /></div>
 
-          <div><label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Rango de ingresos mensuales</label>
+          <div><label className="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">Rango de ingresos mensuales</label>
             <select value={form.ingresos_rango} onChange={e => update('ingresos_rango', e.target.value)} className={inputClass}>
               <option value="">Prefiero no decir</option>
               {rangosIngreso.map(r => <option key={r} value={r}>{r}</option>)}
             </select>
           </div>
 
-          <div><label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Personas en el hogar</label>
+          <div><label className="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">Personas en el hogar</label>
             <select value={form.personas_hogar} onChange={e => update('personas_hogar', Number(e.target.value))} className={inputClass}>
               {[1,2,3,4,5,6].map(n => <option key={n} value={n}>{n} persona{n > 1 ? 's' : ''}</option>)}
             </select>
@@ -104,21 +117,21 @@ export default function TenantProfile({ user }) {
           <div className="flex items-center gap-6">
             <label className="flex items-center gap-2 cursor-pointer">
               <input type="checkbox" checked={form.tiene_mascotas} onChange={e => update('tiene_mascotas', e.target.checked)} className="w-4 h-4 rounded border-gray-300 text-brand-600 focus:ring-brand-500" />
-              <span className="text-sm text-gray-600">Tengo mascotas</span>
+              <span className="text-sm text-gray-600 dark:text-gray-300">Tengo mascotas</span>
             </label>
             <label className="flex items-center gap-2 cursor-pointer">
               <input type="checkbox" checked={form.fumador} onChange={e => update('fumador', e.target.checked)} className="w-4 h-4 rounded border-gray-300 text-brand-600 focus:ring-brand-500" />
-              <span className="text-sm text-gray-600">Fumador</span>
+              <span className="text-sm text-gray-600 dark:text-gray-300">Fumador</span>
             </label>
           </div>
 
           {form.tiene_mascotas && (
-            <div><label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Tipo de mascota</label><input type="text" value={form.tipo_mascota} onChange={e => update('tipo_mascota', e.target.value)} placeholder="Ej: Perro chico, 2 gatos..." className={inputClass} /></div>
+            <div><label className="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">Tipo de mascota</label><input type="text" value={form.tipo_mascota} onChange={e => update('tipo_mascota', e.target.value)} placeholder="Ej: Perro chico, 2 gatos..." className={inputClass} /></div>
           )}
 
-          <div><label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Referencias</label><textarea rows={3} value={form.referencias} onChange={e => update('referencias', e.target.value)} placeholder="Ej: Nombre y teléfono de arrendador anterior, empleador, etc." className={`${inputClass} resize-none`} /></div>
+          <div><label className="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">Referencias</label><textarea rows={3} value={form.referencias} onChange={e => update('referencias', e.target.value)} placeholder="Ej: Nombre y teléfono de arrendador anterior, empleador, etc." className={`${inputClass} resize-none`} /></div>
 
-          <div><label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Sobre mí</label><textarea rows={3} value={form.descripcion} onChange={e => update('descripcion', e.target.value)} placeholder="Cuéntale al arrendador sobre ti: qué buscas, por qué te mudas, etc." className={`${inputClass} resize-none`} /></div>
+          <div><label className="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">Sobre mí</label><textarea rows={3} value={form.descripcion} onChange={e => update('descripcion', e.target.value)} placeholder="Cuéntale al arrendador sobre ti: qué buscas, por qué te mudas, etc." className={`${inputClass} resize-none`} /></div>
 
           <button type="submit" disabled={saving} className="w-full py-3 bg-brand-600 hover:bg-brand-700 disabled:opacity-50 text-white font-bold rounded-xl shadow-lg shadow-brand-500/25">
             {saving ? 'Guardando...' : 'Guardar perfil'}

@@ -178,11 +178,16 @@ export default function MyProperties({ user }) {
   const handleDelete = async (id) => {
     setDeleteTarget(null)
     setDeleting(id)
-    const { error } = await deleteProperty(id)
-    if (!error) {
-      setProperties(prev => prev.filter(p => p.id !== id))
+    try {
+      const { error } = await deleteProperty(id)
+      if (!error) {
+        setProperties(prev => prev.filter(p => p.id !== id))
+      }
+    } catch {
+      alert('Error al eliminar la propiedad. Intenta de nuevo.')
+    } finally {
+      setDeleting(null)
     }
-    setDeleting(null)
   }
 
   if (loading) return (

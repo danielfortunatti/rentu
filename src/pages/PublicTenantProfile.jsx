@@ -10,10 +10,14 @@ export default function PublicTenantProfile() {
 
   useEffect(() => {
     async function load() {
-      const { data } = await getTenantProfile(userId)
-      if (data) {
-        setProfile(data)
-      } else {
+      try {
+        const { data } = await getTenantProfile(userId)
+        if (data) {
+          setProfile(data)
+        } else {
+          setNotFound(true)
+        }
+      } catch {
         setNotFound(true)
       }
       setLoading(false)
@@ -24,7 +28,7 @@ export default function PublicTenantProfile() {
   if (loading) {
     return (
       <div className="min-h-screen bg-warm-50 dark:bg-gray-900 pt-20 flex items-center justify-center">
-        <div className="w-8 h-8 border-2 border-brand-500 border-t-transparent rounded-full animate-spin" />
+        <div className="w-8 h-8 border-2 border-brand-500 border-t-transparent rounded-full animate-spin" role="status" aria-label="Cargando perfil" />
       </div>
     )
   }

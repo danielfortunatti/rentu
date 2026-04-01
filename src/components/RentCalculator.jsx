@@ -11,6 +11,7 @@ const STEP = 50000
 export default function RentCalculator() {
   const navigate = useNavigate()
   const [monthlyIncome, setMonthlyIncome] = useState(800000)
+  const isDark = typeof document !== 'undefined' && document.documentElement.classList.contains('dark')
 
   const recommended = useMemo(() => Math.round(monthlyIncome * 0.3), [monthlyIncome])
   const comfortable = useMemo(() => Math.round(monthlyIncome * 0.25), [monthlyIncome])
@@ -74,7 +75,7 @@ export default function RentCalculator() {
               className="rent-calc-slider w-full h-2 rounded-full appearance-none cursor-pointer bg-gray-200 dark:bg-gray-600"
               aria-label="Desliza para ajustar tu ingreso mensual"
               style={{
-                background: `linear-gradient(to right, #049e8d ${percentage}%, #e5e7eb ${percentage}%)`,
+                background: `linear-gradient(to right, #049e8d ${percentage}%, ${isDark ? '#4b5563' : '#e5e7eb'} ${percentage}%)`,
               }}
             />
             <div className="flex justify-between mt-1.5 text-[11px] text-gray-400 dark:text-gray-500">
