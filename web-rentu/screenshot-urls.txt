@@ -1,0 +1,52 @@
+RENTU — Screenshots for Marketplace Listing
+============================================
+
+Take screenshots of these URLs at 1440px width:
+
+1. HOME PAGE (hero + search)
+   https://rentu-cl.vercel.app/
+
+2. SEARCH RESULTS (list view)
+   https://rentu-cl.vercel.app/buscar
+
+3. SEARCH (map view)
+   https://rentu-cl.vercel.app/buscar (toggle to map)
+
+4. SEARCH (gallery view)
+   https://rentu-cl.vercel.app/buscar (toggle to gallery)
+
+5. PROPERTY DETAIL
+   https://rentu-cl.vercel.app/propiedad/[any-active-property-id]
+
+6. PRICING PAGE
+   https://rentu-cl.vercel.app/precios
+
+7. PUBLISH PROPERTY FORM
+   https://rentu-cl.vercel.app/publicar
+
+8. MY PROPERTIES (landlord dashboard)
+   https://rentu-cl.vercel.app/mis-propiedades
+
+9. COMUNA LANDING PAGE
+   https://rentu-cl.vercel.app/arriendos/providencia
+
+10. DARK MODE (home page)
+    Toggle dark mode and screenshot home
+
+11. MOBILE VIEW (375px)
+    Home page at mobile width
+
+12. MOBILE BOTTOM NAV
+    Any page at mobile width showing bottom nav
+
+13. VERIFICATION PAGE
+    https://rentu-cl.vercel.app/verificacion
+
+14. COMPARATOR
+    https://rentu-cl.vercel.app/comparar?ids=[id1],[id2]
+
+TIPS:
+- Use Chrome DevTools (F12) > Device Toolbar for mobile screenshots
+- Use Ctrl+Shift+P > "Capture full size screenshot" for full page
+- Save as PNG at 2x resolution for quality
+- Dark mode: click the moon icon in navbar
