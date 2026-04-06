@@ -191,6 +191,15 @@ export default function ComunaLanding() {
         <title>{pageTitle} | Rentu</title>
         <meta name="description" content={pageDesc} />
         <link rel="canonical" href={`https://rentu-cl.vercel.app/arriendos/${slug}`} />
+        <script type="application/ld+json">{JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "Inicio", "item": "https://rentu-cl.vercel.app/" },
+            { "@type": "ListItem", "position": 2, "name": "Buscar", "item": "https://rentu-cl.vercel.app/buscar" },
+            { "@type": "ListItem", "position": 3, "name": data?.title || comunaName }
+          ]
+        })}</script>
       </Helmet>
 
       {/* Hero */}

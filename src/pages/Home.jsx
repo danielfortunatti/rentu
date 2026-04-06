@@ -244,6 +244,17 @@ export default function Home({ user }) {
         <meta name="description" content="Encuentra y publica arriendos en Chile. Sin intermediarios, sin comisiones. Contacto directo por WhatsApp." />
         <link rel="prefetch" href="/buscar" />
         <link rel="prefetch" href="/publicar" />
+        <script type="application/ld+json">{JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          "mainEntity": [
+            { "@type": "Question", "name": "¿Es gratis publicar?", "acceptedAnswer": { "@type": "Answer", "text": "Sí, publicar propiedades es completamente gratis para particulares." }},
+            { "@type": "Question", "name": "¿Cómo contacto al dueño?", "acceptedAnswer": { "@type": "Answer", "text": "Cada propiedad tiene un botón de WhatsApp para contactar directamente al dueño." }},
+            { "@type": "Question", "name": "¿Qué es el contrato de referencia?", "acceptedAnswer": { "@type": "Answer", "text": "Es un modelo de contrato basado en la Ley 18.101 de Chile que puedes descargar en PDF gratis." }},
+            { "@type": "Question", "name": "¿Necesito verificar mi identidad?", "acceptedAnswer": { "@type": "Answer", "text": "Sí, para contactar propietarios debes verificar tu identidad con tu RUT y carnet." }},
+            { "@type": "Question", "name": "¿En qué ciudades están disponibles?", "acceptedAnswer": { "@type": "Answer", "text": "Rentu está disponible en todo Chile con cobertura en más de 70 comunas." }},
+          ]
+        })}</script>
       </Helmet>
 
       {/* ══════════ HERO — DARK IMMERSIVE ══════════ */}
@@ -693,6 +704,34 @@ export default function Home({ user }) {
               </div>
             </div>
           </ScrollReveal>
+        </div>
+      </section>
+
+      {/* ══════════ FAQ ══════════ */}
+      <section className="py-14 sm:py-16 bg-warm-50 dark:bg-gray-900">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6">
+          <div className="text-center mb-10">
+            <p className="text-brand-600 text-xs font-semibold tracking-widest uppercase mb-2">Preguntas frecuentes</p>
+            <h2 className="font-display font-bold text-2xl sm:text-3xl text-gray-900 dark:text-gray-100">¿Tienes dudas?</h2>
+          </div>
+          <div className="space-y-3">
+            {[
+              { q: '¿Es gratis publicar?', a: 'Sí, publicar propiedades es completamente gratis para particulares. Solo los corredores de propiedades pagan por publicación.' },
+              { q: '¿Cómo contacto al dueño?', a: 'Cada propiedad tiene un botón de WhatsApp para contactar directamente al dueño. Sin intermediarios, sin formularios.' },
+              { q: '¿Qué es el contrato de referencia?', a: 'Es un modelo de contrato de arriendo basado en la Ley 18.101 de Chile que puedes descargar en PDF gratis. Es referencial — recomendamos consultar con un abogado.' },
+              { q: '¿Cómo destaco mi propiedad?', a: 'En "Mis Propiedades" puedes pagar para que tu publicación aparezca primero en los resultados de búsqueda. Hay opciones de 7, 30 y 90 días.' },
+              { q: '¿Necesito verificar mi identidad?', a: 'Sí, para contactar propietarios debes verificar tu identidad con tu RUT y carnet de identidad. Es un proceso automático que toma menos de 2 minutos.' },
+              { q: '¿En qué ciudades están disponibles?', a: 'Rentu está disponible en todo Chile. Tenemos cobertura en más de 70 comunas incluyendo Santiago, Valparaíso, Concepción, Temuco y más.' },
+            ].map(faq => (
+              <details key={faq.q} className="group bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden">
+                <summary className="flex items-center justify-between px-5 py-4 cursor-pointer text-sm font-medium text-gray-800 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors">
+                  {faq.q}
+                  <svg className="w-4 h-4 text-gray-400 group-open:rotate-180 transition-transform flex-shrink-0 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
+                </summary>
+                <div className="px-5 pb-4 text-sm text-gray-500 dark:text-gray-400 leading-relaxed">{faq.a}</div>
+              </details>
+            ))}
+          </div>
         </div>
       </section>
 

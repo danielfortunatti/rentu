@@ -272,6 +272,15 @@ export default function PropertyDetail({ user, onContractClick }) {
           "numberOfRooms": property.habitaciones,
           "floorSize": property.m2 ? { "@type": "QuantitativeValue", "value": property.m2, "unitCode": "MTK" } : undefined,
         })}</script>
+        <script type="application/ld+json">{JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "Inicio", "item": "https://rentu-cl.vercel.app/" },
+            { "@type": "ListItem", "position": 2, "name": "Buscar", "item": "https://rentu-cl.vercel.app/buscar" },
+            { "@type": "ListItem", "position": 3, "name": property.titulo }
+          ]
+        })}</script>
       </Helmet>
       <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8">
         <div className="flex items-center gap-2 text-sm text-gray-400 mb-6">
