@@ -370,10 +370,10 @@ export default function Home({ user }) {
         <div className="relative max-w-6xl mx-auto px-4 sm:px-6 py-10">
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-6">
             {[
-              { value: activeCount !== null ? `${activeCount}+` : '$0', label: activeCount !== null ? 'Propiedades activas' : 'Costo por publicar' },
+              { value: '$0', label: 'Costo por publicar' },
               { value: '0%', label: 'Comisión' },
               { value: 'Directo', label: 'Contacto por WhatsApp' },
-              { value: weekCount !== null ? `${weekCount}` : 'PDF', label: weekCount !== null ? 'Nuevas esta semana' : 'Modelo de contrato gratis' },
+              { value: 'PDF', label: 'Contrato de referencia gratis' },
             ].map((s, i) => (
               <ScrollReveal key={s.label} delay={i * 100} direction="up">
                 <div className="text-center group cursor-default">
@@ -392,7 +392,7 @@ export default function Home({ user }) {
       <RecentlyViewed />
 
       {/* ══════════ COMUNAS — ABSTRACT GEOMETRIC ══════════ */}
-      <section className="py-20 sm:py-24 dark:bg-gray-900">
+      <section className="py-14 sm:py-16 dark:bg-gray-900">
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
           <ScrollReveal>
             <div className="flex items-end justify-between mb-10">
@@ -422,7 +422,7 @@ export default function Home({ user }) {
 
       {/* ══════════ PROPIEDADES DESTACADAS ══════════ */}
       {destacadas.length > 0 && (
-        <section className="py-20 sm:py-24 bg-white dark:bg-gray-800/50 relative overflow-hidden">
+        <section className="py-14 sm:py-16 bg-white dark:bg-gray-800/50 relative overflow-hidden">
           <div className="absolute top-0 left-0 w-96 h-96 bg-brand-100/30 dark:bg-brand-900/20 rounded-full blur-[120px] -translate-x-1/2 -translate-y-1/2" />
 
           <div className="relative max-w-6xl mx-auto px-4 sm:px-6">
@@ -451,7 +451,7 @@ export default function Home({ user }) {
       )}
 
       {/* ══════════ COMO FUNCIONA — 3D TILT CARDS ══════════ */}
-      <section className="py-20 sm:py-24 relative overflow-hidden">
+      <section className="py-14 sm:py-16 relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-b from-warm-50 via-white to-warm-50 dark:from-gray-900 dark:via-gray-900 dark:to-gray-900" />
         <div className="relative max-w-5xl mx-auto px-4 sm:px-6">
           <ScrollReveal>
@@ -469,7 +469,7 @@ export default function Home({ user }) {
       </section>
 
       {/* ══════════ CALCULADORA DE ARRIENDO ══════════ */}
-      <section className="py-20 sm:py-24 bg-white dark:bg-gray-800/50 relative overflow-hidden">
+      <section className="py-14 sm:py-16 bg-white dark:bg-gray-800/50 relative overflow-hidden">
         <div className="absolute top-0 right-0 w-96 h-96 bg-brand-100/20 dark:bg-brand-900/10 rounded-full blur-[120px] translate-x-1/3 -translate-y-1/3" />
         <div className="absolute bottom-0 left-0 w-72 h-72 bg-brand-100/15 dark:bg-brand-900/8 rounded-full blur-[100px] -translate-x-1/3 translate-y-1/3" />
 
@@ -491,7 +491,7 @@ export default function Home({ user }) {
       </section>
 
       {/* ══════════ POR QUE RENTU — SPOTLIGHT ══════════ */}
-      <section className="py-20 sm:py-24 bg-gray-50 dark:bg-gray-800/30 relative overflow-hidden">
+      <section className="py-14 sm:py-16 bg-gray-50 dark:bg-gray-800/30 relative overflow-hidden">
         <div className="absolute top-1/2 right-0 w-[500px] h-[500px] bg-brand-100/20 dark:bg-brand-900/10 rounded-full blur-[100px] translate-x-1/2 -translate-y-1/2" />
 
         <div className="relative max-w-6xl mx-auto px-4 sm:px-6">
@@ -582,7 +582,7 @@ export default function Home({ user }) {
       </section>
 
       {/* ══════════ TIPOS DE PROPIEDAD ══════════ */}
-      <section className="py-20 sm:py-24 relative">
+      <section className="py-14 sm:py-16 relative">
         <div className="absolute inset-0 bg-gradient-to-b from-white via-gray-50 to-warm-50 dark:from-gray-900 dark:via-gray-900 dark:to-gray-900" />
         <div className="relative max-w-6xl mx-auto px-4 sm:px-6">
           <ScrollReveal>
@@ -611,7 +611,7 @@ export default function Home({ user }) {
       </section>
 
       {/* ══════════ CTA ══════════ */}
-      <section className="py-20 sm:py-24">
+      <section className="py-14 sm:py-16">
         <div className="max-w-5xl mx-auto px-4 sm:px-6">
           <ScrollReveal direction="scale">
             <div className="relative bg-gray-950 rounded-[2rem] overflow-hidden px-8 sm:px-14 py-16 sm:py-20">
@@ -655,7 +655,7 @@ export default function Home({ user }) {
       </Suspense>
 
       {/* ══════════ MASCOT VIDEO CTA ══════════ */}
-      <section className="py-20 sm:py-24 bg-warm-50 dark:bg-gray-900 overflow-hidden">
+      <section className="py-14 sm:py-16 bg-warm-50 dark:bg-gray-900 overflow-hidden">
         <div className="max-w-5xl mx-auto px-4 sm:px-6">
           <ScrollReveal direction="up">
             <div className="relative bg-gray-950 rounded-3xl overflow-hidden border border-gray-800/50">

@@ -93,6 +93,15 @@
   transform: translateY(0) translateX(0) scale(1) !important;
 }
 
+/* Reduce motion preference: skip animations entirely */
+@media (prefers-reduced-motion: reduce) {
+  .reveal-up, .reveal-down, .reveal-left, .reveal-right, .reveal-scale {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
 /* ═══════════════════════════════════════════════
    KEYFRAME ANIMATIONS
    ═══════════════════════════════════════════════ */

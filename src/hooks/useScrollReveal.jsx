@@ -15,11 +15,18 @@ export function useScrollReveal(options = {}) {
           observer.unobserve(el)
         }
       },
-      { threshold: options.threshold || 0.15, rootMargin: options.rootMargin || '0px' }
+      { threshold: options.threshold || 0.05, rootMargin: options.rootMargin || '50px 0px' }
     )
 
     observer.observe(el)
-    return () => observer.disconnect()
+
+    // Safety fallback: reveal after 3 seconds if observer hasn't fired
+    const fallback = setTimeout(() => setIsVisible(true), 3000)
+
+    return () => {
+      observer.disconnect()
+      clearTimeout(fallback)
+    }
   }, [])
 
   return [ref, isVisible]
